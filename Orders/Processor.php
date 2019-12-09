@@ -1,0 +1,124 @@
+<?php
+
+namespace Ecomerciar\Moova\Orders;
+
+use Ecomerciar\Moova\Helper\Helper;
+use Ecomerciar\Moova\Sdk\MoovaSdk;
+
+defined('ABSPATH') || exit;
+
+class Processor
+{
+    /**
+     * Handles the WooCommerce order status
+     *
+     * @param int $order_id
+     * @param string $status_from
+     * @param string $status_to
+     * @param WC_Order $order
+     * @return void
+     */
+    public static function handle_order_status(int $order_id, string $status_from, string $status_to, \WC_Order $order)
+    {
+        $config_status = Helper::get_option('status_processing');
+        $config_status = str_replace('wc-', '', $config_status);
+        $shipping_methods = $order->get_shipping_methods();
+        $shipping_method = array_shift($shipping_methods);
+        if (
+            $order->has_status($config_status)
+            && $shipping_method->get_method_id() === 'moova'
+            && empty($shipping_method->get_meta('tracking_number'))
+        ) {
+            $moovaSdk = new MoovaSdk();
+            $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
+            if (!$res) {
+                Helper::add_error('No se pudo procesar el pedido.');
+                return;
+            }
+            $tracking_id = $res['id'];
+            $shipping_method->update_meta_data('tracking_number', $tracking_id);
+            $shipping_method->save();
+
+            $res = $moovaSdk->get_shipping_label($tracking_id);
+            if (!$res) {
+                Helper::add_error('No se pudo obtener etiqueta del pedido.');
+                return;
+            }
+            $shipping_label = $res['label'];
+            $shipping_method->update_meta_data('shipping_label', $shipping_label);
+
+            $shipping_method->save();
+        }
+    }
+
+    /**
+     * Creates a shipping label for a shipment, made for AJAX calls
+     *
+     * @return void
+     */
+    public static function order_create_shipping_label_ajax()
+    {
+        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty($_POST['order_id'])) {
+            wp_send_json_error();
+        }
+
+        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
+        $order = wc_get_order($order_id);
+        if (!$order) {
+            wp_send_json_error();
+        }
+
+        $moovaSdk = new MoovaSdk();
+        $shipping_methods = $order->get_shipping_methods();
+        $shipping_method = array_shift($shipping_methods);
+        $tracking_id = $shipping_method->get_meta('tracking_number');
+        if (!$tracking_id) {
+            wp_send_json_error();
+        }
+        $res = $moovaSdk->get_shipping_label($tracking_id);
+        if (!$res) {
+            wp_send_json_error();
+        }
+        $shipping_label = $res['label'];
+        $shipping_method->update_meta_data('shipping_label', $shipping_label);
+        $shipping_method->save();
+
+        wp_send_json_success();
+    }
+
+    /**
+     * Process an order in Moova, made for AJAX calls
+     *
+     * @return void
+     */
+    public static function process_order_ajax()
+    {
+        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty($_POST['order_id'])) {
+            wp_send_json_error();
+        }
+
+        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
+        $order = wc_get_order($order_id);
+        if (!$order) {
+            wp_send_json_error();
+        }
+
+        $moovaSdk = new MoovaSdk();
+        $shipping_methods = $order->get_shipping_methods();
+        $shipping_method = array_shift($shipping_methods);
+        $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
+        if (!$res) {
+            wp_send_json_error();
+        }
+        $tracking_id = $res['id'];
+        $shipping_method->update_meta_data('tracking_number', $tracking_id);
+        $res = $moovaSdk->get_shipping_label($tracking_id);
+        if ($res) {
+            $shipping_label = $res['label'];
+            $shipping_method->update_meta_data('shipping_label', $shipping_label);
+        }
+        $shipping_method->save();
+
+        wp_send_json_success();
+    }
+}
