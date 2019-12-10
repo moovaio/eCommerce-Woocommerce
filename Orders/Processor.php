@@ -23,6 +23,9 @@ class Processor
         $config_status = Helper::get_option('status_processing');
         $config_status = str_replace('wc-', '', $config_status);
         $shipping_methods = $order->get_shipping_methods();
+        if (empty($shipping_methods)) {
+            return;
+        }
         $shipping_method = array_shift($shipping_methods);
         if (
             $order->has_status($config_status)
@@ -70,6 +73,9 @@ class Processor
 
         $moovaSdk = new MoovaSdk();
         $shipping_methods = $order->get_shipping_methods();
+        if (empty($shipping_methods)) {
+            return;
+        }
         $shipping_method = array_shift($shipping_methods);
         $tracking_id = $shipping_method->get_meta('tracking_number');
         if (!$tracking_id) {
@@ -105,6 +111,9 @@ class Processor
 
         $moovaSdk = new MoovaSdk();
         $shipping_methods = $order->get_shipping_methods();
+        if (empty($shipping_methods)) {
+            return;
+        }
         $shipping_method = array_shift($shipping_methods);
         $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
         if (!$res) {

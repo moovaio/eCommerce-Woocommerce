@@ -5,6 +5,12 @@ namespace Ecomerciar\Moova\Helper;
 trait WooCommerceTrait
 {
 
+    /**
+     * Gets the customer from a WooCommerce Cart
+     *
+     * @param WC_Customer $customer
+     * @return array|false
+     */
     public static function get_customer_from_cart($customer)
     {
         if (!$customer) return false;
@@ -75,52 +81,73 @@ trait WooCommerceTrait
     }
 
 
-    // This method works for carts and orders
+    /**
+     * Gets the province from a customer
+     *
+     * @param WC_Customer $customer
+     * @return string
+     */
     public static function get_province($customer)
     {
-        $province = false;
+        $province = '';
         if (!($province = $customer->get_shipping_state())) {
             $province = $customer->get_billing_state();
         }
         return self::get_province_name($province);
     }
 
-    // This method works for carts and orders
+    /**
+     * Gets the locality from a customer
+     *
+     * @param WC_Customer $customer
+     * @return string
+     */
     public static function get_locality($customer)
     {
-        $locality = false;
+        $locality = '';
         if (!($locality = $customer->get_shipping_city())) {
             $locality = $customer->get_billing_city();
         }
         return $locality;
     }
 
-    // This method works for carts and orders
+    /**
+     * Gets the postal code from a customer
+     *
+     * @param WC_Customer $customer
+     * @return string
+     */
     public static function get_postal_code($customer)
     {
-        $postal_code = false;
+        $postal_code = '';
         if (!($postal_code = $customer->get_shipping_postcode())) {
             $postal_code = $customer->get_billing_postcode();
         }
         return $postal_code;
     }
 
-    // This function works for carts and orders
+    /**
+     * Gets the full customer name
+     *
+     * @param WC_Customer $customer
+     * @return string
+     */
     public static function get_customer_name($customer)
     {
-        $name = false;
-        if ($customer->get_shipping_first_name()) {
-            $name = $customer->get_shipping_first_name() . ' ' . $customer->get_shipping_last_name();
-        } else {
-            $name = $customer->get_billing_first_name() . ' ' . $customer->get_billing_last_name();
-        }
+        $name = '';
+        $name = self::get_customer_first_name($customer) . ' ' . self::get_customer_last_name($customer);
         return $name;
     }
 
-    // This function works for carts and orders
+    /**
+     * Gets the customer first name
+     *
+     * @param WC_Customer $customer
+     * @return string
+     */
     public static function get_customer_first_name($customer)
     {
-        $name = false;
+        $name = '';
         if ($customer->get_shipping_first_name()) {
             $name = $customer->get_shipping_first_name();
         } else {
@@ -129,7 +156,12 @@ trait WooCommerceTrait
         return $name;
     }
 
-    // This function works for carts and orders
+    /**
+     * Gets the customer last name
+     *
+     * @param WC_Customer $customer
+     * @return string
+     */
     public static function get_customer_last_name($customer)
     {
         $name = false;
@@ -141,7 +173,12 @@ trait WooCommerceTrait
         return $name;
     }
 
-    // This function works for carts and orders
+    /**
+     * Gets the address of an order
+     *
+     * @param WC_Order $order
+     * @return false|array
+     */
     public static function get_address($order)
     {
         if (!$order) return false;
@@ -213,6 +250,12 @@ trait WooCommerceTrait
         return array('street' => $street_name, 'number' => $street_number, 'floor' => $floor, 'apartment' => $apartment);
     }
 
+    /**
+     * Get specific details from an address (floor and apt)
+     *
+     * @param string $fl_apt
+     * @return array
+     */
     public static function get_floor_and_apt($fl_apt)
     {
         //firts we'll asume the user did things right. Something like "piso 24, depto. 5h"
@@ -279,7 +322,13 @@ trait WooCommerceTrait
         return array($floor, $apartment);
     }
 
-    public static function get_province_name($province_id = '')
+    /**
+     * Gets the province name
+     *
+     * @param string $province_id
+     * @return string
+     */
+    public static function get_province_name(string $province_id = '')
     {
         switch ($province_id) {
             case 'C':
@@ -359,6 +408,12 @@ trait WooCommerceTrait
         return $zone;
     }
 
+    /**
+     * Gets product dimensions and details
+     *
+     * @param int $product_id
+     * @return false|array
+     */
     public static function get_product_dimensions($product_id)
     {
         $product = wc_get_product($product_id);
@@ -380,6 +435,12 @@ trait WooCommerceTrait
         return $new_product;
     }
 
+    /**
+     * Gets all items from a cart
+     *
+     * @param WC_Cart $cart
+     * @return false|array
+     */
     public static function get_items_from_cart($cart)
     {
         $products = array();
@@ -397,6 +458,12 @@ trait WooCommerceTrait
         return $products;
     }
 
+    /**
+     * Gets items from an order
+     *
+     * @param WC_Order $order
+     * @return false|array
+     */
     public static function get_items_from_order($order)
     {
         $products = array();
@@ -410,8 +477,9 @@ trait WooCommerceTrait
                 self::log_error('Helper -> Error obteniendo productos de la orden, producto con malas dimensiones - ID: ' . $product_id);
                 return false;
             }
-            for ($i = 0; $i < $item->get_quantity(); $i++)
+            for ($i = 0; $i < $item->get_quantity(); $i++) {
                 $products[] = $new_product;
+            }
         }
         return $products;
     }

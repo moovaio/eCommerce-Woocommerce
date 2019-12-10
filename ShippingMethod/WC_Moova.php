@@ -50,12 +50,16 @@ class WC_Moova extends \WC_Shipping_method
      */
     public function init_form_fields()
     {
-        $this->form_fields = [
+        $this->instance_form_fields = [
             'title' => [
                 'title' => __('Title', 'woocommerce'),
                 'type' => 'text',
                 'description' => __('Elige el nombre que verán tus clientes en la sección del checkout', 'wc-moova'),
                 'default' => __('Moova', 'wc-moova')
+            ],
+            'free_shipping' => [
+                'title' => __('Envío gratis', 'woocommerce'),
+                'type' => 'checkbox'
             ]
         ];
     }
@@ -70,13 +74,16 @@ class WC_Moova extends \WC_Shipping_method
         $seller = Helper::get_seller_from_settings();
         $customer = Helper::get_customer_from_cart(WC()->customer);
         $items = Helper::get_items_from_cart(WC()->cart);
+        if ($items === false) {
+            return;
+        }
         $moovaSdk = new MoovaSdk();
         $price = $moovaSdk->get_price($seller, $customer, $items);
         if (!empty($price)) {
             $this->add_rate([
                 'id'        => $this->get_rate_id(), // ID for the rate. If not passed, this id:instance default will be used.
                 'label'     => $this->title, // Label for the rate.
-                'cost'      => $price['price'] // Amount or array of costs (per item shipping).
+                'cost'      => ($this->get_instance_option('free_shipping') === 'yes' ? 0 : $price['price']) // Amount or array of costs (per item shipping).
             ]);
         }
     }

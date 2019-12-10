@@ -36,6 +36,9 @@ class Metabox
             'order_id' => $post->ID
         ]);
         $shipping_methods = $order->get_shipping_methods();
+        if (empty($shipping_methods)) {
+            return;
+        }
         $shipping_method = array_shift($shipping_methods);
         if ($shipping_method->get_method_id() === 'moova') {
             $config_status = Helper::get_option('status_processing');

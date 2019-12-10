@@ -4,6 +4,12 @@ namespace Ecomerciar\Moova\Helper;
 
 trait DatabaseTrait
 {
+    /**
+     * Find an order id by itemmeta value
+     *
+     * @param string $meta_value
+     * @return int|false
+     */
     public static function find_order_by_itemmeta_value(string $meta_value)
     {
         global $wpdb;
@@ -16,7 +22,7 @@ trait DatabaseTrait
         WHERE itemmeta.meta_value = '%s';";
         $row = $wpdb->get_row($wpdb->prepare($query, $meta_value), ARRAY_A);
         if (!empty($row)) {
-            return $row['order_id'];
+            return (int) $row['order_id'];
         }
         return $row;
     }
