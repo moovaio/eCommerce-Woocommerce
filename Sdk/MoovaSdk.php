@@ -57,7 +57,19 @@ class MoovaSdk
         foreach ($items as $item) {
             $data_to_send['conf']['items'][] = ['item' => $item];
         }
-        $res = $this->api->post('/v2/budgets', $data_to_send);
+        if (empty($data_to_send['to']['street']) && !empty($data_to_send['to']['postalCode'])) {
+            unset($data_to_send['to']['street']);
+            unset($data_to_send['to']['number']);
+            unset($data_to_send['to']['floor']);
+            unset($data_to_send['to']['apartment']);
+            $res = $this->api->post('/budgets/estimate', $data_to_send);
+        } else {
+            $res = $this->api->post('/v2/budgets', $data_to_send);
+        }
+        if (Helper::get_option('debug')) {
+            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . json_encode($data_to_send));
+            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+        }
         if (!$res || empty($res['budget_id'])) {
             return false;
         }
