@@ -49,6 +49,12 @@ class Metabox
                     preg_match('/([a-zA-Z0-9]+)-/', $tracking_number, $matches);
                     $tracking_number = $matches[1];
                     echo 'El pedido ha sido procesado. Número de rastreo: <strong>' . $tracking_number . '</strong>';
+                    if (Helper::get_option('environment') === 'prod') {
+                        $tracking_url = 'https://dashboard.moova.io/external?id=' . $tracking_number;
+                    } else {
+                        $tracking_url = 'https://dev.moova.io/external?id=' . $tracking_number;
+                    }
+                    echo '<a class="button-primary" style="display:block;margin:10px 0;" href="' . $tracking_url . '" target="_blank">Rastrear pedido</a>';
                     $label_url = $shipping_method->get_meta('shipping_label');
                     if (empty($label_url)) {
                         echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="generate-order-shipping-label">Generar etiqueta</a>';

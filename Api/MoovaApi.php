@@ -4,14 +4,16 @@ namespace Ecomerciar\Moova\Api;
 
 class MoovaApi extends ApiConnector implements ApiInterface
 {
-    const BASE_URL = 'https://api-dev.moova.io/b2b';
+    const DEV_BASE_URL = 'https://api-dev.moova.io/b2b';
+    const PROD_BASE_URL = 'https://api.moova.io/b2b';
 
-    public function __construct(string $clientid, string $client_secret)
+    public function __construct(string $clientid, string $client_secret, string $environment)
     {
         $this->api_config = [
             'appId' => $clientid,
         ];
         $this->auth_header = $client_secret;
+        $this->environment = $environment;
     }
 
     public function get(string $endpoint, array $body = [], array $headers = [])
@@ -54,6 +56,9 @@ class MoovaApi extends ApiConnector implements ApiInterface
 
     public function get_base_url()
     {
-        return self::BASE_URL;
+        if ($this->environment === 'test') {
+            return self::DEV_BASE_URL;
+        }
+        return self::PROD_BASE_URL;
     }
 }

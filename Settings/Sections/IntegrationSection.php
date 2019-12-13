@@ -50,6 +50,16 @@ class IntegrationSection extends Section implements SectionInterface
                 'description' => 'Para recibir notificaciones sobre tus envíos de Moova deberás agregar un Webhook en la configuración de tu cuenta en el panel de Moova, colocá como URL del webhook: <strong>' . get_site_url(null, '/wc-api/wc-moova-orders') . '</strong> mediante el método POST.',
                 'type' => 'description'
             ],
+            'environment' => [
+                'name' => 'Ambiente',
+                'slug' => 'environment',
+                'description' => '',
+                'type' => 'select',
+                'options' => [
+                    'prod' => 'Producción',
+                    'test' => 'Prueba'
+                ]
+            ],
             'debug' => [
                 'name' => 'Modo Debug',
                 'slug' => 'debug',

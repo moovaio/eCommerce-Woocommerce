@@ -12,7 +12,8 @@ class MoovaSdk
     {
         $this->api = new MoovaApi(
             Helper::get_option('clientid', ''),
-            Helper::get_option('clientsecret', '')
+            Helper::get_option('clientsecret', ''),
+            Helper::get_option('environment', 'test')
         );
     }
 
@@ -52,7 +53,7 @@ class MoovaSdk
                 'items' => []
             ],
             'size_id' => 1,
-            'shipping_type_id' => 6
+            'type' => 'woocommerce_24_horas_max'
         ];
         foreach ($items as $item) {
             $data_to_send['conf']['items'][] = ['item' => $item];
@@ -121,7 +122,8 @@ class MoovaSdk
             'label' => '',
             'extra' => []
         ];
-        foreach ($items as $item) {
+        $grouped_items = Helper::group_items($items);
+        foreach ($grouped_items as $item) {
             $data_to_send['conf']['items'][] = ['item' => $item];
         }
         $res = $this->api->post('/shippings', $data_to_send);

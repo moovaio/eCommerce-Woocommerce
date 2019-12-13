@@ -55,9 +55,32 @@ class Webhooks
     private static function handle_webhook(int $order_id, array $data)
     {
         $order = wc_get_order($order_id);
-        $order->add_order_note('Moova - El pedido está en estado: ' . $data['status'] . '. ' . $data['date']);
+        $status = self::translate_order_status($data['status']);
+        $order->add_order_note('Moova - ' . $status . '. ' . $data['date']);
         $order->save();
-        Helper::log_info('Pedido #' . $order_id . ' actualizado con el estado ' . $data['status']);
+        Helper::log_info('Pedido #' . $order_id . ' actualizado con el estado: ' . $status);
         return true;
+    }
+
+    /**
+     * Translates an order status (from Moova)
+     *
+     * @param string $status
+     * @return string
+     */
+    private static function translate_order_status(string $status)
+    {
+        $translations = [
+            'DRAFT'     => 'El envío fue creado',
+            'READY'     => 'El envío se encuentra listo para ser procesado',
+            'CONFIRMED' => 'Envío asignado a un Moover',
+            'PICKEDUP'  => 'Envío recogido por el Moover',
+            'INTRANSIT' => 'El envío está en viaje',
+            'DELIVERED' => 'Envío entregado satisfactoriamente',
+            'CANCELED'  => 'Envío cancelado por el usuario',
+            'INCIDENCE' => 'Incidencia inesperada',
+            'RETURNED'  => 'El envío fue devuelto a su lugar de origen'
+        ];
+        return (isset($translations[$status]) ? $translations[$status] : 'El envío está en estado ' . $status);
     }
 }

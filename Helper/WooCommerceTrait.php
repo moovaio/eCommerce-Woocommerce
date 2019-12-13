@@ -483,4 +483,24 @@ trait WooCommerceTrait
         }
         return $products;
     }
+
+    /**
+     * Groups an array of items
+     *
+     * @param array $items
+     * @return array
+     */
+    public static function group_items(array $items)
+    {
+        $grouped_items = [];
+        foreach ($items as $item) {
+            if (isset($grouped_items[$item['id']])) {
+                $grouped_items[$item['id']]['quantity']++;
+            } else {
+                $grouped_items[$item['id']] = $item;
+                $grouped_items[$item['id']]['quantity'] = 1;
+            }
+        }
+        return $grouped_items;
+    }
 }
