@@ -120,6 +120,7 @@ class MoovaSdk
             'internalCode' => $order->get_id(),
             'description' => 'Pedido número ' . $order->get_id(),
             'label' => '',
+            'type' => 'woocommerce_24_horas_max',
             'extra' => []
         ];
         $grouped_items = Helper::group_items($items);
@@ -168,15 +169,70 @@ class MoovaSdk
      */
     public function get_tracking(string $order_id)
     {
+        $res = $this->get_order($order_id);
+        if (is_array($res)) {
+            return $res['statusHistory'];
+        }
+        return false;
+    }
+
+    /**
+     * Gets a Moova order
+     *
+     * @param string $order_id
+     * @return array|false
+     */
+    public function get_order(string $order_id)
+    {
         $res = $this->api->get('/shippings/' . $order_id);
         if (Helper::get_option('debug')) {
             Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . $order_id);
             Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
         }
         if (empty($res['id'])) {
-            Helper::log_error('No se pudo obtener etiqueta del pedido ' . $order_id);
+            Helper::log_error('No se pudo obtener del pedido ' . $order_id);
             return false;
         }
-        return $res['statusHistory'];
+        return $res;
+    }
+
+    /**
+     * Gets the order status in Moova
+     *
+     * @param string $order_id
+     * @return void
+     */
+    public function get_order_status(string $order_id)
+    {
+        $res = $this->get_order($order_id);
+        if (is_array($res)) {
+            return $res['status'];
+        }
+        return false;
+    }
+
+    /**
+     * Updates the order status in Moova
+     *
+     * @param string $order_id
+     * @param string $status
+     * @param string $reason
+     * @return false|array
+     */
+    public function update_order_status(string $order_id, string $status, string $reason = '')
+    {
+        $data_to_send = [];
+        if ($reason) {
+            $data_to_send['reason'] = $reason;
+        }
+        $res = $this->api->post('/shippings/' . $order_id . '/' . strtolower($status), $data_to_send);
+        if (Helper::get_option('debug')) {
+            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . json_encode($data_to_send));
+            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+        }
+        if (empty($res['status']) || strtoupper($res['status']) !== strtoupper($status)) {
+            return false;
+        }
+        return $res;
     }
 }

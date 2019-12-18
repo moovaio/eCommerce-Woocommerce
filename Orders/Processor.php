@@ -74,7 +74,7 @@ class Processor
         $moovaSdk = new MoovaSdk();
         $shipping_methods = $order->get_shipping_methods();
         if (empty($shipping_methods)) {
-            return;
+            wp_send_json_error();
         }
         $shipping_method = array_shift($shipping_methods);
         $tracking_id = $shipping_method->get_meta('tracking_number');
@@ -112,7 +112,7 @@ class Processor
         $moovaSdk = new MoovaSdk();
         $shipping_methods = $order->get_shipping_methods();
         if (empty($shipping_methods)) {
-            return;
+            wp_send_json_error();
         }
         $shipping_method = array_shift($shipping_methods);
         $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
@@ -128,6 +128,39 @@ class Processor
         }
         $shipping_method->save();
 
+        wp_send_json_success();
+    }
+
+    /**
+     * Changes an order status in Moova, made for AJAX calls
+     *
+     * @return void
+     */
+    public static function change_order_status()
+    {
+        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty($_POST['order_id'])) {
+            wp_send_json_error();
+        }
+
+        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
+        $new_status = strtoupper(filter_var($_POST['toStatus'], FILTER_SANITIZE_STRING));
+        $reason = 'Cambio de estado manual por el usuario';
+        $order = wc_get_order($order_id);
+        if (!$order) {
+            wp_send_json_error();
+        }
+        $shipping_methods = $order->get_shipping_methods();
+        if (empty($shipping_methods)) {
+            wp_send_json_error();
+        }
+        $shipping_method = array_shift($shipping_methods);
+        $moova_id = $shipping_method->get_meta('tracking_number');
+
+        $moovaSdk = new MoovaSdk();
+        $res = $moovaSdk->update_order_status($moova_id, $new_status, $reason);
+        if (!$res) {
+            wp_send_json_error();
+        }
         wp_send_json_success();
     }
 }

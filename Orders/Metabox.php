@@ -3,6 +3,7 @@
 namespace Ecomerciar\Moova\Orders;
 
 use Ecomerciar\Moova\Helper\Helper;
+use Ecomerciar\Moova\Sdk\MoovaSdk;
 
 defined('ABSPATH') || exit;
 
@@ -46,27 +47,38 @@ class Metabox
             if ($order->has_status($config_status) || $config_status === '0') {
                 $tracking_number = $shipping_method->get_meta('tracking_number');
                 if (!empty($tracking_number)) {
+
+                    // Tracking number
                     preg_match('/([a-zA-Z0-9]+)-/', $tracking_number, $matches);
                     $tracking_number = $matches[1];
                     echo 'El pedido ha sido procesado. Número de rastreo: <strong>' . $tracking_number . '</strong>';
+
+                    // Tracking URL
                     if (Helper::get_option('environment') === 'prod') {
                         $tracking_url = 'https://dashboard.moova.io/external?id=' . $tracking_number;
                     } else {
                         $tracking_url = 'https://dev.moova.io/external?id=' . $tracking_number;
                     }
                     echo '<a class="button-primary" style="display:block;margin:10px 0;" href="' . $tracking_url . '" target="_blank">Rastrear pedido</a>';
+
+                    // Label URL
                     $label_url = $shipping_method->get_meta('shipping_label');
                     if (empty($label_url)) {
-                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="generate-order-shipping-label">Generar etiqueta</a>';
-                        echo '<h4 style="margin-bottom: 0;color: #e80202;display: none;" id="generate-order-shipping-label-error">Hubo un error, por favor intenta nuevamente</h4>';
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="generate_order_shipping_label">Generar etiqueta</a>';
                     } else {
                         echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" href="' . $label_url . '">Ver Etiqueta</a>';
+                    }
+
+                    // Update status
+                    $moova_sdk = new MoovaSdk();
+                    $moova_status = $moova_sdk->get_order_status($tracking_number);
+                    if (trim(strtoupper($moova_status)) === 'DRAFT') {
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" data-action="change_order_status" data-to-status="ready">Marcar pedido como listo para enviar</a>';
                     }
                 } else {
                     echo 'El pedido no está procesado aún';
                     if ($config_status === '0') {
-                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process-order">Procesar pedido</a>';
-                        echo '<h4 style="margin-bottom: 0;color: #e80202;display: none;" id="process-order-error">Hubo un error, por favor intenta nuevamente</h4>';
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process_order">Procesar pedido</a>';
                     }
                 }
             } else {
