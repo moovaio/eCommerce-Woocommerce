@@ -102,6 +102,7 @@ class MoovaSdk
                 'state' => $seller['state'],
                 'postalCode' => $seller['postalCode'],
                 'country' => 'AR',
+                'instructions' => $seller['instructions']
             ],
             'to' => [
                 'street' => $customer['street'],
@@ -112,6 +113,7 @@ class MoovaSdk
                 'state' => $customer['province'],
                 'postalCode' => $customer['cp'],
                 'country' => 'AR',
+                'instructions' => $customer['extra_info']
             ],
             'conf' => [
                 'assurance' => false,
