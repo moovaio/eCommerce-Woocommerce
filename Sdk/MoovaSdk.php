@@ -52,7 +52,6 @@ class MoovaSdk
                 'assurance' => false,
                 'items' => []
             ],
-            'size_id' => 1,
             'type' => 'woocommerce_24_horas_max'
         ];
         foreach ($items as $item) {
