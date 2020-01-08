@@ -5,7 +5,7 @@ namespace Ecomerciar\Moova\Api;
 class MoovaApi extends ApiConnector implements ApiInterface
 {
     const DEV_BASE_URL = 'https://api-dev.moova.io/b2b';
-    const PROD_BASE_URL = 'https://api.moova.io/b2b';
+    const PROD_BASE_URL = 'https://api-prod.moova.io/b2b';
 
     public function __construct(string $clientid, string $client_secret, string $environment)
     {
