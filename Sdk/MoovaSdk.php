@@ -119,7 +119,7 @@ class MoovaSdk
                 'items' => []
             ],
             'internalCode' => $order->get_id(),
-            'description' => 'Pedido número ' . $order->get_id(),
+            'description' => '',
             'label' => '',
             'type' => 'woocommerce_24_horas_max',
             'extra' => []
