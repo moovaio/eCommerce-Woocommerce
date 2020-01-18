@@ -58,7 +58,7 @@ class Webhooks
         $status = self::translate_order_status($data['status']);
         $order->add_order_note('Moova - ' . $status . '. ' . $data['date']);
         $order->save();
-        Helper::log_info('Pedido #' . $order_id . ' actualizado con el estado: ' . $status);
+        Helper::log_info(sprintf(__('Order #%s updated with status: %s', 'wc-moova'), $order_id, $status));
         return true;
     }
 

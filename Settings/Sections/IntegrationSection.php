@@ -16,7 +16,7 @@ class IntegrationSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Configuración de la integración', 'wc-moova');
+        $this->data['name'] = __('Integration settings', 'wc-moova');
         parent::__construct($this->data);
     }
 
@@ -29,41 +29,41 @@ class IntegrationSection extends Section implements SectionInterface
     {
         $fields = [
             'status_processing' => [
-                'name' => 'Estado de proceso',
+                'name' => __('Status to process', 'wc-moova'),
                 'slug' => 'status_processing',
-                'description' => 'Cuando un pedido tenga este estado, será procesado automáticamente a Moova.',
+                'description' => __('When an order has this status, it gets processed automatically with Moova.', 'wc-moova'),
                 'type' => 'select',
                 'default' => 'wc-completed',
                 'options' => [
-                    '0' => 'Desactivar procesamiento automático',
+                    '0' => __('Disable automatic processing', 'wc-moova'),
                 ]
             ],
             'tracking' => [
-                'name' => 'Rastreo',
+                'name' => __('Tracking', 'wc-moova'),
                 'slug' => 'tracking',
-                'description' => 'Este plugin provee un formulario de rastreo mediante el shortcode <strong>[moova_tracking_form]</strong> el cual podés agregar a cualquier página de tu sitio donde querés que aparezca.',
+                'description' => __('This plugin offers a tracking form using the shortcode <strong>[moova_tracking_form]</strong>. You can use it in any page.', 'wc-moova'),
                 'type' => 'description'
             ],
             'webhooks' => [
-                'name' => 'Notificaciones de envíos',
+                'name' => __('Shipments notifications', 'wc-moova'),
                 'slug' => 'webhooks',
-                'description' => 'Para recibir notificaciones sobre tus envíos de Moova deberás agregar un Webhook en la configuración de tu cuenta en el panel de Moova, colocá como URL del webhook: <strong>' . get_site_url(null, '/wc-api/wc-moova-orders') . '</strong> mediante el método POST.',
+                'description' => sprintf(__('In order to receive notifications about your Moova shipments, you need to create a webhook in your Moova dashboard, use this URL: <strong>%s</strong> with the POST method.', 'wc-moova'), get_site_url(null, '/wc-api/wc-moova-orders')),
                 'type' => 'description'
             ],
             'environment' => [
-                'name' => 'Ambiente',
+                'name' => __('Environment', 'wc-moova'),
                 'slug' => 'environment',
-                'description' => '',
+                'description' => __('', 'wc-moova'),
                 'type' => 'select',
                 'options' => [
-                    'prod' => 'Producción',
-                    'test' => 'Prueba'
+                    'prod' => __('Production', 'wc-moova'),
+                    'test' => __('Test', 'wc-moova')
                 ]
             ],
             'debug' => [
-                'name' => 'Modo Debug',
+                'name' => __('Debug Mode', 'wc-moova'),
                 'slug' => 'debug',
-                'description' => 'Activa el log de debug para desarrolladores. Si no sabes que es esto probablemente no necesitas activarlo',
+                'description' => __('Activate the debug log for developers. If you do not know what is this then probably you do not need to activate it', 'wc-moova'),
                 'type' => 'select',
                 'options' => [
                     '0' => 'No',

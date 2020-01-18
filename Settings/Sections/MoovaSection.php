@@ -16,7 +16,7 @@ class MoovaSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Datos de Moova', 'wc-moova');
+        $this->data['name'] = __('Moova settings', 'wc-moova');
         parent::__construct($this->data);
     }
 
@@ -29,12 +29,12 @@ class MoovaSection extends Section implements SectionInterface
     {
         return [
             'clientid' => [
-                'name' => 'Client ID',
+                'name' => __('Client ID', 'wc-moova'),
                 'slug' => 'clientid',
                 'type' => 'text'
             ],
             'clientsecret' => [
-                'name' => 'Client Secret',
+                'name' => __('Client Secret', 'wc-moova'),
                 'slug' => 'clientsecret',
                 'type' => 'text'
             ]

@@ -15,8 +15,8 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/woo-moova` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Use the Settings->Moova screen to configure the plugin
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
 = 1.0 =

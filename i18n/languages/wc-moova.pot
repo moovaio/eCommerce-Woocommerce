@@ -1,0 +1,344 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Moova for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-18 04:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.1; wp-5.3.2"
+
+#: Sdk/MoovaSdk.php:71 Sdk/MoovaSdk.php:134 Sdk/MoovaSdk.php:139
+#: Sdk/MoovaSdk.php:156 Sdk/MoovaSdk.php:191 Sdk/MoovaSdk.php:232
+#, php-format
+msgid "%s - Data received from Moova: %s"
+msgstr ""
+
+#: Sdk/MoovaSdk.php:70 Sdk/MoovaSdk.php:133 Sdk/MoovaSdk.php:138
+#: Sdk/MoovaSdk.php:155 Sdk/MoovaSdk.php:190 Sdk/MoovaSdk.php:231
+#, php-format
+msgid "%s - Data sent to Moova: %s"
+msgstr ""
+
+#: woo-moova.php:44
+#, php-format
+msgid "<strong>%s/strong> Requires at least %s version %s or greater."
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:66
+msgid ""
+"Activate the debug log for developers. If you do not know what is this then "
+"probably you do not need to activate it"
+msgstr ""
+
+#: ShippingMethod/WC_Moova.php:37
+msgid "Allow your customers receive their orders with Moova"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:70
+msgid "Apt. Number (Optional)"
+msgstr ""
+
+#: ShippingMethod/WC_Moova.php:57
+msgid "Choose the name that your customers will see in the checkout"
+msgstr ""
+
+#: Settings/Sections/MoovaSection.php:32
+msgid "Client ID"
+msgstr ""
+
+#: Settings/Sections/MoovaSection.php:37
+msgid "Client Secret"
+msgstr ""
+
+#: Sdk/MoovaSdk.php:159
+#, php-format
+msgid "Could not find shipping label of order %s"
+msgstr ""
+
+#: Sdk/MoovaSdk.php:194
+#, php-format
+msgid "Could not get order %s"
+msgstr ""
+
+#: Orders/Metabox.php:38
+msgid "Creating shipping label..."
+msgstr ""
+
+#: Orders/TrackingShortcode.php:39
+msgid "Date"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:64
+msgid "Debug Mode"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:38
+msgid "Disable automatic processing"
+msgstr ""
+
+#. Author of the plugin
+msgid "Ecomerciar"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:42
+msgid "Email"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:54
+msgid "Environment"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:91
+msgid "Example: 1040"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:67
+msgid "Example: 2"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:61
+msgid "Example: 520"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:73
+msgid "Example: A"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:55
+msgid "Example: Av. Belgrano"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:85
+msgid "Example: Capital Federal"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:97
+msgid "Example: Door bell does not work"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:79
+msgid "Example: Palermo"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:64
+msgid "Floor"
+msgstr ""
+
+#: ShippingMethod/WC_Moova.php:61
+msgid "Free shipping"
+msgstr ""
+
+#: Orders/Metabox.php:40 Orders/Metabox.php:77
+msgid "Generate shipping label"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://ecomerciar.com"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:50
+#, php-format
+msgid ""
+"In order to receive notifications about your Moova shipments, you need to "
+"create a webhook in your Moova dashboard, use this URL: <strong>%s</strong> "
+"with the POST method."
+msgstr ""
+
+#. Description of the plugin
+msgid "Integration between Moova and WooCommerce"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:19
+msgid "Integration settings"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:37
+msgid "Last name"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:76
+msgid "Locality"
+msgstr ""
+
+#: Orders/Metabox.php:46 Orders/Metabox.php:86
+msgid "Mark order as ready to be shipped"
+msgstr ""
+
+#: ShippingMethod/WC_Moova.php:58
+msgid "Moova"
+msgstr ""
+
+#. Name of the plugin
+msgid "Moova for WooCommerce"
+msgstr ""
+
+#: Settings/Sections/MoovaSection.php:19
+msgid "Moova settings"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:32
+msgid "Name"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:94
+msgid "Notes about the direction"
+msgstr ""
+
+#: Orders/Webhooks.php:61
+#, php-format
+msgid "Order #%s updated with status: %s"
+msgstr ""
+
+#: Sdk/MoovaSdk.php:137
+msgid "Order could not be processed"
+msgstr ""
+
+#: Orders/Metabox.php:42
+msgid "Order processed"
+msgstr ""
+
+#: Orders/Metabox.php:45
+msgid "Order updated"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:47
+msgid "Phone number"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:88
+msgid "Postal code"
+msgstr ""
+
+#: Orders/Metabox.php:43 Orders/Metabox.php:91
+msgid "Process order"
+msgstr ""
+
+#: Orders/Metabox.php:41
+msgid "Processing order..."
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:59
+msgid "Production"
+msgstr ""
+
+#: Settings/Main.php:124
+msgid "Save"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:19
+msgid "Sender settings"
+msgstr ""
+
+#: woo-moova.php:135
+msgid "Settings"
+msgstr ""
+
+#: Settings/Main.php:111
+msgid "Settings saved"
+msgstr ""
+
+#: Orders/TrackingShortcode.php:19 Orders/TrackingShortcode.php:36
+msgid "Shipment number"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:48
+msgid "Shipments notifications"
+msgstr ""
+
+#: Orders/Processor.php:47
+msgid "Shipping label could not be found."
+msgstr ""
+
+#: Orders/Metabox.php:39
+msgid "Shipping label created"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:82
+msgid "State"
+msgstr ""
+
+#: Orders/TrackingShortcode.php:40
+msgid "Status"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:32
+msgid "Status to process"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:52
+msgid "Street"
+msgstr ""
+
+#: Settings/Sections/SellerSection.php:58
+msgid "Street number"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:60
+msgid "Test"
+msgstr ""
+
+#: Orders/Processor.php:38
+msgid "The order could not be processed."
+msgstr ""
+
+#: Orders/Metabox.php:64
+#, php-format
+msgid "The order has been processed, tracking number: <strong>%s</strong>"
+msgstr ""
+
+#: Orders/Metabox.php:89
+msgid "The order is not processed yet"
+msgstr ""
+
+#: Orders/Metabox.php:96
+#, php-format
+msgid "The order will be processed when its status is <strong>%s</strong>"
+msgstr ""
+
+#: Orders/Metabox.php:47 Orders/TrackingShortcode.php:33
+msgid "There was an error, please try again"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:44
+msgid ""
+"This plugin offers a tracking form using the shortcode <strong>"
+"[moova_tracking_form]</strong>. You can use it in any page."
+msgstr ""
+
+#: Orders/Metabox.php:72
+msgid "Track order"
+msgstr ""
+
+#: Orders/TrackingShortcode.php:23
+msgid "Track shipment"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:42
+msgid "Tracking"
+msgstr ""
+
+#: Orders/Metabox.php:44
+msgid "Updating order status..."
+msgstr ""
+
+#: Orders/Metabox.php:79
+msgid "View shipping label"
+msgstr ""
+
+#: Settings/Sections/IntegrationSection.php:34
+msgid ""
+"When an order has this status, it gets processed automatically with Moova."
+msgstr ""
+
+#: woo-moova.php:52
+#, php-format
+msgid "WooCommerce must be active before using <strong>%s</strong>"
+msgstr ""

@@ -16,7 +16,7 @@ class SellerSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Configuración del Remitente', 'wc-moova');
+        $this->data['name'] = __('Sender settings', 'wc-moova');
         parent::__construct($this->data);
     }
 
@@ -29,72 +29,72 @@ class SellerSection extends Section implements SectionInterface
     {
         return [
             'first_name' => [
-                'name' => 'Nombre',
+                'name' => __('Name', 'wc-moova'),
                 'slug' => 'first_name',
                 'type' => 'text'
             ],
             'last_name' => [
-                'name' => 'Apellido',
+                'name' => __('Last name', 'wc-moova'),
                 'slug' => 'last_name',
                 'type' => 'text'
             ],
             'email' => [
-                'name' => 'Email',
+                'name' => __('Email', 'wc-moova'),
                 'slug' => 'email',
                 'type' => 'text'
             ],
             'phone' => [
-                'name' => 'Teléfono',
+                'name' => __('Phone number', 'wc-moova'),
                 'slug' => 'phone',
                 'type' => 'text'
             ],
             'street' => [
-                'name' => 'Calle',
+                'name' => __('Street', 'wc-moova'),
                 'slug' => 'street',
                 'type' => 'text',
-                'description' => 'Ejemplo: Av. Belgrano'
+                'description' => __('Example: Av. Belgrano', 'wc-moova')
             ],
             'street_number' => [
-                'name' => 'Altura de la calle',
+                'name' => __('Street number', 'wc-moova'),
                 'slug' => 'street_number',
                 'type' => 'text',
-                'description' => 'Ejemplo: 520'
+                'description' => __('Example: 520', 'wc-moova')
             ],
             'floor' => [
-                'name' => 'Piso',
+                'name' => __('Floor', 'wc-moova'),
                 'slug' => 'floor',
                 'type' => 'text',
-                'description' => 'Ejemplo: 2'
+                'description' => __('Example: 2', 'wc-moova')
             ],
             'apartment' => [
-                'name' => 'Nº de Departamento (Opcional)',
+                'name' => __('Apt. Number (Optional)', 'wc-moova'),
                 'slug' => 'apartment',
                 'type' => 'text',
-                'description' => 'Ejemplo: A'
+                'description' => __('Example: A', 'wc-moova')
             ],
             'locality' => [
-                'name' => 'Localidad',
+                'name' => __('Locality', 'wc-moova'),
                 'slug' => 'locality',
                 'type' => 'text',
-                'description' => 'Ejemplo: Palermo'
+                'description' => __('Example: Palermo', 'wc-moova')
             ],
             'province' => [
-                'name' => 'Provincia',
+                'name' => __('State', 'wc-moova'),
                 'slug' => 'province',
                 'type' => 'text',
-                'description' => 'Ejemplo: Capital Federal'
+                'description' => __('Example: Capital Federal', 'wc-moova')
             ],
             'zipcode' => [
-                'name' => 'Código Postal',
+                'name' => __('Postal code', 'wc-moova'),
                 'slug' => 'zipcode',
                 'type' => 'text',
-                'description' => 'Ejemplo: 1040'
+                'description' => __('Example: 1040', 'wc-moova')
             ],
             'observations' => [
-                'name' => 'Observaciones de la dirección',
+                'name' => __('Notes about the direction', 'wc-moova'),
                 'slug' => 'observations',
                 'type' => 'text',
-                'description' => 'Ejemplo: No funciona el timbre. Llamar antes'
+                'description' => __('Example: Door bell does not work', 'wc-moova')
             ]
         ];
     }

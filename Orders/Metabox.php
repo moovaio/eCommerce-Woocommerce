@@ -34,7 +34,17 @@ class Metabox
         wp_localize_script('wc-moova-orders-js', 'wc_moova_settings', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'ajax_nonce' => wp_create_nonce('wc-moova'),
-            'order_id' => $post->ID
+            'order_id' => $post->ID,
+            'text_shipping_label_current' => __('Creating shipping label...', 'wc-moova'),
+            'text_shipping_label_completed' => __('Shipping label created', 'wc-moova'),
+            'text_shipping_label_name' => __('Generate shipping label', 'wc-moova'),
+            'text_order_current' => __('Processing order...', 'wc-moova'),
+            'text_order_completed' => __('Order processed', 'wc-moova'),
+            'text_order_name' => __('Process order', 'wc-moova'),
+            'text_order_status_current' => __('Updating order status...', 'wc-moova'),
+            'text_order_status_completed' => __('Order updated', 'wc-moova'),
+            'text_order_status_name' => __('Mark order as ready to be shipped', 'wc-moova'),
+            'text_error' => __('There was an error, please try again', 'wc-moova')
         ]);
         $shipping_methods = $order->get_shipping_methods();
         if (empty($shipping_methods)) {
@@ -51,7 +61,7 @@ class Metabox
                     // Tracking number
                     preg_match('/([a-zA-Z0-9]+)-/', $tracking_number, $matches);
                     $tracking_number = $matches[1];
-                    echo 'El pedido ha sido procesado. Número de rastreo: <strong>' . $tracking_number . '</strong>';
+                    printf(__('The order has been processed, tracking number: <strong>%s</strong>', 'wc-moova'), $tracking_number);
 
                     // Tracking URL
                     if (Helper::get_option('environment') === 'prod') {
@@ -59,31 +69,31 @@ class Metabox
                     } else {
                         $tracking_url = 'https://dev.moova.io/external?id=' . $tracking_number;
                     }
-                    echo '<a class="button-primary" style="display:block;margin:10px 0;" href="' . $tracking_url . '" target="_blank">Rastrear pedido</a>';
+                    echo '<a class="button-primary" style="display:block;margin:10px 0;" href="' . $tracking_url . '" target="_blank">' . __('Track order', 'wc-moova') . '</a>';
 
                     // Label URL
                     $label_url = $shipping_method->get_meta('shipping_label');
                     if (empty($label_url)) {
-                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="generate_order_shipping_label">Generar etiqueta</a>';
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="generate_order_shipping_label">' . __('Generate shipping label', 'wc-moova') . '</a>';
                     } else {
-                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" href="' . $label_url . '">Ver Etiqueta</a>';
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" href="' . $label_url . '">' . __('View shipping label', 'wc-moova') . '</a>';
                     }
 
                     // Update status
                     $moova_sdk = new MoovaSdk();
                     $moova_status = $moova_sdk->get_order_status($tracking_number);
                     if (trim(strtoupper($moova_status)) === 'DRAFT') {
-                        echo '<a class="button-primary" style="display:block;margin:10px 0;" data-action="change_order_status" data-to-status="ready">Marcar pedido como listo para enviar</a>';
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" data-action="change_order_status" data-to-status="ready">' . __('Mark order as ready to be shipped', 'wc-moova') . '</a>';
                     }
                 } else {
-                    echo 'El pedido no está procesado aún';
+                    echo __('The order is not processed yet', 'wc-moova');
                     if ($config_status === '0') {
-                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process_order">Procesar pedido</a>';
+                        echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process_order">' . __('Process order', 'wc-moova') . '</a>';
                     }
                 }
             } else {
                 $statuses = wc_get_order_statuses();
-                echo 'El pedido será procesado cuando esté <strong>' . $statuses['wc-' . $config_status] . '</strong>';
+                printf(__('The order will be processed when its status is <strong>%s</strong>', 'wc-moova'), $statuses['wc-' . $config_status]);
             }
         }
     }

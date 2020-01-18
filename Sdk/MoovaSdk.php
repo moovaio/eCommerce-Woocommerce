@@ -67,8 +67,8 @@ class MoovaSdk
             $res = $this->api->post('/v2/budgets', $data_to_send);
         }
         if (Helper::get_option('debug')) {
-            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . json_encode($data_to_send));
-            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (!$res || empty($res['budget_id'])) {
             return false;
@@ -130,13 +130,13 @@ class MoovaSdk
         }
         $res = $this->api->post('/shippings', $data_to_send);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . json_encode($data_to_send));
-            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['id'])) {
-            Helper::log_error('No se pudo procesar el pedido.');
-            Helper::log_error(__FUNCTION__ . ' - Data enviada a Moova: ' . json_encode($data_to_send));
-            Helper::log_error(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+            Helper::log_error(__('Order could not be processed', 'wc-moova'));
+            Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_error(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
             return false;
         }
         return $res;
@@ -152,11 +152,11 @@ class MoovaSdk
     {
         $res = $this->api->get('/shippings/' . $order_id . '/label');
         if (Helper::get_option('debug')) {
-            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . $order_id);
-            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, $order_id));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['label'])) {
-            Helper::log_error('No se pudo obtener etiqueta del pedido ' . $order_id);
+            Helper::log_error(sprintf(__('Could not find shipping label of order %s', 'wc-moova'), $order_id));
             return false;
         }
         return $res;
@@ -187,11 +187,11 @@ class MoovaSdk
     {
         $res = $this->api->get('/shippings/' . $order_id);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . $order_id);
-            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, $order_id));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['id'])) {
-            Helper::log_error('No se pudo obtener del pedido ' . $order_id);
+            Helper::log_error(sprintf(__('Could not get order %s', 'wc-moova')) . $order_id);
             return false;
         }
         return $res;
@@ -228,8 +228,8 @@ class MoovaSdk
         }
         $res = $this->api->post('/shippings/' . $order_id . '/' . strtolower($status), $data_to_send);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(__FUNCTION__ . ' - Data enviada a Moova: ' . json_encode($data_to_send));
-            Helper::log_debug(__FUNCTION__ . ' - Data recibida de Moova: ' . json_encode($res));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['status']) || strtoupper($res['status']) !== strtoupper($status)) {
             return false;

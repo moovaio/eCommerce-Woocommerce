@@ -35,7 +35,7 @@ class Processor
             $moovaSdk = new MoovaSdk();
             $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
             if (!$res) {
-                Helper::add_error('No se pudo procesar el pedido.');
+                Helper::add_error(__('The order could not be processed.', 'wc-moova'));
                 return;
             }
             $tracking_id = $res['id'];
@@ -44,7 +44,7 @@ class Processor
 
             $res = $moovaSdk->get_shipping_label($tracking_id);
             if (!$res) {
-                Helper::add_error('No se pudo obtener etiqueta del pedido.');
+                Helper::add_error(__('Shipping label could not be found.', 'wc-moova'));
                 return;
             }
             $shipping_label = $res['label'];

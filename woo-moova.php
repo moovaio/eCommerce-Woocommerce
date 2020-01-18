@@ -110,6 +110,7 @@ class WCMoova
         );
         include_once __DIR__ . '/Hooks.php';
         Helper::init();
+        self::load_textdomain();
     }
 
     /**
@@ -131,7 +132,7 @@ class WCMoova
      */
     public static function create_settings_link(array $links)
     {
-        $link = '<a href="' . esc_url(get_admin_url(null, 'options-general.php?page=wc-moova-settings')) . '">' . __('Ajustes', 'wc-moova') . '</a>';
+        $link = '<a href="' . esc_url(get_admin_url(null, 'options-general.php?page=wc-moova-settings')) . '">' . __('Settings', 'wc-moova') . '</a>';
         array_unshift($links, $link);
         return $links;
     }
@@ -146,5 +147,15 @@ class WCMoova
     {
         $shipping_methods['moova'] = '\Ecomerciar\Moova\ShippingMethod\WC_Moova';
         return $shipping_methods;
+    }
+
+    /**
+     * Loads the plugin text domain
+     *
+     * @return void
+     */
+    public static function load_textdomain()
+    {
+        load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/i18n/languages');
     }
 }

@@ -3,25 +3,25 @@
 (function ($, settings) {
     $('[data-action="generate_order_shipping_label"]').click(function (e) {
         handleMetaboxButtonClick(e, {
-            current: 'Generando etiqueta...',
-            completed: 'Etiqueta generada',
-            btnName: 'Generar etiqueta'
+            current: settings.text_shipping_label_current,
+            completed: settings.text_shipping_label_completed,
+            btnName: settings.text_shipping_label_name
         });
     });
 
     $('[data-action="process_order"]').click(function (e) {
         handleMetaboxButtonClick(e, {
-            current: 'Procesando pedido...',
-            completed: 'Pedido procesado',
-            btnName: 'Procesar pedido'
+            current: settings.text_order_current,
+            completed: settings.text_order_completed,
+            btnName: settings.text_order_name
         });
     });
 
     $('[data-action="change_order_status"]').click(function (e) {
         handleMetaboxButtonClick(e, {
-            current: 'Actualizando el estado del pedido...',
-            completed: 'Pedido actualizado',
-            btnName: 'Marcar pedido como listo para enviar'
+            current: settings.text_order_status_current,
+            completed: settings.text_order_status_completed,
+            btnName: settings.text_order_status_name,
         });
     });
 
@@ -54,7 +54,7 @@
 
     function addError(location, errName) {
         removeError(errName);
-        location.append('<h4 style="margin-bottom: 0;color: #e80202;" id="' + errName + '">Hubo un error, por favor intenta nuevamente</h4>');
+        location.append('<h4 style="margin-bottom: 0;color: #e80202;" id="' + errName + '">' + settings.text_error + '</h4>');
     }
 
     function removeError(errName) {

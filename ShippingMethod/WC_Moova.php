@@ -34,7 +34,7 @@ class WC_Moova extends \WC_Shipping_method
     {
         $this->id = 'moova';
         $this->method_title = 'Moova';
-        $this->method_description = __('Permite a tus clientes recibir sus pedidos con Moova', 'wc-moova');
+        $this->method_description = __('Allow your customers receive their orders with Moova', 'wc-moova');
         $this->title = $this->get_option('title');
         $this->supports = array(
             'shipping-zones',
@@ -54,11 +54,11 @@ class WC_Moova extends \WC_Shipping_method
             'title' => [
                 'title' => __('Title', 'woocommerce'),
                 'type' => 'text',
-                'description' => __('Elige el nombre que verán tus clientes en la sección del checkout', 'wc-moova'),
+                'description' => __('Choose the name that your customers will see in the checkout', 'wc-moova'),
                 'default' => __('Moova', 'wc-moova')
             ],
             'free_shipping' => [
-                'title' => __('Envío gratis', 'woocommerce'),
+                'title' => __('Free shipping', 'wc-moova'),
                 'type' => 'checkbox'
             ]
         ];

@@ -108,7 +108,7 @@ class Main
 
         $settings_saved = FieldsVerifier::save_settings($_POST);
         if ($settings_saved) {
-            Helper::add_success(__('Configuración guardada', 'wc-moova'), true);
+            Helper::add_success(__('Settings saved', 'wc-moova'), true);
         }
 
         $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
@@ -121,7 +121,7 @@ class Main
                 <?php
                         settings_fields('wc-moova-settings');
                         do_settings_sections('wc-moova-settings');
-                        submit_button(__('Guardar', 'wc-moova'));
+                        submit_button(__('Save', 'wc-moova'));
                         ?>
             </form>
         </div>
