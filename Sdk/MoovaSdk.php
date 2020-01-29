@@ -191,7 +191,7 @@ class MoovaSdk
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['id'])) {
-            Helper::log_error(sprintf(__('Could not get order %s', 'wc-moova')) . $order_id);
+            Helper::log_error(sprintf(__('Could not get order %s', 'wc-moova'), $order_id));
             return false;
         }
         return $res;
