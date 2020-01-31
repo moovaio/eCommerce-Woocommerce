@@ -37,6 +37,15 @@ class MoovaSection extends Section implements SectionInterface
                 'name' => __('Client Secret', 'wc-moova'),
                 'slug' => 'clientsecret',
                 'type' => 'text'
+            ],
+            'country' => [
+                'name' => __('Country where you operate', 'wc-moova'),
+                'slug' => 'country',
+                'type' => 'select',
+                'options' => [
+                    'AR' => 'Argentina',
+                    'CL' => 'Chile'
+                ]
             ]
         ];
     }

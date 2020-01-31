@@ -8,6 +8,7 @@ use Ecomerciar\Moova\Helper\Helper;
 class MoovaSdk
 {
     private $api;
+    private $country;
     public function __construct()
     {
         $this->api = new MoovaApi(
@@ -15,6 +16,7 @@ class MoovaSdk
             Helper::get_option('clientsecret', ''),
             Helper::get_option('environment', 'test')
         );
+        $this->country = Helper::get_option('country', 'AR');
     }
 
     /**
@@ -36,7 +38,7 @@ class MoovaSdk
                 'city' => $from['city'],
                 'state' => $from['state'],
                 'postalCode' => $from['postalCode'],
-                'country' => 'AR',
+                'country' => $this->country,
             ],
             'to' => [
                 'street' => $to['street'],
@@ -46,7 +48,7 @@ class MoovaSdk
                 'city' => $to['locality'],
                 'state' => $to['province'],
                 'postalCode' => $to['cp'],
-                'country' => 'AR',
+                'country' => $this->country,
             ],
             'conf' => [
                 'assurance' => false,
@@ -100,7 +102,7 @@ class MoovaSdk
                 'city' => $seller['city'],
                 'state' => $seller['state'],
                 'postalCode' => $seller['postalCode'],
-                'country' => 'AR',
+                'country' => $this->country,
                 'instructions' => $seller['instructions']
             ],
             'to' => [
@@ -111,7 +113,7 @@ class MoovaSdk
                 'city' => $customer['locality'],
                 'state' => $customer['province'],
                 'postalCode' => $customer['cp'],
-                'country' => 'AR',
+                'country' => $this->country,
                 'instructions' => $customer['extra_info']
             ],
             'conf' => [
