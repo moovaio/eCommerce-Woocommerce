@@ -5,10 +5,10 @@ use Ecomerciar\Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 1.0.0
+ * Version: 1.0.3
  * Requires PHP: 7.0
- * Author: Ecomerciar
- * Author URI: https://ecomerciar.com
+ * Author: Moova.io
+ * Author URI: https://moova.io/
  * Text Domain: wc-moova
  * WC requires at least: 3.3
  * WC tested up to: 3.8
