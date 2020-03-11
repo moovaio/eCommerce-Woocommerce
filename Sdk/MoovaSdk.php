@@ -114,7 +114,13 @@ class MoovaSdk
                 'state' => $customer['province'],
                 'postalCode' => $customer['cp'],
                 'country' => $this->country,
-                'instructions' => $customer['extra_info']
+                'instructions' => $customer['extra_info'],
+                'contact' => [
+                    'firstName' => $customer['first_name'],
+                    'lastName' => $customer['last_name'],
+                    'email' => $customer['email'],
+                    'phone' => $customer['phone']
+                ]
             ],
             'conf' => [
                 'assurance' => false,
