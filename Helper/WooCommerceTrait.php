@@ -93,7 +93,13 @@ trait WooCommerceTrait
         if (!($province = $customer->get_shipping_state())) {
             $province = $customer->get_billing_state();
         }
-        return self::get_province_name($province);
+
+        $states =  WC()->countries->get_shipping_country_states();
+        if(!isset($states[Helper::get_option('country', 'AR')])){
+            return $province;
+        }
+        $stateOptions = $states[Helper::get_option('country', 'AR')];
+        return $stateOptions[$province];
     }
 
     /**
@@ -320,92 +326,6 @@ trait WooCommerceTrait
         }
 
         return array($floor, $apartment);
-    }
-
-    /**
-     * Gets the province name
-     *
-     * @param string $province_id
-     * @return string
-     */
-    public static function get_province_name(string $province_id = '')
-    {
-        switch ($province_id) {
-            case 'C':
-                $zone = 'Capital Federal';
-                break;
-            case 'B':
-            default:
-                $zone = 'Buenos Aires';
-                break;
-            case 'K':
-                $zone = 'Catamarca';
-                break;
-            case 'H':
-                $zone = 'Chaco';
-                break;
-            case 'U':
-                $zone = 'Chubut';
-                break;
-            case 'X':
-                $zone = 'Córdoba';
-                break;
-            case 'W':
-                $zone = 'Corrientes';
-                break;
-            case 'E':
-                $zone = 'Entre Ríos';
-                break;
-            case 'P':
-                $zone = 'Formosa';
-                break;
-            case 'Y':
-                $zone = 'Jujuy';
-                break;
-            case 'L':
-                $zone = 'La Pampa';
-                break;
-            case 'F':
-                $zone = 'La Rioja';
-                break;
-            case 'M':
-                $zone = 'Mendoza';
-                break;
-            case 'N':
-                $zone = 'Misiónes';
-                break;
-            case 'Q':
-                $zone = 'Neuquén';
-                break;
-            case 'R':
-                $zone = 'Río Negro';
-                break;
-            case 'A':
-                $zone = 'Salta';
-                break;
-            case 'J':
-                $zone = 'San Juan';
-                break;
-            case 'D':
-                $zone = 'San Luis';
-                break;
-            case 'Z':
-                $zone = 'Santa Cruz';
-                break;
-            case 'S':
-                $zone = 'Santa Fe';
-                break;
-            case 'G':
-                $zone = 'Santiago del Estero';
-                break;
-            case 'V':
-                $zone = 'Tierra del Fuego';
-                break;
-            case 'T':
-                $zone = 'Tucumán';
-                break;
-        }
-        return $zone;
     }
 
     /**
