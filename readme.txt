@@ -19,6 +19,9 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
+= 1.0.4 =
+Now we offer shippings in Uruguay!
+Fixed error in address
 = 1.0.3 =
 Now we offer shippings in Chile!
 = 1.0 =

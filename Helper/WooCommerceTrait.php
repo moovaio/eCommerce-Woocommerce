@@ -98,6 +98,7 @@ trait WooCommerceTrait
         if(!isset($states[Helper::get_option('country', 'AR')])){
             return $province;
         }
+        
         $stateOptions = $states[Helper::get_option('country', 'AR')];
         return $stateOptions[$province];
     }
