@@ -64,10 +64,8 @@ class MoovaSdk
             unset($data_to_send['to']['number']);
             unset($data_to_send['to']['floor']);
             unset($data_to_send['to']['apartment']);
-            $res = $this->api->post('/budgets/estimate', $data_to_send);
-        } else {
-            $res = $this->api->post('/v2/budgets', $data_to_send);
-        }
+        }  
+        $res = $this->api->post('/budgets/estimate', $data_to_send);
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
