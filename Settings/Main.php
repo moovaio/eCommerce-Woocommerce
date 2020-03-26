@@ -74,22 +74,6 @@ class Main
     }
 
     /**
-     * Creates a setting option in the WordPress Sidebar
-     *
-     * @return void
-     */
-    public static function create_menu_option()
-    {
-        add_options_page(
-            'Moova',
-            'Moova',
-            'manage_options',
-            'wc-moova-settings',
-            [__CLASS__, 'settings_page_content']
-        );
-    }
-
-    /**
      * Displays the settings pages
      *
      * @return void

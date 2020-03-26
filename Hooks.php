@@ -8,7 +8,6 @@ add_action('admin_notices', ['Ecomerciar\Moova\Helper\Helper', 'check_notices'])
 // --- Settings
 add_filter('plugin_action_links_' . plugin_basename(WCMoova::MAIN_FILE), ['WCMoova', 'create_settings_link']);
 add_action('admin_init', ['\Ecomerciar\Moova\Settings\Main', 'init_settings']);
-add_action('admin_menu', ['\Ecomerciar\Moova\Settings\Main', 'create_menu_option']);
 add_action('admin_enqueue_scripts', ['\Ecomerciar\Moova\Settings\Main', 'add_assets_files']);
 
 // --- Shipment Method

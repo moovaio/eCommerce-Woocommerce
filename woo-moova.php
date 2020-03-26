@@ -16,9 +16,6 @@ use Ecomerciar\Moova\Helper\Helper;
 
 defined('ABSPATH') || exit;
 
-add_action('plugins_loaded', ['WCMoova', 'init']);
-add_action('admin_enqueue_scripts', ['WCMoova', 'register_scripts']);
-
 /**
  * Plugin's base Class
  */
@@ -28,6 +25,11 @@ class WCMoova
     const MAIN_FILE = __FILE__;
     const MAIN_DIR = __DIR__;
 
+    public function __construct()
+    {
+        add_action('admin_menu', [$this, 'init'], 11);
+        add_action('admin_enqueue_scripts', [$this, 'register_scripts']);
+    }
     /**
      * Checks system requirements
      *
@@ -90,7 +92,7 @@ class WCMoova
      *
      * @return void
      */
-    public static function init()
+    public function init()
     {
         if (!self::check_system()) {
             return false;
@@ -111,6 +113,63 @@ class WCMoova
         include_once __DIR__ . '/Hooks.php';
         Helper::init();
         self::load_textdomain();
+
+        add_menu_page(
+            'Configuracion general',
+            'Moova',
+            'manage_options',
+            'wc-moova-settings',
+            function() { 
+                $this->initPage('wc-moova-settings');
+            }
+        );
+        
+        add_submenu_page(
+            'wc-moova-settings',
+            'Mapeo',
+            'Mapeo',
+            'manage_options',
+            'wc-moova-settings2',
+            function() { 
+                $this->initPage('wc-moova-settings');
+            }
+        );
+        //'wc-moova-settings'
+    }
+
+    public function initPage($pageName)
+    {
+        if (!is_admin() || !current_user_can('manage_options')) {
+            die('what are you doing here?');
+        }
+
+        $nonce = $_REQUEST['_wpnonce'] ?? null;
+        if (!empty($_POST) && $nonce && !wp_verify_nonce($nonce, 'wc-moova-settings-options')) {
+            die('what are you doing here?');
+        }
+
+        /*
+        $settings_saved = FieldsVerifier::save_settings($_POST);
+        if ($settings_saved) {
+            Helper::add_success(__('Settings saved', 'wc-moova'), true);
+        }
+        */
+
+        $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
+        ?>
+        <div class="moova-form-wrapper wrap">
+            <div class="settings-header">
+                <img src="<?php echo $logo_url; ?>" class="logo">
+            </div>
+            <form action="options-general.php?page=<?php echo $pageName?>" method="post" class="form-wrapper">
+                <?php
+                        settings_fields($pageName);
+                        do_settings_sections($pageName);
+                        submit_button(__('Save', 'wc-moova'));
+                        ?>
+            </form>
+        </div>
+    <?php
     }
 
     /**
@@ -159,3 +218,6 @@ class WCMoova
         load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/i18n/languages');
     }
 }
+
+if (is_admin())
+    $settings_page = new WCMoova();
