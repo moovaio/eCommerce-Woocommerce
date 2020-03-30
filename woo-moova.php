@@ -119,9 +119,7 @@ class WCMoova
             'Moova',
             'manage_options',
             'wc-moova-settings',
-            function() { 
-                $this->initPage('wc-moova-settings');
-            }
+            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage','initPage']
         );
         
         add_submenu_page(
@@ -129,47 +127,10 @@ class WCMoova
             'Mapeo',
             'Mapeo',
             'manage_options',
-            'wc-moova-settings2',
-            function() { 
-                $this->initPage('wc-moova-settings');
-            }
+            'wc-moova-mapping',
+            ['\Ecomerciar\Moova\Settings\Mapping\MappingPage','initPage']
         );
         //'wc-moova-settings'
-    }
-
-    public function initPage($pageName)
-    {
-        if (!is_admin() || !current_user_can('manage_options')) {
-            die('what are you doing here?');
-        }
-
-        $nonce = $_REQUEST['_wpnonce'] ?? null;
-        if (!empty($_POST) && $nonce && !wp_verify_nonce($nonce, 'wc-moova-settings-options')) {
-            die('what are you doing here?');
-        }
-
-        /*
-        $settings_saved = FieldsVerifier::save_settings($_POST);
-        if ($settings_saved) {
-            Helper::add_success(__('Settings saved', 'wc-moova'), true);
-        }
-        */
-
-        $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
-        ?>
-        <div class="moova-form-wrapper wrap">
-            <div class="settings-header">
-                <img src="<?php echo $logo_url; ?>" class="logo">
-            </div>
-            <form action="options-general.php?page=<?php echo $pageName?>" method="post" class="form-wrapper">
-                <?php
-                        settings_fields($pageName);
-                        do_settings_sections($pageName);
-                        submit_button(__('Save', 'wc-moova'));
-                        ?>
-            </form>
-        </div>
-    <?php
     }
 
     /**
@@ -179,8 +140,8 @@ class WCMoova
      */
     public static function register_scripts()
     {
-        wp_register_style('wc-moova-settings-css', Helper::get_assets_folder_url() . '/css/settings.css');
-        wp_register_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
+        wp_enqueue_style('wc-moova-settings-css', Helper::get_assets_folder_url() . '/css/settings.css');
+        wp_enqueue_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
     }
 
     /**

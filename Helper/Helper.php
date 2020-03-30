@@ -9,6 +9,7 @@ class Helper
     use SettingsTrait;
     use WooCommerceTrait;
     use DatabaseTrait;
+    use PageTrait;
 
     /**
      * Returns an url pointing to the main filder of the plugin assets

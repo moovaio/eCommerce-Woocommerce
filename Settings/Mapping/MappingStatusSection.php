@@ -1,11 +1,13 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Sections;
+namespace Ecomerciar\Moova\Settings\Mapping;
+use Ecomerciar\Moova\Settings\Sections\Section;
+use Ecomerciar\Moova\Settings\Sections\SectionInterface;
 
 /**
  * MoovaSection class
  */
-class MoovaSection extends Section implements SectionInterface
+class MappingStatusSection extends Section implements SectionInterface
 {
     private $data = [
         'slug' => 'wc-moova-cds-settings'
@@ -29,7 +31,7 @@ class MoovaSection extends Section implements SectionInterface
     {
         return [
             'clientid' => [
-                'name' => __('Client ID', 'wc-moova'),
+                'name' => __('HOLAAA', 'wc-moova'),
                 'slug' => 'clientid',
                 'type' => 'text'
             ],

@@ -19,24 +19,20 @@ class FieldFactory
      * @param string $slug
      * @return FieldInterface|false
      */
-    public function create(string $slug)
+    public function create($fields)
     {
-        $fields = Main::get_settings_fields();
-        if (empty($fields[$slug])) {
-            return false;
-        }
-        switch ($fields[$slug]['type']) {
+        switch ($fields['type']) {
             case 'text':
-                $field = new TextField($fields[$slug]);
+                $field = new TextField($fields);
                 break;
             case 'select':
-                $field = new SelectField($fields[$slug]);
+                $field = new SelectField($fields);
                 break;
             case 'number':
-                $field = new NumberField($fields[$slug]);
+                $field = new NumberField($fields);
                 break;
             case 'description':
-                $field = new DescriptionField($fields[$slug]);
+                $field = new DescriptionField($fields);
                 break;
             default:
                 $field = false;

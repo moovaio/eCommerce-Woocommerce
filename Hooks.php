@@ -7,8 +7,12 @@ add_action('admin_notices', ['Ecomerciar\Moova\Helper\Helper', 'check_notices'])
 
 // --- Settings
 add_filter('plugin_action_links_' . plugin_basename(WCMoova::MAIN_FILE), ['WCMoova', 'create_settings_link']);
-add_action('admin_init', ['\Ecomerciar\Moova\Settings\Main', 'init_settings']);
-add_action('admin_enqueue_scripts', ['\Ecomerciar\Moova\Settings\Main', 'add_assets_files']);
+add_action('admin_enqueue_scripts', ['Ecomerciar\Moova\Helper\Helper', 'add_assets_files']);
+
+// --- Initiate fields in pages
+add_action('admin_init', ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralsettingsPage', 'init_settings']);
+add_action('admin_init', ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'init_mapping']);
+
 
 // --- Shipment Method
 add_filter('woocommerce_shipping_methods', ['WCMoova', 'add_shipping_method']);

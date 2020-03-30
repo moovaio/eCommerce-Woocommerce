@@ -3,6 +3,8 @@
 namespace Ecomerciar\Moova\Settings\Sections;
 
 use Ecomerciar\Moova\Settings\FieldFactory;
+use Ecomerciar\Moova\Settings\GeneralSettingsPage;
+use Ecomerciar\Moova\Helper\Helper;
 
 /**
  * Base Section class
@@ -26,13 +28,13 @@ class Section
      *
      * @return void
      */
-    public function add()
+    public function add($pageName)
     {
         add_settings_section(
             $this->data['slug'],
             $this->data['name'],
             '',
-            'wc-moova-settings'
+            $pageName
         );
 
         $settings_fields = $this->get_fields();
@@ -42,12 +44,12 @@ class Section
                 $setting['name'],
                 function () use ($setting) {
                     $fFactory = new FieldFactory();
-                    $field = $fFactory->create($setting['slug']);
+                    $field = $fFactory->create($setting);
                     if ($field !== false) {
                         $field->render();
                     }
                 },
-                'wc-moova-settings',
+                $pageName,
                 $this->data['slug']
             );
         }
