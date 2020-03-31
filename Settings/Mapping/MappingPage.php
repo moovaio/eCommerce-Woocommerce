@@ -20,9 +20,9 @@ class MappingPage
     public static function get_settings_fields()
     {
         return array_merge(
-            MappingStatusSection::get_fields()
+            ReceivingStatusSection::get_fields()
         );
-    } 
+    }
 
     /**
      * Registers the sections and render them
@@ -32,7 +32,7 @@ class MappingPage
     public static function init_mapping()
     {
         register_setting('wc-moova', 'wc-moova_options');
-        $section = new MappingStatusSection();
+        $section = new ReceivingStatusSection();
         $section->add('wc-moova-mapping');
     }
 
