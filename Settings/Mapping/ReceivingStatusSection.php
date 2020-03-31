@@ -4,6 +4,7 @@ namespace Ecomerciar\Moova\Settings\Mapping;
 
 use Ecomerciar\Moova\Settings\Sections\Section;
 use Ecomerciar\Moova\Settings\Sections\SectionInterface;
+use Ecomerciar\Moova\Helper\Helper;
 
 /**
  * MoovaSection class
@@ -11,7 +12,7 @@ use Ecomerciar\Moova\Settings\Sections\SectionInterface;
 class ReceivingStatusSection extends Section implements SectionInterface
 {
     private $data = [
-        'slug' => 'wc-moova-cds-settings'
+        'slug' => 'wc-moova-cds-receiving-status'
     ];
 
     /**
@@ -19,7 +20,7 @@ class ReceivingStatusSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Moova mapping', 'wc-moova');
+        $this->data['name'] = __('Match moova status', 'wc-moova');
         parent::__construct($this->data);
     }
 
@@ -32,9 +33,9 @@ class ReceivingStatusSection extends Section implements SectionInterface
     {
         $fields = [
             'country' => [
-                'name' => __('Enable Mapping', 'wc-moova'),
+                'name' => __('Enable matching', 'wc-moova'),
                 'slug' => 'is_mapping_froom_moova_enabled',
-                'description' => __('When receiving this status to moova we will change the order state', 'wc-moova'),
+                'description' => __('When receiving this status from moova we will change the order state!', 'wc-moova'),
                 'type' => 'select',
                 'options' => [
                     '0' => 'No',
@@ -43,7 +44,7 @@ class ReceivingStatusSection extends Section implements SectionInterface
             ]
         ];
 
-        $moovaStatus = self::moovaStatus();
+        $moovaStatus = Helper::moova_status();
         $options = array_merge(['' => 'N/A'], wc_get_order_statuses());
         foreach ($moovaStatus as $state) {
             $fields["receive_$state"] = [
@@ -56,14 +57,5 @@ class ReceivingStatusSection extends Section implements SectionInterface
         }
 
         return $fields;
-    }
-
-    private static function moovaStatus()
-    {
-        return [
-            'DRAFT', 'READY', 'BLOCKED', 'WAITING',
-            'CONFIRMED', 'PICKEDUP', 'INTRANSIT', 'DELIVERED', 'INCIDENCE',
-            'CANCELED', 'RETURNED', 'TO,BERETURNED', 'WAITINGCLIENT'
-        ];
     }
 }

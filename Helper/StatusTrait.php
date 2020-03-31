@@ -7,9 +7,9 @@ trait StatusTrait
     public static function moova_status()
     {
         return [
-            'DRAFT', 'READY', 'BLOCKED', 'WAITING',
+            'READY', 'BLOCKED', 'WAITING',
             'CONFIRMED', 'PICKEDUP', 'INTRANSIT', 'DELIVERED', 'INCIDENCE',
-            'CANCELED', 'RETURNED', 'TO,BERETURNED', 'WAITINGCLIENT'
+            'CANCELED', 'RETURNED', 'TOBERETURNED', 'WAITINGCLIENT'
         ];
     }
 }

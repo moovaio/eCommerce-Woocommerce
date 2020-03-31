@@ -3,7 +3,9 @@
 namespace Ecomerciar\Moova\Settings\Mapping;
 
 use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Settings\Mapping\MappingStatusSection;
+use Ecomerciar\Moova\Settings\Mapping\ReceivingStatusSection;
+use Ecomerciar\Moova\Settings\Mapping\SendingStatusSection;
+
 
 defined('ABSPATH') || exit;
 
@@ -20,7 +22,8 @@ class MappingPage
     public static function get_settings_fields()
     {
         return array_merge(
-            ReceivingStatusSection::get_fields()
+            ReceivingStatusSection::get_fields(),
+            SendingStatusSection::get_fields()
         );
     }
 
@@ -31,9 +34,14 @@ class MappingPage
      */
     public static function init_mapping()
     {
+        $sectionName = 'wc-moova-mapping';
         register_setting('wc-moova', 'wc-moova_options');
+
+        $section = new SendingStatusSection();
+        $section->add($sectionName);
+
         $section = new ReceivingStatusSection();
-        $section->add('wc-moova-mapping');
+        $section->add($sectionName);
     }
 
     public static function initPage()
