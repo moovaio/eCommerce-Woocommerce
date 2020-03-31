@@ -27,7 +27,8 @@ class WCMoova
 
     public function __construct()
     {
-        add_action('admin_menu', [$this, 'init'], 11);
+        add_action('plugins_loaded', [$this, 'setScripts']);
+        add_action('admin_menu', [$this, 'setMenuPages'], 11);
         add_action('admin_enqueue_scripts', [$this, 'register_scripts']);
     }
     /**
@@ -92,7 +93,7 @@ class WCMoova
      *
      * @return void
      */
-    public function init()
+    public function setScripts()
     {
         if (!self::check_system()) {
             return false;
@@ -114,6 +115,11 @@ class WCMoova
         Helper::init();
         self::load_textdomain();
 
+       
+        //'wc-moova-settings'
+    }
+
+    public function setMenuPages(){
         add_menu_page(
             'Configuracion general',
             'Moova',
@@ -130,9 +136,8 @@ class WCMoova
             'wc-moova-mapping',
             ['\Ecomerciar\Moova\Settings\Mapping\MappingPage','initPage']
         );
-        //'wc-moova-settings'
     }
-
+    
     /**
      * Registers all scripts to be loaded laters
      *
@@ -179,6 +184,4 @@ class WCMoova
         load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/i18n/languages');
     }
 }
-
-if (is_admin())
     $settings_page = new WCMoova();
