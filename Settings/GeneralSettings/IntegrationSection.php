@@ -1,6 +1,9 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Sections;
+namespace Ecomerciar\Moova\Settings\GeneralSettings;
+
+use Ecomerciar\Moova\Settings\Sections\Section;
+use Ecomerciar\Moova\Settings\Sections\SectionInterface;
 
 /**
  * IntegrationSection class
@@ -28,16 +31,6 @@ class IntegrationSection extends Section implements SectionInterface
     public static function get_fields()
     {
         $fields = [
-            'status_processing' => [
-                'name' => __('Status to process', 'wc-moova'),
-                'slug' => 'status_processing',
-                'description' => __('When an order has this status, it gets processed automatically with Moova.', 'wc-moova'),
-                'type' => 'select',
-                'default' => 'wc-completed',
-                'options' => [
-                    '0' => __('Disable automatic processing', 'wc-moova'),
-                ]
-            ],
             'tracking' => [
                 'name' => __('Tracking', 'wc-moova'),
                 'slug' => 'tracking',
@@ -71,10 +64,6 @@ class IntegrationSection extends Section implements SectionInterface
                 ]
             ]
         ];
-        $statuses = wc_get_order_statuses();
-        foreach ($statuses as $key => $status) {
-            $fields['status_processing']['options'][$key] = $status;
-        }
         return $fields;
     }
 }

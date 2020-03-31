@@ -5,7 +5,7 @@ use Ecomerciar\Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 1.0.5
+ * Version: 1.0.6
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
@@ -16,9 +16,6 @@ use Ecomerciar\Moova\Helper\Helper;
 
 defined('ABSPATH') || exit;
 
-add_action('plugins_loaded', ['WCMoova', 'init']);
-add_action('admin_enqueue_scripts', ['WCMoova', 'register_scripts']);
-
 /**
  * Plugin's base Class
  */
@@ -28,6 +25,12 @@ class WCMoova
     const MAIN_FILE = __FILE__;
     const MAIN_DIR = __DIR__;
 
+    public function __construct()
+    {
+        add_action('plugins_loaded', [$this, 'setScripts']);
+        add_action('admin_menu', [$this, 'setMenuPages'], 11);
+        add_action('admin_enqueue_scripts', [$this, 'register_scripts']);
+    }
     /**
      * Checks system requirements
      *
@@ -90,7 +93,7 @@ class WCMoova
      *
      * @return void
      */
-    public static function init()
+    public function setScripts()
     {
         if (!self::check_system()) {
             return false;
@@ -111,6 +114,29 @@ class WCMoova
         include_once __DIR__ . '/Hooks.php';
         Helper::init();
         self::load_textdomain();
+
+
+        //'wc-moova-settings'
+    }
+
+    public function setMenuPages()
+    {
+        add_menu_page(
+            'Configuracion general',
+            'Moova',
+            'manage_options',
+            'wc-moova-settings',
+            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage']
+        );
+
+        add_submenu_page(
+            'wc-moova-settings',
+            'Mapeo',
+            'Mapeo',
+            'manage_options',
+            'wc-moova-mapping',
+            ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'initPage']
+        );
     }
 
     /**
@@ -120,8 +146,8 @@ class WCMoova
      */
     public static function register_scripts()
     {
-        wp_register_style('wc-moova-settings-css', Helper::get_assets_folder_url() . '/css/settings.css');
-        wp_register_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
+        wp_enqueue_style('wc-moova-settings-css', Helper::get_assets_folder_url() . '/css/settings.css');
+        wp_enqueue_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
     }
 
     /**
@@ -132,7 +158,7 @@ class WCMoova
      */
     public static function create_settings_link(array $links)
     {
-        $link = '<a href="' . esc_url(get_admin_url(null, 'options-general.php?page=wc-moova-settings')) . '">' . __('Settings', 'wc-moova') . '</a>';
+        $link = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=wc-moova-settings')) . '">' . __('Settings', 'wc-moova') . '</a>';
         array_unshift($links, $link);
         return $links;
     }
@@ -159,3 +185,4 @@ class WCMoova
         load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/i18n/languages');
     }
 }
+$settings_page = new WCMoova();
