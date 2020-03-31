@@ -46,9 +46,9 @@ class ReceivingStatusSection extends Section implements SectionInterface
         $moovaStatus = self::moovaStatus();
         $options = array_merge(['' => 'N/A'], wc_get_order_statuses());
         foreach ($moovaStatus as $state) {
-            $fields[$state] = [
+            $fields["receive_$state"] = [
                 'name' => __($state, 'wc-moova'),
-                'slug' => $state,
+                'slug' => "receive_$state",
                 'description' => __("If you don't want to enable this state select N/A", 'wc-moova'),
                 'type' => 'select',
                 'options' => $options

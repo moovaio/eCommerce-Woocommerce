@@ -57,9 +57,28 @@ class Webhooks
         $order = wc_get_order($order_id);
         $status = self::translate_order_status($data['status']);
         $order->add_order_note('Moova - ' . $status . '. ' . $data['date']);
+
+        $newOrderStatus = self::getOrderStatus($data['status']);
+        if ($newOrderStatus) {
+            $order->update_status($newOrderStatus);
+        }
+
         $order->save();
         Helper::log_info(sprintf(__('Order #%s updated with status: %s', 'wc-moova'), $order_id, $status));
+
         return true;
+    }
+
+    private function getOrderStatus($status)
+    {
+        if (!Helper::get_option('is_mapping_froom_moova_enabled')) {
+            return '';
+        }
+        $mapping = Helper::get_option('receive_' . $status);
+        if (Helper::get_option('debug')) {
+            Helper::log_debug("Now we try to map this status $status to $mapping");
+        }
+        return $mapping;
     }
 
     /**
