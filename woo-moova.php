@@ -137,6 +137,15 @@ class WCMoova
             'wc-moova-mapping',
             ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'initPage']
         );
+
+        add_submenu_page(
+            'wc-moova-settings',
+            'Ayuda',
+            'Ayuda',
+            'manage_options',
+            'wc-moova-help',
+            ['\Ecomerciar\Moova\Settings\Support\SupportPage', 'initPage']
+        );
     }
 
     /**
