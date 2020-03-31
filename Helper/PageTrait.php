@@ -23,8 +23,8 @@ trait PageTrait
             die('what are you doing here?');
         }
 
-        $nonce = $_REQUEST['_wpnonce'] ?? null;
-        if (!empty($_POST) && $nonce && !wp_verify_nonce($nonce, 'wc-moova-settings-options')) {
+        $nonce = $_REQUEST['_wpmoovanonce'] ?? null;
+        if (!empty($_POST) && $nonce && !wp_verify_nonce($nonce, 'wc-moova-save-preferences')) {
             die('what are you doing here?');
         }
         $settings_saved = self::save_settings($_POST, $fields);
@@ -38,11 +38,14 @@ trait PageTrait
             <div class="settings-header">
                 <img src="<?php echo $logo_url; ?>" class="logo">
             </div>
-            <form action="options-general.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
+            <form action="admin.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
                 <?php
                 settings_fields($pageName);
                 do_settings_sections($pageName);
+                wp_nonce_field('_wpmoovanonce', 'wc-moova-save-preferences');
                 submit_button(__('Save', 'wc-moova'));
+
+
                 ?>
             </form>
         </div>
@@ -55,7 +58,7 @@ trait PageTrait
      * @param array $post_data
      * @return bool
      */
-    public static function save_settings(array $post_data,$settings_fields)
+    public static function save_settings(array $post_data, $settings_fields)
     {
         $saved = false;
         foreach ($settings_fields as $setting) {

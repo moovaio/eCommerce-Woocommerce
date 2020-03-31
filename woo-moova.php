@@ -115,29 +115,30 @@ class WCMoova
         Helper::init();
         self::load_textdomain();
 
-       
+
         //'wc-moova-settings'
     }
 
-    public function setMenuPages(){
+    public function setMenuPages()
+    {
         add_menu_page(
             'Configuracion general',
             'Moova',
             'manage_options',
             'wc-moova-settings',
-            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage','initPage']
+            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage']
         );
-        
+
         add_submenu_page(
             'wc-moova-settings',
             'Mapeo',
             'Mapeo',
             'manage_options',
             'wc-moova-mapping',
-            ['\Ecomerciar\Moova\Settings\Mapping\MappingPage','initPage']
+            ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'initPage']
         );
     }
-    
+
     /**
      * Registers all scripts to be loaded laters
      *
@@ -157,7 +158,7 @@ class WCMoova
      */
     public static function create_settings_link(array $links)
     {
-        $link = '<a href="' . esc_url(get_admin_url(null, 'options-general.php?page=wc-moova-settings')) . '">' . __('Settings', 'wc-moova') . '</a>';
+        $link = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=wc-moova-settings')) . '">' . __('Settings', 'wc-moova') . '</a>';
         array_unshift($links, $link);
         return $links;
     }
@@ -184,4 +185,4 @@ class WCMoova
         load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/i18n/languages');
     }
 }
-    $settings_page = new WCMoova();
+$settings_page = new WCMoova();
