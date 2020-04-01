@@ -54,6 +54,17 @@ class Processor
         }
     }
 
+    private static function is_moova_shipping($order)
+    {
+        $shipping_methods = $order->get_shipping_methods();
+        if (empty($shipping_methods)) {
+            return;
+        }
+        $shipping_method = array_shift($shipping_methods);
+
+        return $shipping_method->get_method_id() === 'moova';
+    }
+
     /**
      * Creates a shipping label for a shipment, made for AJAX calls
      *
@@ -162,5 +173,14 @@ class Processor
             wp_send_json_error();
         }
         wp_send_json_success();
+    }
+
+    public function notifyMoova($order_id)
+    {
+        $order = wc_get_order($order_id);
+        if (self::is_moova_shipping($order)) {
+            $moovaSdk = new MoovaSdk();
+            $moovaSdk->update_order($order);
+        }
     }
 }

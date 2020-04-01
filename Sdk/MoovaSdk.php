@@ -99,16 +99,16 @@ class MoovaSdk
         return $res;
     }
 
-    public function update_order($order_id)
+    public function update_order(\WC_Order $order)
     {
-        $order = wc_get_order($order_id);
+
         if (!$order) return true;
         $shipping_methods = $order->get_shipping_methods();
         $shipping_method = array_shift($shipping_methods);
         $moova_id = $shipping_method->get_meta('tracking_number');
 
         $data_to_send = self::get_shipping_data($order);
-        $res = $this->api->post("/shippings/$moova_id", $data_to_send);
+        $res = $this->api->put("/shippings/$moova_id", $data_to_send);
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
