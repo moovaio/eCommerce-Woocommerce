@@ -29,3 +29,6 @@ add_shortcode('moova_tracking_form', ['\Ecomerciar\Moova\Orders\TrackingShortcod
 
 // --- Webhook
 add_action('woocommerce_api_wc-moova-orders', ['\Ecomerciar\Moova\Orders\Webhooks', 'listener']);
+
+// -- Notify Moova changes
+add_action('woocommerce_saved_order_items', ['\Ecomerciar\Moova\Orders\Webhooks', 'notifyMoova']);

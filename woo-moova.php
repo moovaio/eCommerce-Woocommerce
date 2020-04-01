@@ -114,9 +114,6 @@ class WCMoova
         include_once __DIR__ . '/Hooks.php';
         Helper::init();
         self::load_textdomain();
-
-
-        //'wc-moova-settings'
     }
 
     public function setMenuPages()

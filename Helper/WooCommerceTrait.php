@@ -95,10 +95,10 @@ trait WooCommerceTrait
         }
 
         $states =  WC()->countries->get_shipping_country_states();
-        if(!isset($states[Helper::get_option('country', 'AR')])){
+        if(!isset($states[Helper::get_option('country', 'AR')])) {
             return $province;
         }
-        
+
         $stateOptions = $states[Helper::get_option('country', 'AR')];
         return $stateOptions[$province];
     }

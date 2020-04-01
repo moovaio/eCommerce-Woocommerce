@@ -64,7 +64,7 @@ class MoovaSdk
             unset($data_to_send['to']['number']);
             unset($data_to_send['to']['floor']);
             unset($data_to_send['to']['apartment']);
-        }  
+        }
         $res = $this->api->post('/budgets/estimate', $data_to_send);
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
@@ -84,56 +84,7 @@ class MoovaSdk
      */
     public function process_order(\WC_Order $order)
     {
-        $seller = Helper::get_seller_from_settings();
-        $customer = Helper::get_customer_from_order($order);
-        $items = Helper::get_items_from_order($order);
-        $data_to_send = [
-            'scheduledDate' => null,
-            'currency' => 'ARS',
-            'type' => 'regular',
-            'flow' => 'manual',
-            'from' => [
-                'street' => $seller['street'],
-                'number' => $seller['number'],
-                'floor' => $seller['floor'],
-                'apartment' => $seller['apartment'],
-                'city' => $seller['city'],
-                'state' => $seller['state'],
-                'postalCode' => $seller['postalCode'],
-                'country' => $this->country,
-                'instructions' => $seller['instructions']
-            ],
-            'to' => [
-                'street' => $customer['street'],
-                'number' => $customer['number'],
-                'floor' => $customer['floor'],
-                'apartment' => $customer['apartment'],
-                'city' => $customer['locality'],
-                'state' => $customer['province'],
-                'postalCode' => $customer['cp'],
-                'country' => $this->country,
-                'instructions' => $customer['extra_info'],
-                'contact' => [
-                    'firstName' => $customer['first_name'],
-                    'lastName' => $customer['last_name'],
-                    'email' => $customer['email'],
-                    'phone' => $customer['phone']
-                ]
-            ],
-            'conf' => [
-                'assurance' => false,
-                'items' => []
-            ],
-            'internalCode' => $order->get_id(),
-            'description' => '',
-            'label' => '',
-            'type' => 'woocommerce_24_horas_max',
-            'extra' => []
-        ];
-        $grouped_items = Helper::group_items($items);
-        foreach ($grouped_items as $item) {
-            $data_to_send['conf']['items'][] = ['item' => $item];
-        }
+        $data_to_send = self::get_shipping_data($order);
         $res = $this->api->post('/shippings', $data_to_send);
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
@@ -146,6 +97,87 @@ class MoovaSdk
             return false;
         }
         return $res;
+    }
+
+    public function update_order($order_id)
+    {
+        $order = wc_get_order($order_id);
+        if (!$order) return true;
+        $shipping_methods = $order->get_shipping_methods();
+        $shipping_method = array_shift($shipping_methods);
+        $moova_id = $shipping_method->get_meta('tracking_number');
+
+        $data_to_send = self::get_shipping_data($order);
+        $res = $this->api->post("/shippings/$moova_id", $data_to_send);
+        if (Helper::get_option('debug')) {
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+        }
+        if (empty($res['id'])) {
+            Helper::log_error(__('Order could not be updated', 'wc-moova'));
+            Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_error(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            return false;
+        }
+        return $res;
+    }
+
+    private static function get_shipping_data(\WC_Order $order)
+    {
+        $seller = Helper::get_seller_from_settings();
+        $customer = Helper::get_customer_from_order($order);
+        $orderItems = Helper::get_items_from_order($order);
+
+        if (!$orderItems) {
+            Helper::log_error(__('One of the products has no right measures', 'wc-moova'));
+            return;
+        }
+
+        $parsedItems = Helper::group_items($orderItems);
+
+        return [
+            'scheduledDate' => null,
+            'currency' => get_woocommerce_currency(),
+            'type' => 'regular',
+            'flow' => 'manual',
+            'from' => [
+                'street' => $seller['street'],
+                'number' => $seller['number'],
+                'floor' => $seller['floor'],
+                'apartment' => $seller['apartment'],
+                'city' => $seller['city'],
+                'state' => $seller['state'],
+                'postalCode' => $seller['postalCode'],
+                'country' => Helper::get_option('country', 'AR'),
+                'instructions' => $seller['instructions']
+            ],
+            'to' => [
+                'street' => $customer['street'],
+                'number' => $customer['number'],
+                'floor' => $customer['floor'],
+                'apartment' => $customer['apartment'],
+                'city' => $customer['locality'],
+                'state' => $customer['province'],
+                'postalCode' => $customer['cp'],
+                'country' => Helper::get_option('country', 'AR'),
+                'instructions' => $customer['extra_info'],
+                'contact' => [
+                    'firstName' => $customer['first_name'],
+                    'lastName' => $customer['last_name'],
+                    'email' => $customer['email'],
+                    'phone' => $customer['phone']
+                ]
+            ],
+            'conf' => [
+                'assurance' => false,
+                'items' => $parsedItems
+            ],
+            'internalCode' => $order->get_id(),
+            'description' => '',
+            'label' => '',
+            'type' => 'woocommerce_24_horas_max',
+            'extra' => []
+        ];
     }
 
     /**

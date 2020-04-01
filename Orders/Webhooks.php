@@ -3,6 +3,7 @@
 namespace Ecomerciar\Moova\Orders;
 
 use Ecomerciar\Moova\Helper\Helper;
+use Ecomerciar\Moova\Sdk\MoovaSdk;
 
 defined('ABSPATH') || exit;
 
@@ -25,6 +26,13 @@ class Webhooks
             wp_die('WooCommerce Moova invalid Webhook', 'Moova Webhook', ['response' => 500]);
         }
     }
+
+    public function notifyMoova($order_id)
+    {
+        $moovaSdk = new MoovaSdk();
+        $moovaSdk->update_order($order_id);
+    }
+
     /**
      * Validates the incoming webhook
      *
