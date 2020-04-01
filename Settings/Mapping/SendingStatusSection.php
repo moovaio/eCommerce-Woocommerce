@@ -46,13 +46,16 @@ class SendingStatusSection extends Section implements SectionInterface
                     )
                 ],
 
-                'notify_cancel' => [
+                'status_cancel' => [
                     'name' => __('status to cancel', 'wc-moova'),
-                    'slug' => "notify_cancel",
+                    'slug' => "status_cancel",
                     'description' => __("If you don't want to notify when cancelled change to N/A", 'wc-moova'),
                     'type' => 'select',
                     'default' => 'wc-cancelled',
-                    'options' => $status
+                    'options' => array_merge(
+                        ['0' => __('Disable automatic cancel', 'wc-moova')],
+                        $status
+                    )
                 ]
 
             ];

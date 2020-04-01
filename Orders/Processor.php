@@ -21,18 +21,18 @@ class Processor
     public static function handle_order_status(int $order_id, string $status_from, string $status_to, \WC_Order $order)
     {
         $config_status = Helper::get_option('status_processing');
+        $cancel_status =  str_replace('wc-', '', Helper::get_option('status_cancel'));
         $config_status = str_replace('wc-', '', $config_status);
         $shipping_methods = $order->get_shipping_methods();
         if (empty($shipping_methods)) {
             return;
         }
         $shipping_method = array_shift($shipping_methods);
-        if (
-            $order->has_status($config_status)
-            && $shipping_method->get_method_id() === 'moova'
-            && empty($shipping_method->get_meta('tracking_number'))
-        ) {
-            $moovaSdk = new MoovaSdk();
+        if ($shipping_method->get_method_id() !== 'moova') {
+            return;
+        }
+        $moovaSdk = new MoovaSdk();
+        if ($order->has_status($config_status) && empty($shipping_method->get_meta('tracking_number'))) {
             $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
             if (!$res) {
                 Helper::add_error(__('The order could not be processed.', 'wc-moova'));
@@ -51,6 +51,11 @@ class Processor
             $shipping_method->update_meta_data('shipping_label', $shipping_label);
 
             $shipping_method->save();
+        } else if ($order->has_status($cancel_status)) {
+            $shipping_methods = $order->get_shipping_methods();
+            $shipping_method = array_shift($shipping_methods);
+            $moova_id = $shipping_method->get_meta('tracking_number');
+            $moovaSdk->update_order_status($moova_id, 'cancel', 'Cancel by woocommercer admin');
         }
     }
 
