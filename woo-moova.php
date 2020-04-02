@@ -123,7 +123,8 @@ class WCMoova
             'Moova',
             'manage_options',
             'wc-moova-settings',
-            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage']
+            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage'],
+            plugin_dir_url( __FILE__ ) . 'assets/img/icon-menu.png'
         );
 
         add_submenu_page(
