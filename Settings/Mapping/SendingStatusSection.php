@@ -41,7 +41,19 @@ class SendingStatusSection extends Section implements SectionInterface
                     'type' => 'select',
                     'default' => 'wc-completed',
                     'options' => array_merge(
-                        ['0' => __('Disable automatic processing', 'wc-moova')],
+                        ['0' => __('Disable option', 'wc-moova')],
+                        $status
+                    )
+                ],
+
+                'status_ready' => [
+                    'name' => __('Status to initiate', 'wc-moova'),
+                    'slug' => 'status_ready',
+                    'description' => __('When an order has this status, its ready do be delivered by moova.', 'wc-moova'),
+                    'type' => 'select',
+                    'default' => '0',
+                    'options' => array_merge(
+                        ['0' => __('Disable option', 'wc-moova')],
                         $status
                     )
                 ],
@@ -49,11 +61,11 @@ class SendingStatusSection extends Section implements SectionInterface
                 'status_cancel' => [
                     'name' => __('status to cancel', 'wc-moova'),
                     'slug' => "status_cancel",
-                    'description' => __("If you don't want to notify when cancelled change to N/A", 'wc-moova'),
+                    'description' => __("If you don't want to notify when cancelled change to Disable option", 'wc-moova'),
                     'type' => 'select',
                     'default' => 'wc-cancelled',
                     'options' => array_merge(
-                        ['0' => __('Disable automatic cancel', 'wc-moova')],
+                        ['0' => __('Disable option', 'wc-moova')],
                         $status
                     )
                 ]
