@@ -4,6 +4,9 @@ namespace Ecomerciar\Moova\Orders;
 
 use Ecomerciar\Moova\Helper\Helper;
 use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Error;
+use Exception;
+use TypeError;
 
 defined('ABSPATH') || exit;
 
@@ -23,6 +26,7 @@ class Processor
         $config_status = Helper::get_option('status_processing');
         $cancel_status =  str_replace('wc-', '', Helper::get_option('status_cancel'));
         $config_status = str_replace('wc-', '', $config_status);
+        $ready_status =  str_replace('wc-', '', Helper::get_option('status_ready'));
         $shipping_methods = $order->get_shipping_methods();
         if (empty($shipping_methods)) {
             return;
@@ -32,7 +36,8 @@ class Processor
             return;
         }
         $moovaSdk = new MoovaSdk();
-        if ($order->has_status($config_status) && empty($shipping_method->get_meta('tracking_number'))) {
+        $currentStatus = $order->get_status();
+        if ($currentStatus === $config_status && empty($shipping_method->get_meta('tracking_number'))) {
             $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
             if (!$res) {
                 Helper::add_error(__('The order could not be processed.', 'wc-moova'));
@@ -51,11 +56,34 @@ class Processor
             $shipping_method->update_meta_data('shipping_label', $shipping_label);
 
             $shipping_method->save();
-        } else if ($order->has_status($cancel_status)) {
+        } else if ($currentStatus === $ready_status) {
+            self::update_status($order, 'READY');
+        } else if ($currentStatus === $cancel_status) {
+            self::update_status($order, 'CANCEL', 'Cancel by woocommercer admin');
+        }
+    }
+
+    private static function update_status($order, $status, $reason = null)
+    {
+        try {
+            $moovaSdk = new MoovaSdk();
             $shipping_methods = $order->get_shipping_methods();
             $shipping_method = array_shift($shipping_methods);
             $moova_id = $shipping_method->get_meta('tracking_number');
-            $moovaSdk->update_order_status($moova_id, 'cancel', 'Cancel by woocommercer admin');
+            if ($shipping_method['method_id'] !== 'moova' && $moova_id) {
+                return null;
+            }
+            $res =  $moovaSdk->update_order_status($moova_id, $status, $reason);
+            if ($res) {
+                return $moova_id;
+            }
+            return null;
+        } catch (Exception $error) {
+            return null;
+        } catch (TypeError $error) {
+            return null;
+        } catch (Error $error) {
+            return null;
         }
     }
 
@@ -165,20 +193,17 @@ class Processor
         if (!$order) {
             wp_send_json_error();
         }
-        $shipping_methods = $order->get_shipping_methods();
-        if (empty($shipping_methods)) {
-            wp_send_json_error();
-        }
-        $shipping_method = array_shift($shipping_methods);
-        $moova_id = $shipping_method->get_meta('tracking_number');
-
-        $moovaSdk = new MoovaSdk();
-        $res = $moovaSdk->update_order_status($moova_id, $new_status, $reason);
+        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
+        $new_status = strtoupper(filter_var($_POST['toStatus'], FILTER_SANITIZE_STRING));
+        $reason = 'Cambio de estado manual por el usuario';
+        $order = wc_get_order($order_id);
+        $res = self::update_status($order, $new_status, $order);
         if (!$res) {
             wp_send_json_error();
         }
         wp_send_json_success();
     }
+
 
     public function notifyMoova($order_id)
     {

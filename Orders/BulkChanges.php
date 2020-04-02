@@ -90,7 +90,7 @@ class BulkChanges
     }
 
     // The results notice from bulk action on orders
-    public function response_create_bulk_shipments()
+    public static function response_create_bulk_shipments()
     {
         if (empty($_REQUEST['response_bulk_create_moova'])) return; // Exit
 
@@ -122,12 +122,11 @@ class BulkChanges
         if ($action !== 'start_bulk_shipments')
             return $redirect_to; // Exit
 
-        $moovaSdk = new MoovaSdk();
         $success = 0;
         $failure = [];
         foreach ($post_ids as $post_id) {
             $order = wc_get_order($post_id);
-            $moovaId = self::update_moova_shipment($order, $moovaSdk);
+            $moovaId = Processor::update_status($order, 'READY');
             if ($moovaId) {
                 $success += 1;
             } else {
@@ -141,28 +140,6 @@ class BulkChanges
             'failure_ids' => implode(',', $failure),
             'failure_total' => count($failure)
         ), $redirect_to);
-    }
-
-    private static function update_moova_shipment($order, $moovaSdk)
-    {
-        try {
-            $shipping_methods = $order->get_shipping_methods();
-            $shipping_method = array_shift($shipping_methods);
-            $id = $shipping_method->get_meta('tracking_number');
-            $can_change_status = $shipping_method['method_id'] === 'moova' && $id;
-            if (!$can_change_status) {
-                return null;
-            }
-            $response = $moovaSdk->update_order_status($id, 'READY');
-            if ($response) return $id;
-            return null;
-        } catch (Exception $error) {
-            return null;
-        } catch (TypeError $error) {
-            return null;
-        } catch (Error $error) {
-            return null;
-        }
     }
 
     public static function response_start_bulk_shipments()

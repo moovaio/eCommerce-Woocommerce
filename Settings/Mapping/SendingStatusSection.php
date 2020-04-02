@@ -47,9 +47,9 @@ class SendingStatusSection extends Section implements SectionInterface
                 ],
 
                 'status_ready' => [
-                    'name' => __('Status to initiate', 'wc-moova'),
+                    'name' => __('Status to send a moover', 'wc-moova'),
                     'slug' => 'status_ready',
-                    'description' => __('When an order has this status, its ready do be delivered by moova.', 'wc-moova'),
+                    'description' => __('When an order has this status, its receive a moover', 'wc-moova'),
                     'type' => 'select',
                     'default' => '0',
                     'options' => array_merge(
