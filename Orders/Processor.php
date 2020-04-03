@@ -63,7 +63,7 @@ class Processor
         }
     }
 
-    private static function update_status($order, $status, $reason = null)
+    public static function update_status($order, $status, $reason = '')
     {
         try {
             $moovaSdk = new MoovaSdk();
@@ -73,7 +73,7 @@ class Processor
             if ($shipping_method['method_id'] !== 'moova' && $moova_id) {
                 return null;
             }
-            $res =  $moovaSdk->update_order_status($moova_id, $status, $reason);
+            $res =  $moovaSdk->update_order_status($moova_id, $status,$reason);
             if ($res) {
                 return $moova_id;
             }
