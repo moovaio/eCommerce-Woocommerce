@@ -54,7 +54,7 @@ class Metabox
         if ($shipping_method->get_method_id() === 'moova') {
             $config_status = Helper::get_option('status_processing');
             $config_status = str_replace('wc-', '', $config_status);
-            if ($order->has_status($config_status) || $config_status === '0') {
+            if ($order->has_status($config_status) || $config_status === '0' || $shipping_method->get_meta('tracking_number')) {
                 $tracking_number = $shipping_method->get_meta('tracking_number');
                 if (!empty($tracking_number)) {
 
