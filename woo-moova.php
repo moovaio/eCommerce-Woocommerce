@@ -189,7 +189,7 @@ class WCMoova
      */
     public static function load_textdomain()
     {
-        load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/i18n/languages');
+        load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/languages');
     }
 }
 $settings_page = new WCMoova();
