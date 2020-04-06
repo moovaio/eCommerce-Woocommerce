@@ -14,342 +14,444 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.3.1; wp-5.3.2"
 
-#: woo-moova.php:44
-#, php-format
-msgid "<strong>%s/strong> Requires at least %s version %s or greater."
-msgstr "<strong>%s/strong> Requiere al menos %s versión %s o superior."
+#: Orders/BulkChanges.php:159
+msgid ""
+"We found error in the following orders. Please check they are already "
+"created Moova shipments and they are not in status READY: "
+msgstr ""
+"Encontramos un error en los siguientes pedidos. Por favor revise si ya "
+"fueron creadas en Moova y si no tienen el estado READY"
 
-#: woo-moova.php:52
-#, php-format
-msgid "WooCommerce must be active before using <strong>%s</strong>"
-msgstr "WooCommerce debe estar activo antes de usar <strong>%s</strong>"
+#: Orders/BulkChanges.php:154
+msgid "We have started succesfully "
+msgstr "Los inciamos correctamente"
 
-#: woo-moova.php:135
-msgid "Settings"
-msgstr "Configuración"
+#: Orders/BulkChanges.php:107
+msgid ""
+"We found error in the following orders. Please check they are Moova "
+"shipments and they are not already created. Ids: "
+msgstr ""
+"Encontramos un error en los siguientes pedidos. Por favor revise si son "
+"envios de Moova y si no fueron creados anteriormente. Ids:"
 
-#: ShippingMethod/WC_Moova.php:37
-msgid "Allow your customers receive their orders with Moova"
-msgstr "Permite a tus clientes recibir sus compras con Moova"
+#: Orders/BulkChanges.php:102 Orders/BulkChanges.php:154
+msgid " shipments in Moova. "
+msgstr "Envios en moova"
 
-#: ShippingMethod/WC_Moova.php:57
-msgid "Choose the name that your customers will see in the checkout"
-msgstr "Elige el nombre que verán tus clientes en el checkout"
+#: Orders/BulkChanges.php:102
+msgid "We have created succesfully "
+msgstr "Se crearon exitosamente"
 
-#: ShippingMethod/WC_Moova.php:58
-msgid "Moova"
-msgstr "Moova"
+#: Orders/BulkChanges.php:20
+msgid "Moova - Start shipments"
+msgstr "Moova - Pedir Moovers"
+
+#: Orders/BulkChanges.php:19
+msgid "Moova - Create shipments"
+msgstr "Moova - Crear envios"
+
+#: Sdk/MoovaSdk.php:132
+msgid "One of the products has no right measures"
+msgstr "Uno de los productos no tiene las medidas correctas"
+
+#: Sdk/MoovaSdk.php:117
+msgid "Order could not be updated"
+msgstr "El pedido no pudo ser actualizado correctamente"
+
+#: Settings/Mapping/SendingStatusSection.php:64
+msgid "If you don't want to notify when cancelled change to Disable option"
+msgstr "si no"
+
+#: Settings/Mapping/SendingStatusSection.php:62
+msgid "status to cancel"
+msgstr "estado para cancelar"
+
+#: Settings/Mapping/SendingStatusSection.php:52
+msgid "When an order has this status, its receive a moover"
+msgstr "cuando un pedido tiene este estado, se va a solicitar un Moover"
+
+#: Settings/Mapping/SendingStatusSection.php:50
+msgid "Status to send a moover"
+msgstr "Estado para pedir un Moover"
+
+#: Settings/Mapping/SendingStatusSection.php:44
+#: Settings/Mapping/SendingStatusSection.php:56
+#: Settings/Mapping/SendingStatusSection.php:68
+msgid "Disable option"
+msgstr "Deshabilitar opción"
+
+#: Settings/Mapping/SendingStatusSection.php:23
+msgid "Inform to Moova"
+msgstr "Informar a Moova"
+
+#: Settings/Mapping/ReceivingStatusSection.php:53
+msgid "If you don't want to enable this state select 'Disable option'"
+msgstr "Si no querés habilitar este estado seleccionar 'Deshabilitar opción'"
+
+#: Settings/Mapping/ReceivingStatusSection.php:38
+msgid "When receiving this status from moova we will change the order state!"
+msgstr ""
+"Cuando recibas este estado de Moova vamos a cambiar el estado de tu pedido!"
+
+#: Settings/Mapping/ReceivingStatusSection.php:36
+msgid "Enable matching"
+msgstr "Habilitar sincronización"
+
+#: Settings/Mapping/ReceivingStatusSection.php:23
+msgid "Match moova status"
+msgstr "Sincronizar estados"
+
+#: Settings/Support/SupportPage.php:32
+msgid "Also you can send us there any question you might have!"
+msgstr "También pueden enviarnos cualquier consulta que tengas!"
+
+#: Settings/Support/SupportPage.php:29
+msgid "here to check documentation"
+msgstr "aca para ver la documentación"
+
+#: Settings/Support/SupportPage.php:26
+msgid ""
+"If you are not sure of how to get the required fields for this integration, "
+"what some fields means please check our awesome documentation\n"
+"                    click"
+msgstr ""
+"Si no estas seguro de como completar los campos requeridos para esta "
+"integración,  o lo que significan por favor revisa nuestra documentación\n"
+
+#: Settings/Support/SupportPage.php:25
+msgid "Help & Support"
+msgstr "Ayuda y soporte"
+
+#: Settings/GeneralSettings/MoovaSection.php:45
+msgid "Country where you operate"
+msgstr "Pais en el que operas"
+
+#. Author of the plugin
+msgid "Moova.io"
+msgstr "Moova.io"
 
 #: ShippingMethod/WC_Moova.php:61
 msgid "Free shipping"
-msgstr "Envío gratis"
+msgstr "Envio gratis"
 
-#: Sdk/MoovaSdk.php:70 Sdk/MoovaSdk.php:133 Sdk/MoovaSdk.php:138
-#: Sdk/MoovaSdk.php:155 Sdk/MoovaSdk.php:190 Sdk/MoovaSdk.php:231
-#, php-format
-msgid "%s - Data sent to Moova: %s"
-msgstr "%s - Data enviada a Moova: %s"
+#: ShippingMethod/WC_Moova.php:57
+msgid "Choose the name that your customers will see in the checkout"
+msgstr "Elige el nombre que tus clientes van a ver en el checkout"
 
-#: Sdk/MoovaSdk.php:71 Sdk/MoovaSdk.php:134 Sdk/MoovaSdk.php:139
-#: Sdk/MoovaSdk.php:156 Sdk/MoovaSdk.php:191 Sdk/MoovaSdk.php:232
-#, php-format
-msgid "%s - Data received from Moova: %s"
-msgstr "%s - Data recibida de Moova: %s"
+#: ShippingMethod/WC_Moova.php:37
+msgid "Allow your customers receive their orders with Moova"
+msgstr "Permite que tus clientes reciban pedidos de Moova"
 
-#: Sdk/MoovaSdk.php:137
-msgid "Order could not be processed"
-msgstr "El pedido no pudo ser procesado"
-
-#: Sdk/MoovaSdk.php:159
-#, php-format
-msgid "Could not find shipping label of order %s"
-msgstr "No se pudo encontrar la etiqueta de envío para el pedido %s"
-
-#: Sdk/MoovaSdk.php:194
-#, php-format
+#: Sdk/MoovaSdk.php:232
 msgid "Could not get order %s"
 msgstr "No se pudo obtener el pedido %s"
 
-#: Settings/Main.php:111
-msgid "Settings saved"
-msgstr "Configuración guardada"
+#: Sdk/MoovaSdk.php:197
+msgid "Could not find shipping label of order %s"
+msgstr "No se pudo obtener la etiqueta del pedido %s"
 
-#: Settings/Main.php:124
-msgid "Save"
-msgstr "Guardar"
+#: Sdk/MoovaSdk.php:94
+msgid "Order could not be processed"
+msgstr "Pedido no pudo ser procesado"
 
-#: Orders/Processor.php:38
-msgid "The order could not be processed."
-msgstr "El pedido no pudo ser procesado."
+#: Sdk/MoovaSdk.php:71 Sdk/MoovaSdk.php:91 Sdk/MoovaSdk.php:96
+#: Sdk/MoovaSdk.php:114 Sdk/MoovaSdk.php:119 Sdk/MoovaSdk.php:194
+#: Sdk/MoovaSdk.php:229 Sdk/MoovaSdk.php:270
+msgid "%s - Data received from Moova: %s"
+msgstr "%s - Data recivida de Moova: %s"
 
-#: Orders/Processor.php:47
+#: Sdk/MoovaSdk.php:70 Sdk/MoovaSdk.php:90 Sdk/MoovaSdk.php:95
+#: Sdk/MoovaSdk.php:113 Sdk/MoovaSdk.php:118 Sdk/MoovaSdk.php:193
+#: Sdk/MoovaSdk.php:228 Sdk/MoovaSdk.php:269
+msgid "%s - Data sent to Moova: %s"
+msgstr "%s - Data enviada a Moova %s"
+
+#: Orders/Processor.php:52
 msgid "Shipping label could not be found."
-msgstr "La etiqueta de envío no pudo ser encontrada."
+msgstr "Etiqueda del envio no encontrada"
 
-#: Orders/Metabox.php:38
-msgid "Creating shipping label..."
-msgstr "Creando etiqueta de envío..."
+#: Orders/Processor.php:43
+msgid "The order could not be processed."
+msgstr "El pedido no pudo ser procesado"
 
-#: Orders/Metabox.php:39
-msgid "Shipping label created"
-msgstr "Etiqueta de envío creada"
+#: Orders/Webhooks.php:68
+msgid "Order #%s updated with status: %s"
+msgstr "Pedido #%s actualizado con el estado: %s"
 
-#: Orders/Metabox.php:40 Orders/Metabox.php:77
-msgid "Generate shipping label"
-msgstr "Generar etiqueta de envío"
+#: Orders/Metabox.php:96
+msgid "The order will be processed when its status is <strong>%s</strong>"
+msgstr "El pedido sera procesado cuando el estado es <strong>%s</strong>"
 
-#: Orders/Metabox.php:41
-msgid "Processing order..."
-msgstr "Procesando pedido..."
+#: Orders/Metabox.php:89
+msgid "The order is not processed yet"
+msgstr "El pedido no fue procesado todavia"
 
-#: Orders/Metabox.php:42
-msgid "Order processed"
-msgstr "Pedido procesado"
+#: Orders/Metabox.php:79
+msgid "View shipping label"
+msgstr "Ver etiqueta del envio"
+
+#: Orders/Metabox.php:72
+msgid "Track order"
+msgstr "Seguir pedido"
+
+#: Orders/Metabox.php:64
+msgid "The order has been processed, tracking number: <strong>%s</strong>"
+msgstr "El pedido fue procesado, numero de seguimiento: <strong>%s</strong>"
+
+#: Orders/Metabox.php:46 Orders/Metabox.php:86
+msgid "Mark order as ready to be shipped"
+msgstr "Marar el pedido como listo para ser enviado"
+
+#: Orders/Metabox.php:45
+msgid "Order updated"
+msgstr "Actualizar pedido"
+
+#: Orders/Metabox.php:44
+msgid "Updating order status..."
+msgstr "Actualizarndo estado del pedido...."
 
 #: Orders/Metabox.php:43 Orders/Metabox.php:91
 msgid "Process order"
 msgstr "Procesar pedido"
 
-#: Orders/Metabox.php:44
-msgid "Updating order status..."
-msgstr "Actualizando el estado del pedido..."
+#: Orders/Metabox.php:42
+msgid "Order processed"
+msgstr "Pedido procesado"
 
-#: Orders/Metabox.php:45
-msgid "Order updated"
-msgstr "Pedido actualizado"
+#: Orders/Metabox.php:41
+msgid "Processing order..."
+msgstr "Procesando pedido...."
 
-#: Orders/Metabox.php:46 Orders/Metabox.php:86
-msgid "Mark order as ready to be shipped"
-msgstr "Marcar el pedido como listo para ser enviado"
+#: Orders/Metabox.php:40 Orders/Metabox.php:77
+msgid "Generate shipping label"
+msgstr "Generar etiqueta del envio"
 
-#: Orders/Metabox.php:47 Orders/TrackingShortcode.php:33
-msgid "There was an error, please try again"
-msgstr "Hubo un error, por favor intenta nuevamente"
+#: Orders/Metabox.php:39
+msgid "Shipping label created"
+msgstr "Etiqueta del envio generada"
 
-#: Orders/Metabox.php:64
-#, php-format
-msgid "The order has been processed, tracking number: <strong>%s</strong>"
-msgstr "El pedido ha sido procesado, número de rastreo: <strong>%s</strong>"
-
-#: Orders/Metabox.php:72
-msgid "Track order"
-msgstr "Rastrear pedido"
-
-#: Orders/Metabox.php:79
-msgid "View shipping label"
-msgstr "Ver etiqueta de envío"
-
-#: Orders/Metabox.php:89
-msgid "The order is not processed yet"
-msgstr "El pedido no ha sido procesado todavía"
-
-#: Orders/Metabox.php:96
-#, php-format
-msgid "The order will be processed when its status is <strong>%s</strong>"
-msgstr "El pedido será procesado cuando tenga el estado <strong>%s</strong>"
-
-#: Orders/TrackingShortcode.php:19 Orders/TrackingShortcode.php:36
-msgid "Shipment number"
-msgstr "Número de envío"
-
-#: Orders/TrackingShortcode.php:23
-msgid "Track shipment"
-msgstr "Rastrear envío"
-
-#: Orders/TrackingShortcode.php:39
-msgid "Date"
-msgstr "Fecha"
+#: Orders/Metabox.php:38
+msgid "Creating shipping label..."
+msgstr "Creanto etiqueta del pedido"
 
 #: Orders/TrackingShortcode.php:40
 msgid "Status"
 msgstr "Estado"
 
-#: Orders/Webhooks.php:61
-#, php-format
-msgid "Order #%s updated with status: %s"
-msgstr "Pedido #%s actualizado con el estado: %s"
+#: Orders/TrackingShortcode.php:39
+msgid "Date"
+msgstr "Fecha"
 
-#: Settings/Sections/MoovaSection.php:19
-msgid "Moova settings"
-msgstr "Configuración de Moova"
+#: Orders/TrackingShortcode.php:33 Orders/Metabox.php:47
+msgid "There was an error, please try again"
+msgstr "Hubo un error, por favor intente nuevamente"
 
-#: Settings/Sections/MoovaSection.php:32
-msgid "Client ID"
-msgstr "Client ID"
+#: Orders/TrackingShortcode.php:23
+msgid "Track shipment"
+msgstr "Rastrear envio"
 
-#: Settings/Sections/MoovaSection.php:37
+#: Orders/TrackingShortcode.php:19 Orders/TrackingShortcode.php:36
+msgid "Shipment number"
+msgstr "Numero de seguimiento"
+
+#: woo-moova.php:168
+msgid "Settings"
+msgstr "Ajustes"
+
+#: Settings/GeneralSettings/MoovaSection.php:40
 msgid "Client Secret"
 msgstr "Client Secret"
 
-#: Settings/Sections/MoovaSection.php:42
-msgid "Country where you operate"
-msgstr "País donde operas"
+#: Settings/GeneralSettings/MoovaSection.php:35
+msgid "Client ID"
+msgstr "Client ID"
 
-#: Settings/Sections/IntegrationSection.php:19
-msgid "Integration settings"
-msgstr "Configuración de la integración"
+#: Settings/GeneralSettings/MoovaSection.php:22
+msgid "Moova settings"
+msgstr "Ajustes de Moova"
 
-#: Settings/Sections/IntegrationSection.php:32
-msgid "Status to process"
-msgstr "Estado a procesar"
-
-#: Settings/Sections/IntegrationSection.php:34
+#: Settings/GeneralSettings/IntegrationSection.php:59
 msgid ""
-"When an order has this status, it gets processed automatically with Moova."
+"Activate the debug log for developers. If you do not know what is this then "
+"probably you do not need to activate it"
 msgstr ""
-"Cuando un pedido tiene este estado, se procesa automáticamente con Moova."
+"Activa el modo debug para programadores. Si no sabes que es, es probable que "
+"no necesites activarlo"
 
-#: Settings/Sections/IntegrationSection.php:38
-msgid "Disable automatic processing"
-msgstr "Desactivar procesamiento automático"
+#: Settings/GeneralSettings/IntegrationSection.php:57
+msgid "Debug Mode"
+msgstr "Modo debug"
 
-#: Settings/Sections/IntegrationSection.php:42
-msgid "Tracking"
-msgstr "Rastreo"
+#: Settings/GeneralSettings/IntegrationSection.php:53
+msgid "Test"
+msgstr "Test"
 
-#: Settings/Sections/IntegrationSection.php:44
-msgid ""
-"This plugin offers a tracking form using the shortcode <strong>"
-"[moova_tracking_form]</strong>. You can use it in any page."
-msgstr ""
-"Este plugin ofrece un formulario de rastreo usando el shortcode <strong>"
-"[moova_tracking_form]</strong>. Puedes usarlo en cualquier página."
+#: Settings/GeneralSettings/IntegrationSection.php:52
+msgid "Production"
+msgstr "Producción"
 
-#: Settings/Sections/IntegrationSection.php:48
-msgid "Shipments notifications"
-msgstr "Notificaciones de envíos"
+#: Settings/GeneralSettings/IntegrationSection.php:47
+msgid "Environment"
+msgstr "Ambiente"
 
-#: Settings/Sections/IntegrationSection.php:50
-#, php-format
+#: Settings/GeneralSettings/IntegrationSection.php:43
 msgid ""
 "In order to receive notifications about your Moova shipments, you need to "
 "create a webhook in your Moova dashboard, use this URL: <strong>%s</strong> "
 "with the POST method."
 msgstr ""
-"Para recibir notificaciones acerca de tus envíos con Moova, debes crear un "
-"webhook dentro de tu panel de Moova, usa esta URL: <strong>%s</strong> con "
-"el método POST."
+"Para poder recibir notificaciones sobre tus estados en Moova, necesitas "
+"crear un webhook en el dashboard. Usa esta URL: <strong>%s</strong> con "
+"metodo tipo POST."
 
-#: Settings/Sections/IntegrationSection.php:54
-msgid "Environment"
-msgstr "Ambiente"
+#: Settings/GeneralSettings/IntegrationSection.php:41
+msgid "Shipments notifications"
+msgstr "Notificacciones de envio"
 
-#: Settings/Sections/IntegrationSection.php:59
-msgid "Production"
-msgstr "Producción"
-
-#: Settings/Sections/IntegrationSection.php:60
-msgid "Test"
-msgstr "Prueba"
-
-#: Settings/Sections/IntegrationSection.php:64
-msgid "Debug Mode"
-msgstr "Modo debug"
-
-#: Settings/Sections/IntegrationSection.php:66
+#: Settings/GeneralSettings/IntegrationSection.php:37
 msgid ""
-"Activate the debug log for developers. If you do not know what is this then "
-"probably you do not need to activate it"
+"This plugin offers a tracking form using the shortcode <strong>"
+"[moova_tracking_form]</strong>. You can use it in any page."
 msgstr ""
-"Activa el log de debug para desarrolladores. Si no sabes que es esto "
-"entonces probablemente no necesitas activarlo"
+"Este plugin ofrece un formulario de rastreo usando el  shortcode <strong>"
+"[moova_tracking_form]</strong>. Puedes usar esto en cualquier parte de la "
+"pagina"
 
-#: Settings/Sections/SellerSection.php:19
-msgid "Sender settings"
-msgstr "Configuración del remitente"
+#: Settings/GeneralSettings/IntegrationSection.php:35
+msgid "Tracking"
+msgstr "Seguimiento"
 
-#: Settings/Sections/SellerSection.php:32
-msgid "Name"
-msgstr "Nombre"
+#: Settings/Mapping/SendingStatusSection.php:40
+msgid ""
+"When an order has this status, it gets processed automatically with Moova."
+msgstr ""
+"Cuando un pedido tiene este etado, sera creado automaticamente por Moova"
 
-#: Settings/Sections/SellerSection.php:37
-msgid "Last name"
-msgstr "Apellido"
+#: Settings/Mapping/SendingStatusSection.php:38
+msgid "Status to process"
+msgstr "Estado para crear"
 
-#: Settings/Sections/SellerSection.php:42
-msgid "Email"
-msgstr "Email"
+#: Settings/GeneralSettings/IntegrationSection.php:22
+msgid "Integration settings"
+msgstr "Preferencias de la integracion"
 
-#: Settings/Sections/SellerSection.php:47
-msgid "Phone number"
-msgstr "Número de teléfono"
+#: Settings/GeneralSettings/SellerSection.php:100
+msgid "Example: Door bell does not work"
+msgstr "Ejemplo: El timbre no funciona"
 
-#: Settings/Sections/SellerSection.php:52
-msgid "Street"
-msgstr "Calle"
+#: Settings/GeneralSettings/SellerSection.php:97
+msgid "Notes about the direction"
+msgstr "Notas sobre la dirección"
 
-#: Settings/Sections/SellerSection.php:55
-msgid "Example: Av. Belgrano"
-msgstr "Ejemplo: Av. Belgrano"
-
-#: Settings/Sections/SellerSection.php:58
-msgid "Street number"
-msgstr "Número de calle"
-
-#: Settings/Sections/SellerSection.php:61
-msgid "Example: 520"
-msgstr "Ejemplo: 520"
-
-#: Settings/Sections/SellerSection.php:64
-msgid "Floor"
-msgstr "Piso"
-
-#: Settings/Sections/SellerSection.php:67
-msgid "Example: 2"
-msgstr "Ejemplo: 2"
-
-#: Settings/Sections/SellerSection.php:70
-msgid "Apt. Number (Optional)"
-msgstr "Número de Depto. (Opcional)"
-
-#: Settings/Sections/SellerSection.php:73
-msgid "Example: A"
-msgstr "Ejemplo: A"
-
-#: Settings/Sections/SellerSection.php:76
-msgid "Locality"
-msgstr "Localidad"
-
-#: Settings/Sections/SellerSection.php:79
-msgid "Example: Palermo"
-msgstr "Ejemplo: Palermo"
-
-#: Settings/Sections/SellerSection.php:82
-msgid "State"
-msgstr "Provincia"
-
-#: Settings/Sections/SellerSection.php:85
-msgid "Example: Capital Federal"
-msgstr "Ejemplo: Capital Federal"
-
-#: Settings/Sections/SellerSection.php:88
-msgid "Postal code"
-msgstr "Código postal"
-
-#: Settings/Sections/SellerSection.php:91
+#: Settings/GeneralSettings/SellerSection.php:94
 msgid "Example: 1040"
 msgstr "Ejemplo: 1040"
 
-#: Settings/Sections/SellerSection.php:94
-msgid "Notes about the direction"
-msgstr "Comentarios sobre la dirección"
+#: Settings/GeneralSettings/SellerSection.php:91
+msgid "Postal code"
+msgstr "Codigo postal"
 
-#: Settings/Sections/SellerSection.php:97
-msgid "Example: Door bell does not work"
-msgstr "Ejemplo: El timbre de la puerta no funciona"
+#: Settings/GeneralSettings/SellerSection.php:88
+msgid "Example: Capital Federal"
+msgstr "Ejemplo: Capital Federal"
 
-#. Name of the plugin
-msgid "Moova for WooCommerce"
-msgstr "Moova para WooCommerce"
+#: Settings/GeneralSettings/SellerSection.php:85
+msgid "State"
+msgstr "Estado"
+
+#: Settings/GeneralSettings/SellerSection.php:82
+msgid "Example: Palermo"
+msgstr "Ejemplo: Palermo"
+
+#: Settings/GeneralSettings/SellerSection.php:79
+msgid "Locality"
+msgstr "Localidad"
+
+#: Settings/GeneralSettings/SellerSection.php:76
+msgid "Example: A"
+msgstr "Ejemplo: A"
+
+#: Settings/GeneralSettings/SellerSection.php:73
+msgid "Apt. Number (Optional)"
+msgstr "Numero de departament (Opcional)"
+
+#: Settings/GeneralSettings/SellerSection.php:70
+msgid "Example: 2"
+msgstr "Ejemplo 2"
+
+#: Settings/GeneralSettings/SellerSection.php:67
+msgid "Floor"
+msgstr "Piso"
+
+#: Settings/GeneralSettings/SellerSection.php:64
+msgid "Example: 520"
+msgstr "Ejemplo: 520"
+
+#: Settings/GeneralSettings/SellerSection.php:61
+msgid "Street number"
+msgstr "Numero de la puerta"
+
+#: Settings/GeneralSettings/SellerSection.php:58
+msgid "Example: Av. Belgrano"
+msgstr "Ejemplo: Av. Belgrano"
+
+#: Settings/GeneralSettings/SellerSection.php:55
+msgid "Street"
+msgstr "Calle"
+
+#: Settings/GeneralSettings/SellerSection.php:50
+msgid "Phone number"
+msgstr "Telefono"
+
+#: Settings/GeneralSettings/SellerSection.php:45
+msgid "Email"
+msgstr "Email"
+
+#: Settings/GeneralSettings/SellerSection.php:40
+msgid "Last name"
+msgstr "Apellido"
+
+#: Settings/GeneralSettings/SellerSection.php:35
+msgid "Name"
+msgstr "Nombre"
+
+#: Settings/GeneralSettings/SellerSection.php:22
+msgid "Sender settings"
+msgstr "Preferencias del remitente"
+
+#: Helper/PageTrait.php:46
+msgid "Save"
+msgstr "Guardar"
+
+#: Helper/PageTrait.php:32
+msgid "Settings saved"
+msgstr "Preferencias guardadas"
+
+#. Author URI of the plugin
+msgid "https://moova.io/"
+msgstr "https://moova.io/"
+
+#: ShippingMethod/WC_Moova.php:58
+msgid "Moova"
+msgstr "Moova"
+
+#: ShippingMethod/WC_Moova.php:55
+msgid "Title"
+msgstr "Titutlo"
+
+#: woo-moova.php:55
+msgid "WooCommerce must be active before using <strong>%s</strong>"
+msgstr ""
+"WooCommerce tiene que estar activando antes de usar  <strong>%s</strong>"
+
+#: woo-moova.php:47
+msgid "<strong>%s/strong> Requires at least %s version %s or greater."
+msgstr "<strong>%s/strong> Requiere por lo menos %s version %s o mayor"
 
 #. Description of the plugin
 msgid "Integration between Moova and WooCommerce"
 msgstr "Integración entre Moova y WooCommerce"
 
-#. Author of the plugin
-msgid "Ecomerciar"
-msgstr "Ecomerciar"
-
-#. Author URI of the plugin
-msgid "https://ecomerciar.com"
-msgstr "https://ecomerciar.com"
+#. Name of the plugin
+msgid "Moova for WooCommerce"
+msgstr "Moova para WooCommerce"

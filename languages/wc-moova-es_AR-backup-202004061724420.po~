@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Moova for WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-06 16:57+0000\n"
-"PO-Revision-Date: 2020-04-06 17:24+0000\n"
+"PO-Revision-Date: 2020-04-06 17:22+0000\n"
 "Last-Translator: Axel candia\n"
 "Language-Team: Español de Argentina\n"
 "Language: es_AR\n"
@@ -389,64 +389,63 @@ msgstr "Ejemplo: 520"
 
 #: Settings/GeneralSettings/SellerSection.php:61
 msgid "Street number"
-msgstr "Numero de la puerta"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:58
 msgid "Example: Av. Belgrano"
-msgstr "Ejemplo: Av. Belgrano"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:55
 msgid "Street"
-msgstr "Calle"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:50
 msgid "Phone number"
-msgstr "Telefono"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:45
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:40
 msgid "Last name"
-msgstr "Apellido"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:35
 msgid "Name"
-msgstr "Nombre"
+msgstr ""
 
 #: Settings/GeneralSettings/SellerSection.php:22
 msgid "Sender settings"
-msgstr "Preferencias del remitente"
+msgstr ""
 
 #: Helper/PageTrait.php:46
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 #: Helper/PageTrait.php:32
 msgid "Settings saved"
-msgstr "Preferencias guardadas"
+msgstr ""
 
 #. Author URI of the plugin
 msgid "https://moova.io/"
-msgstr "https://moova.io/"
+msgstr ""
 
 #: ShippingMethod/WC_Moova.php:58
 msgid "Moova"
-msgstr "Moova"
+msgstr ""
 
 #: ShippingMethod/WC_Moova.php:55
 msgid "Title"
-msgstr "Titutlo"
+msgstr ""
 
 #: woo-moova.php:55
 msgid "WooCommerce must be active before using <strong>%s</strong>"
 msgstr ""
-"WooCommerce tiene que estar activando antes de usar  <strong>%s</strong>"
 
 #: woo-moova.php:47
 msgid "<strong>%s/strong> Requires at least %s version %s or greater."
-msgstr "<strong>%s/strong> Requiere por lo menos %s version %s o mayor"
+msgstr ""
 
 #. Description of the plugin
 msgid "Integration between Moova and WooCommerce"

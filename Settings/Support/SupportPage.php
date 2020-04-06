@@ -26,10 +26,10 @@ class SupportPage
                 <p> <?php echo __('If you are not sure of how to get the required fields for this integration, what some fields means please check our awesome documentation
                     click', 'wc-moova') ?>
                     <a target="_blank" href="https://moova1.atlassian.net/servicedesk/customer/portal/3/topic/5c404312-979b-47ce-8152-5978b023f4aa/article/459767812">
-                        <?php echo __('here to check documentation') ?></a>
+                        <?php echo __('here to check documentation', 'wc-moova') ?></a>
                 </p>
 
-                <p><?php echo __('Also you can send us there any question you might have!') ?></p>
+                <p><?php echo __('Also you can send us there any question you might have!', 'wc-moova') ?></p>
             </div>
     <?php
     }
