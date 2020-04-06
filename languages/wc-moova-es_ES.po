@@ -455,3 +455,4 @@ msgstr "Integración entre Moova y WooCommerce"
 #. Name of the plugin
 msgid "Moova for WooCommerce"
 msgstr "Moova para WooCommerce"
+
