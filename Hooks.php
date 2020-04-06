@@ -10,7 +10,7 @@ add_filter('plugin_action_links_' . plugin_basename(WCMoova::MAIN_FILE), ['WCMoo
 add_action('admin_enqueue_scripts', ['Ecomerciar\Moova\Helper\Helper', 'add_assets_files']);
 
 // --- Initiate fields in pages
-add_action('admin_init', ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralsettingsPage', 'init_settings']);
+add_action('admin_init', ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'init_settings']);
 add_action('admin_init', ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'init_mapping']);
 
 
