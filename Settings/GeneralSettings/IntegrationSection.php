@@ -31,6 +31,18 @@ class IntegrationSection extends Section implements SectionInterface
     public static function get_fields()
     {
         $fields = [
+
+            'price_iva' => [
+                'name' => __('Show with IVA', 'wc-moova'),
+                'slug' => 'price_iva',
+                'description' => __('Show price with IVA', 'wc-moova'),
+                'options' => [
+                    '0' => 'No',
+                    '1' => 'Si'
+                ],
+                'default' => '1',
+                'type' => 'select'
+            ],
             'tracking' => [
                 'name' => __('Tracking', 'wc-moova'),
                 'slug' => 'tracking',

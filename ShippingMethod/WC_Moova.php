@@ -83,8 +83,21 @@ class WC_Moova extends \WC_Shipping_method
             $this->add_rate([
                 'id'        => $this->get_rate_id(), // ID for the rate. If not passed, this id:instance default will be used.
                 'label'     => $this->title, // Label for the rate.
-                'cost'      => ($this->get_instance_option('free_shipping') === 'yes' ? 0 : $price['price']) // Amount or array of costs (per item shipping).
+                'cost'      => $this->getPrice($price)// Amount or array of costs (per item shipping).
             ]);
         }
+    }
+
+    private function getPrice($price){
+        Helper::log_info(json_encode(Helper::get_option('price_iva')));
+        if($this->get_instance_option('free_shipping') === 'yes' ){
+            return 0;
+        }
+        else if(Helper::get_option('price_iva','1')){
+            Helper::log_info('Sending with iva');
+            return $price['billing']['gross_price'];
+        }
+        return $price['price'];
+        
     }
 }
