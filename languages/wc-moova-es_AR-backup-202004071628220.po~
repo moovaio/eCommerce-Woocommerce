@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Moova for WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 16:25+0000\n"
-"PO-Revision-Date: 2020-04-07 16:28+0000\n"
+"PO-Revision-Date: 2020-04-07 16:25+0000\n"
 "Last-Translator: Axel candia\n"
 "Language-Team: Español de Argentina\n"
 "Language: es_AR\n"
@@ -193,7 +193,6 @@ msgid ""
 ". Please check they are Moova shipments and they are not already created. "
 "Ids: "
 msgstr ""
-". Por favor verifique si son envios de Moova y si ya fueron creados. Ids"
 
 #: Orders/BulkChanges.php:154
 msgid "We have started succesfully "
@@ -204,8 +203,6 @@ msgid ""
 ". Please check they are already created Moova shipments and they are not in "
 "status READY: "
 msgstr ""
-". Por favor verifique si los envios ya fueron creados y si no estan en "
-"estado READY"
 
 #: Helper/PageTrait.php:32
 msgid "Settings saved"
@@ -321,11 +318,11 @@ msgstr "Preferencias de la integracion"
 
 #: Settings/GeneralSettings/IntegrationSection.php:36
 msgid "Show with IVA"
-msgstr "Mostrar precio con impuestos"
+msgstr ""
 
 #: Settings/GeneralSettings/IntegrationSection.php:38
 msgid "Show price with IVA"
-msgstr "Mostrar precio con impuestos"
+msgstr ""
 
 #: Settings/GeneralSettings/IntegrationSection.php:47
 msgid "Tracking"
