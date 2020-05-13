@@ -186,7 +186,7 @@ msgstr "Moova - Pedir Moovers"
 
 #: Orders/BulkChanges.php:102
 msgid "We have created succesfully "
-msgstr "Se crearon exitosamente"
+msgstr "Se crearon exitosamente "
 
 #: Orders/BulkChanges.php:102 Orders/BulkChanges.php:154
 msgid " shipments in Moova. "

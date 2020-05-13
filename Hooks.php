@@ -37,3 +37,7 @@ add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_c
 
 add_filter('handle_bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'start_bulk_shipments'], 10, 3);
 add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_start_bulk_shipments']);
+
+
+add_filter('handle_bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'force_create_bulk_shipments'], 10, 3);
+add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_force_create']);
