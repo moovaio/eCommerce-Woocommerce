@@ -86,18 +86,6 @@ class Processor
             return null;
         }
     }
-
-    private static function is_moova_shipping($order)
-    {
-        $shipping_methods = $order->get_shipping_methods();
-        if (empty($shipping_methods)) {
-            return;
-        }
-        $shipping_method = array_shift($shipping_methods);
-
-        return $shipping_method->get_method_id() === 'moova';
-    }
-
     /**
      * Creates a shipping label for a shipment, made for AJAX calls
      *
@@ -205,12 +193,18 @@ class Processor
     }
 
 
-    public function notifyMoova($order_id)
+    public static function notifyMoova($order_id)
     {
         $order = wc_get_order($order_id);
-        if (self::is_moova_shipping($order)) {
-            $moovaSdk = new MoovaSdk();
+        $shipping_method = Helper::getShippingMethod($order);
+        if(empty($shipping_method)){
+            return null;
+        }
+        $moovaSdk = new MoovaSdk();
+        if ( $shipping_method->get_meta('tracking_number')) { 
             $moovaSdk->update_order($order);
+        }else{
+            $moovaSdk->process_order($order);
         }
     }
 }

@@ -80,6 +80,20 @@ trait WooCommerceTrait
         return $data;
     }
 
+    public static function getShippingMethod($order){
+        if(!$order->has_shipping_method('moova')){
+            return null;
+        }
+
+        foreach ( $order->get_shipping_methods() as $shipping_method ) {
+            if ($shipping_method['method_id'] === 'moova') {
+               return $shipping_method;
+            }
+        }
+        
+        return null;
+    }
+
 
     /**
      * Gets the province from a customer
