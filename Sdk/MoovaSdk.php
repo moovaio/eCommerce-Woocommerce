@@ -103,8 +103,7 @@ class MoovaSdk
     {
 
         if (!$order) return true;
-        $shipping_methods = $order->get_shipping_methods();
-        $shipping_method = array_shift($shipping_methods);
+        $shipping_method = Helper::getShippingMethod($order);
         $moova_id = $shipping_method->get_meta('tracking_number');
 
         $data_to_send = self::get_shipping_data($order);
