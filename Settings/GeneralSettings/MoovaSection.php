@@ -48,7 +48,9 @@ class MoovaSection extends Section implements SectionInterface
                 'options' => [
                     'AR' => 'Argentina',
                     'CL' => 'Chile',
-                    'UY'=> 'Uruguay'
+                    'UY'=> 'Uruguay',
+                    'GT'=> 'Guatemala',
+                    'MX'=> 'México',
                 ]
             ]
         ];
