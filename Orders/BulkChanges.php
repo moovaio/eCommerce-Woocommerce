@@ -28,35 +28,37 @@ class BulkChanges
             return $redirect_to;
 
         $moovaShipping = WC()->shipping->get_shipping_methods()['moova'];
-        $item = new  \WC_Order_Item_Shipping();
-        $item->set_method_title( $moovaShipping->method_title );
-        $item->set_method_id( $moovaShipping->id);
-        $errors=[];
+
+        $errors = [];
         $itemsToCreate = [];
         foreach ($post_ids as $post_id) {
+            $item = new  \WC_Order_Item_Shipping();
+            $item->set_method_title($moovaShipping->method_title);
+            $item->set_method_id($moovaShipping->id);
             $order = wc_get_order($post_id);
-            if(!self::isAddressCorrect($order)){
-                $errors[]=$post_id;
+            if (!self::isAddressCorrect($order)) {
+                $errors[] = $post_id;
                 continue;
             }
             $shipping_method = Helper::getShippingMethod($order);
-            if(!$shipping_method){
+            if (!$shipping_method) {
                 $order->add_item($item);
                 $order->save();
             }
-            $itemsToCreate[]=$post_id;
+            $itemsToCreate[] = $post_id;
         }
 
         $redirect_to = add_query_arg(array(
             'response_force_create' => '1',
-            'force_create_total_errors'=>sizeof($errors),
+            'force_create_total_errors' => sizeof($errors),
             'force_create_errors' => implode(',', $errors),
-        ), $redirect_to); 
+        ), $redirect_to);
         return self::create_bulk_shipments($redirect_to, 'create_bulk_shipments', $itemsToCreate);
     }
 
-    private static function isAddressCorrect($order){
-        try{
+    private static function isAddressCorrect($order)
+    {
+        try {
             Helper::get_customer_from_order($order);
             return true;
         } catch (Exception $error) {
@@ -95,7 +97,7 @@ class BulkChanges
     private static function creatShipment($order, $moovaSdk)
     {
         try {
-            $shipping_method = Helper::getShippingMethod($order); 
+            $shipping_method = Helper::getShippingMethod($order);
 
             if ($shipping_method->get_meta('tracking_number')) {
                 return null;
@@ -148,7 +150,7 @@ class BulkChanges
         if (empty($_REQUEST['response_force_create'])) return; // Exit
 
         $failures =  $_REQUEST['force_create_errors'];
-        $totalFailures = intval($_REQUEST['force_create_total_errors']); 
+        $totalFailures = intval($_REQUEST['force_create_total_errors']);
 
         if ($totalFailures > 0) {
             $message = __("We found error in the following orders"
