@@ -8,7 +8,7 @@ use Ecomerciar\Moova\Helper\Helper;
 class MoovaSdk
 {
     private $api;
-    private $country;
+    private $countryName;
     public function __construct()
     {
         $this->api = new MoovaApi(
@@ -16,7 +16,7 @@ class MoovaSdk
             Helper::get_option('clientsecret', ''),
             Helper::get_option('environment', 'test')
         );
-        $this->country = Helper::get_option('country', 'AR');
+        $this->countryName = WC()->countries->countries[Helper::get_option('country', 'AR') ];
     }
 
     /**
@@ -29,26 +29,20 @@ class MoovaSdk
      */
     public function get_price(array $from, array $to, array $items)
     {
+        
         $data_to_send = [
             'from' => [
-                'street' => $from['street'],
-                'number' => $from['number'],
+                'address' => "{$from['street']} {$from['number']},{$from['city']}, {$this->countryName}",
                 'floor' => $from['floor'],
-                'apartment' => $from['apartment'],
-                'city' => $from['city'],
+                'apartment' => $from['apartment'], 
                 'state' => $from['state'],
                 'postalCode' => $from['postalCode'],
-                'country' => $this->country,
             ],
             'to' => [
-                'street' => $to['street'],
-                'number' => $to['number'],
+                'address' => "{$to['street']} {$to['number']},{$to['city']}, {$this->countryName}",
                 'floor' => $to['floor'],
                 'apartment' => $to['apartment'],
-                'city' => $to['locality'],
-                'state' => $to['province'],
                 'postalCode' => $to['cp'],
-                'country' => $this->country,
             ],
             'conf' => [
                 'assurance' => false,
@@ -59,12 +53,7 @@ class MoovaSdk
         foreach ($items as $item) {
             $data_to_send['conf']['items'][] = ['item' => $item];
         }
-        if (empty($data_to_send['to']['street']) && !empty($data_to_send['to']['postalCode'])) {
-            unset($data_to_send['to']['street']);
-            unset($data_to_send['to']['number']);
-            unset($data_to_send['to']['floor']);
-            unset($data_to_send['to']['apartment']);
-        }
+
         $res = $this->api->post('/budgets/estimate', $data_to_send);
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
