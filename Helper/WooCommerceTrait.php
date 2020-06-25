@@ -80,17 +80,18 @@ trait WooCommerceTrait
         return $data;
     }
 
-    public static function getShippingMethod($order){
-        if(!$order->has_shipping_method('moova')){
+    public static function getShippingMethod($order)
+    {
+        if (!$order->has_shipping_method('moova')) {
             return null;
         }
 
-        foreach ( $order->get_shipping_methods() as $shipping_method ) {
+        foreach ($order->get_shipping_methods() as $shipping_method) {
             if ($shipping_method['method_id'] === 'moova') {
-               return $shipping_method;
+                return $shipping_method;
             }
         }
-        
+
         return null;
     }
 
@@ -109,7 +110,7 @@ trait WooCommerceTrait
         }
 
         $states =  WC()->countries->get_shipping_country_states();
-        if(!isset($states[Helper::get_option('country', 'AR')])) {
+        if (!isset($states[Helper::get_option('country', 'AR')])) {
             return $province;
         }
 
@@ -353,19 +354,16 @@ trait WooCommerceTrait
     {
         $product = wc_get_product($product_id);
         if (!$product) return false;
-        if (empty($product->get_height()) || empty($product->get_length()) || empty($product->get_width()) || !$product->has_weight()) {
-            return false;
-        }
         $dimension_unit = 'cm';
         $weight_unit = 'g';
+
         $new_product = array(
-            'height' => ($product->get_height() ? wc_get_dimension($product->get_height(), $dimension_unit) : '0'),
-            'width' => ($product->get_width() ? wc_get_dimension($product->get_width(), $dimension_unit) : '0'),
-            'length' => ($product->get_length() ? wc_get_dimension($product->get_length(), $dimension_unit) : '0'),
-            'weight' => ($product->has_weight() ? wc_get_weight($product->get_weight(), $weight_unit) : '0'),
+            'height' => wc_get_dimension(floatval($product->get_height()), $dimension_unit),
+            'width' => wc_get_dimension(floatval($product->get_width()), $dimension_unit),
+            'length' => wc_get_dimension(floatval($product->get_length()), $dimension_unit),
+            'weight' => wc_get_weight(floatval($product->get_weight()), $weight_unit),
             'price' => $product->get_price(),
-            'description' => $product->get_name(),
-            'id' => $product_id
+            'description' => $product->get_name()
         );
         return $new_product;
     }
@@ -383,12 +381,8 @@ trait WooCommerceTrait
         foreach ($items as $item) {
             $product_id = $item['data']->get_id();
             $new_product = self::get_product_dimensions($product_id);
-            if (!$new_product) {
-                self::log_error('Helper -> Error obteniendo productos del carrito, producto con malas dimensiones - ID: ' . $product_id);
-                return false;
-            }
-            for ($i = 0; $i < $item['quantity']; $i++)
-                $products[] = $new_product;
+            $new_product['quantity'] = $item['quantity'];
+            $products[] = $new_product;
         }
         return $products;
     }
@@ -408,34 +402,9 @@ trait WooCommerceTrait
             if (!$product_id)
                 $product_id = $item->get_product_id();
             $new_product = self::get_product_dimensions($product_id);
-            if (!$new_product) {
-                self::log_error('Helper -> Error obteniendo productos de la orden, producto con malas dimensiones - ID: ' . $product_id);
-                return false;
-            }
-            for ($i = 0; $i < $item->get_quantity(); $i++) {
-                $products[] = $new_product;
-            }
+            $new_product['quantity'] = $item['quantity'];
+            $products[] = $new_product;
         }
         return $products;
-    }
-
-    /**
-     * Groups an array of items
-     *
-     * @param array $items
-     * @return array
-     */
-    public static function group_items(array $items)
-    {
-        $grouped_items = [];
-        foreach ($items as $item) {
-            if (isset($grouped_items[$item['id']])) {
-                $grouped_items[$item['id']]['quantity']++;
-            } else {
-                $grouped_items[$item['id']] = $item;
-                $grouped_items[$item['id']]['quantity'] = 1;
-            }
-        }
-        return $grouped_items;
     }
 }

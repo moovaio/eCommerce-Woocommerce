@@ -16,7 +16,7 @@ class MoovaSdk
             Helper::get_option('clientsecret', ''),
             Helper::get_option('environment', 'test')
         );
-        $this->countryName = WC()->countries->countries[Helper::get_option('country', 'AR') ];
+        $this->countryName = WC()->countries->countries[Helper::get_option('country', 'AR')];
     }
 
     /**
@@ -29,30 +29,27 @@ class MoovaSdk
      */
     public function get_price(array $from, array $to, array $items)
     {
-        
+        $fromProvince = isset($from['province']) ? $from['province'] : '';
         $data_to_send = [
             'from' => [
-                'address' => "{$from['street']} {$from['number']},{$from['city']}, {$this->countryName}",
+                'address' => "{$from['street']} {$from['number']},{$fromProvince}, {$this->countryName}",
                 'floor' => $from['floor'],
-                'apartment' => $from['apartment'], 
+                'apartment' => $from['apartment'],
                 'state' => $from['state'],
                 'postalCode' => $from['postalCode'],
             ],
             'to' => [
-                'address' => "{$to['street']} {$to['number']},{$to['city']}, {$this->countryName}",
+                'address' => "{$to['street']} {$to['number']},{$to['province']}, {$this->countryName}",
                 'floor' => $to['floor'],
                 'apartment' => $to['apartment'],
                 'postalCode' => $to['cp'],
             ],
             'conf' => [
                 'assurance' => false,
-                'items' => []
+                'items' => $items
             ],
             'type' => 'woocommerce_24_horas_max'
         ];
-        foreach ($items as $item) {
-            $data_to_send['conf']['items'][] = ['item' => $item];
-        }
 
         $res = $this->api->post('/budgets/estimate', $data_to_send);
         if (Helper::get_option('debug')) {
@@ -115,14 +112,6 @@ class MoovaSdk
         $seller = Helper::get_seller_from_settings();
         $customer = Helper::get_customer_from_order($order);
         $orderItems = Helper::get_items_from_order($order);
-
-        if (!$orderItems) {
-            Helper::log_error(__('One of the products has no right measures', 'wc-moova'));
-            return;
-        }
-
-        $parsedItems = Helper::group_items($orderItems);
-
         return [
             'scheduledDate' => null,
             'currency' => get_woocommerce_currency(),
@@ -158,7 +147,7 @@ class MoovaSdk
             ],
             'conf' => [
                 'assurance' => false,
-                'items' => $parsedItems
+                'items' => $orderItems
             ],
             'internalCode' => $order->get_id(),
             'description' => '',
