@@ -155,6 +155,7 @@ class WCMoova
     {
         wp_enqueue_style('wc-moova-settings-css', Helper::get_assets_folder_url() . '/css/settings.css');
         wp_register_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
+        wp_register_script('wc-moova-settings-js', Helper::get_assets_folder_url() . '/js/settings.js');
     }
 
     /**

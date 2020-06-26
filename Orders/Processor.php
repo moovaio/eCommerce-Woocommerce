@@ -172,15 +172,10 @@ class Processor
 
         $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
         $new_status = strtoupper(filter_var($_POST['toStatus'], FILTER_SANITIZE_STRING));
-        $reason = 'Cambio de estado manual por el usuario';
         $order = wc_get_order($order_id);
         if (!$order) {
             wp_send_json_error();
         }
-        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
-        $new_status = strtoupper(filter_var($_POST['toStatus'], FILTER_SANITIZE_STRING));
-        $reason = 'Cambio de estado manual por el usuario';
-        $order = wc_get_order($order_id);
         $res = self::update_status($order, $new_status, $order);
         if (!$res) {
             wp_send_json_error();

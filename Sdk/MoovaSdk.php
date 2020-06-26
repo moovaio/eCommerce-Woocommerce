@@ -3,6 +3,8 @@
 namespace Ecomerciar\Moova\Sdk;
 
 use Ecomerciar\Moova\Api\MoovaApi;
+use Ecomerciar\Moova\Api\UserApi;
+
 use Ecomerciar\Moova\Helper\Helper;
 
 class MoovaSdk
@@ -16,6 +18,7 @@ class MoovaSdk
             Helper::get_option('clientsecret', ''),
             Helper::get_option('environment', 'test')
         );
+        $this->userApi = new UserApi(Helper::get_option('environment', 'test'));
         $this->countryName = WC()->countries->countries[Helper::get_option('country', 'AR')];
     }
 
@@ -248,6 +251,24 @@ class MoovaSdk
         }
         if (empty($res['status']) || strtoupper($res['status']) !== strtoupper($status)) {
             return false;
+        }
+        return $res;
+    }
+
+    /**
+     * Updates the order status in Moova
+     *
+     * @param string $order_id
+     * @param string $status
+     * @param string $reason
+     * @return false|array
+     */
+    public function autocomplete($query)
+    {
+        $res = $this->userApi->get("/autocomplete?query=$query");
+        if (Helper::get_option('debug')) {
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($query)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         return $res;
     }

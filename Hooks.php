@@ -23,6 +23,8 @@ add_action('add_meta_boxes', ['\Ecomerciar\Moova\Orders\Metabox', 'create']);
 add_action('wp_ajax_generate_order_shipping_label', ['\Ecomerciar\Moova\Orders\Processor', 'order_create_shipping_label_ajax']);
 add_action('wp_ajax_process_order', ['\Ecomerciar\Moova\Orders\Processor', 'process_order_ajax']);
 add_action('wp_ajax_change_order_status', ['\Ecomerciar\Moova\Orders\Processor', 'change_order_status']);
+add_action('wp_ajax_get_autocomplete_street', ['\Ecomerciar\Moova\Settings\FormAjax', 'autocomplete']);
+
 add_action('woocommerce_saved_order_items', ['\Ecomerciar\Moova\Orders\Processor', 'notifyMoova']);
 // --- Tracking
 add_shortcode('moova_tracking_form', ['\Ecomerciar\Moova\Orders\TrackingShortcode', 'output']);

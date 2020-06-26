@@ -31,14 +31,26 @@ trait PageTrait
         if ($settings_saved) {
             Helper::add_success(__('Settings saved', 'wc-moova'), true);
         }
+        wp_enqueue_script("jquery-ui-core");
+        wp_enqueue_script("jquery-ui-autocomplete");
+        wp_enqueue_script('wc-moova-settings-js');
+        wp_localize_script('wc-moova-settings-js', 'wc_moova_settings', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'ajax_nonce' => wp_create_nonce('wc-moova')
+        ]);
 
         $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
+
 ?>
         <div class="moova-form-wrapper wrap">
             <div class="settings-header">
                 <img src="<?php echo $logo_url; ?>" class="logo">
             </div>
             <form action="admin.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
+                <div class="ui-widget">
+                    <label for="tags">Tags: </label>
+                    <input id="tags">
+                </div>
                 <?php
                 settings_fields($pageName);
                 do_settings_sections($pageName);
@@ -49,6 +61,7 @@ trait PageTrait
                 ?>
             </form>
         </div>
+
 <?php
     }
 
