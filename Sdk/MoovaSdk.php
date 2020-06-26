@@ -120,17 +120,7 @@ class MoovaSdk
             'currency' => get_woocommerce_currency(),
             'type' => 'regular',
             'flow' => 'manual',
-            'from' => [
-                'street' => $seller['street'],
-                'number' => $seller['number'],
-                'floor' => $seller['floor'],
-                'apartment' => $seller['apartment'],
-                'city' => $seller['city'],
-                'state' => $seller['state'],
-                'postalCode' => $seller['postalCode'],
-                'country' => Helper::get_option('country', 'AR'),
-                'instructions' => $seller['instructions']
-            ],
+            'from' => $seller,
             'to' => [
                 'street' => $customer['street'],
                 'number' => $customer['number'],

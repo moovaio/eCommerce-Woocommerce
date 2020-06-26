@@ -47,10 +47,6 @@ trait PageTrait
                 <img src="<?php echo $logo_url; ?>" class="logo">
             </div>
             <form action="admin.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
-                <div class="ui-widget">
-                    <label for="tags">Tags: </label>
-                    <input id="tags">
-                </div>
                 <?php
                 settings_fields($pageName);
                 do_settings_sections($pageName);

@@ -5,6 +5,7 @@ namespace Ecomerciar\Moova\Settings\GeneralSettings;
 
 use Ecomerciar\Moova\Settings\Sections\Section;
 use Ecomerciar\Moova\Settings\Sections\SectionInterface;
+
 /**
  * MoovaSection class
  */
@@ -41,18 +42,6 @@ class MoovaSection extends Section implements SectionInterface
                 'slug' => 'clientsecret',
                 'type' => 'text'
             ],
-            'country' => [
-                'name' => __('Country where you operate', 'wc-moova'),
-                'slug' => 'country',
-                'type' => 'select',
-                'options' => [
-                    'AR' => 'Argentina',
-                    'CL' => 'Chile',
-                    'UY'=> 'Uruguay',
-                    'GT'=> 'Guatemala',
-                    'MX'=> 'México',
-                ]
-            ]
         ];
     }
 }

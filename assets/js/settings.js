@@ -21,9 +21,15 @@ var settings = wc_moova_settings;
       response(res);
     });
   }
-  $("#tags").autocomplete({
+  $("#google_place_id").closest("tr").hide();
+  $("#address_autocomplete").autocomplete({
     source: function (request, response) {
       return autocomplete(request, response);
+    },
+    select: function (event, ui) {
+      $(this).val(ui.item.label);
+      $("#google_place_id").val(ui.item.value);
+      return false;
     },
   });
 })(jQuery, wc_moova_settings);

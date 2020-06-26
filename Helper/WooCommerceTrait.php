@@ -33,7 +33,8 @@ trait WooCommerceTrait
             'full_address' => $full_address,
             'cp' => $postal_code,
             'locality' => $locality,
-            'province' => $province
+            'province' => $province,
+            'country' => $customer->get_shipping_country()
         ];
     }
 
