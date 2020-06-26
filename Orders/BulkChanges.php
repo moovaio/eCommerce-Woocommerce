@@ -78,7 +78,7 @@ class BulkChanges
         $failure = [];
         foreach ($post_ids as $post_id) {
             $order = wc_get_order($post_id);
-            $moovaId = self::creatShipment($order, $moovaSdk);
+            $moovaId = self::createShipment($order, $moovaSdk);
             if ($moovaId) {
                 $success += 1;
             } else {
@@ -94,7 +94,7 @@ class BulkChanges
         ), $redirect_to);
     }
 
-    private static function creatShipment($order, $moovaSdk)
+    private static function createShipment($order, $moovaSdk)
     {
         try {
             $shipping_method = Helper::getShippingMethod($order);

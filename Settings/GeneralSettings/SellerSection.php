@@ -52,7 +52,7 @@ class SellerSection extends Section implements SectionInterface
                 'slug' => 'phone',
                 'type' => 'text'
             ],
-            'address' => [
+            'address_autocomplete' => [
                 'name' => __('Street', 'wc-moova'),
                 'slug' => 'address_autocomplete',
                 'type' => 'text',
