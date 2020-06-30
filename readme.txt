@@ -4,7 +4,7 @@ Tags: moova, shipments
 Requires at least: 4.8
 Tested up to: 5.4
 Requires PHP: 7.0
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -19,6 +19,9 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
+= 1.1.9 =
+Fix quote with postalcodes
+Fix address with special numbers
 = 1.1.8 =
 Allow items without weight
 Fix bugs with tickets
