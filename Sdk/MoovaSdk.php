@@ -29,7 +29,7 @@ class MoovaSdk
      */
     public function get_price(array $from, array $to, array $items)
     {
-        $fromProvince = isset($from['province']) ? $from['province'] : '';
+        $fromProvince = isset($from['state']) ? $from['state'] : '';
         $data_to_send = [
             'from' => [
                 'address' => "{$from['street']} {$from['number']},{$fromProvince}, {$this->countryName}",
@@ -39,7 +39,6 @@ class MoovaSdk
                 'postalCode' => $from['postalCode'],
             ],
             'to' => [
-                'address' => "{$to['street']} {$to['number']},{$to['province']}, {$this->countryName}",
                 'floor' => $to['floor'],
                 'apartment' => $to['apartment'],
                 'postalCode' => $to['cp'],
@@ -50,6 +49,10 @@ class MoovaSdk
             ],
             'type' => 'woocommerce_24_horas_max'
         ];
+
+        if (isset($to['number']) && !empty($to['number'])) {
+            $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$this->countryName}";
+        }
 
         $res = $this->api->post('/budgets/estimate', $data_to_send);
         if (Helper::get_option('debug')) {
