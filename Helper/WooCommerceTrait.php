@@ -220,7 +220,7 @@ trait WooCommerceTrait
         }
 
         //Now let's work on the first line
-        preg_match('/(^\d*[\D]*)(\d+)(.*)/i', $shipping_line_1, $res);
+        preg_match('/(^\d*[\D]*)([^\s]+)(.*)/i', $shipping_line_1, $res);
         $line1 = $res;
 
         if ((isset($line1[1]) && !empty($line1[1]) && $line1[1] !== " ") && !empty($line1)) {
