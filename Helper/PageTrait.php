@@ -52,8 +52,6 @@ trait PageTrait
                 do_settings_sections($pageName);
                 wp_nonce_field('_wpmoovanonce', 'wc-moova-save-preferences');
                 submit_button(__('Save', 'wc-moova'));
-
-
                 ?>
             </form>
         </div>
