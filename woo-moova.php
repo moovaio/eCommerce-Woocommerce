@@ -136,6 +136,16 @@ class WCMoova
             ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'initPage']
         );
 
+
+        add_submenu_page(
+            'wc-moova-settings',
+            'Logs',
+            'Logs',
+            'manage_options',
+            'wc-moova-logs',
+            ['\Ecomerciar\Moova\Settings\Logs\LogsPage', 'initPage']
+        );
+
         add_submenu_page(
             'wc-moova-settings',
             'Ayuda',

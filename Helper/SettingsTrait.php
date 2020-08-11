@@ -41,8 +41,6 @@ trait SettingsTrait
         return array_merge($address, [
             'floor' => self::get_option('floor'),
             'apartment' => self::get_option('apartment'),
-
-
             'instructions' => self::get_option('observations'),
             'contact' => [
                 'firstName' => self::get_option('first_name'),
