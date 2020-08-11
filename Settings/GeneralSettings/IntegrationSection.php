@@ -31,7 +31,6 @@ class IntegrationSection extends Section implements SectionInterface
     public static function get_fields()
     {
         $fields = [
-
             'price_iva' => [
                 'name' => __('Show with IVA', 'wc-moova'),
                 'slug' => 'price_iva',
@@ -42,6 +41,53 @@ class IntegrationSection extends Section implements SectionInterface
                 ],
                 'default' => '1',
                 'type' => 'select'
+            ],
+            'has_special_price' => [
+                'name' => __('Offer a special price to the client', 'wc-moova'),
+                'slug' => 'has_special_price',
+                'description' => __('Offer a special price to the client', 'wc-moova'),
+                'options' => [
+                    'default' => __('Moova calculates the price', 'wc-moova'),
+                    'fixed' => __('Fixed price', 'wc-moova'),
+                    'range' => __('range price', 'wc-moova')
+                ],
+                'default' => 'default',
+                'type' => 'select'
+            ],
+            'fixed_price' => [
+                'name' => __('Fixed price', 'wc-moova'),
+                'slug' => 'fixed_price',
+                'description' => __('Offer this fixed price', 'wc-moova'),
+                'type' => 'number'
+            ],
+            'min_price' => [
+                'name' => __('Minimum price', 'wc-moova'),
+                'slug' => 'min_price',
+                'description' => __('Offer price from', 'wc-moova'),
+                'type' => 'number'
+            ],
+            'max_price' => [
+                'name' => __('Maximum price', 'wc-moova'),
+                'slug' => 'max_price',
+                'description' => __('Maximum price of the shipping', 'wc-moova'),
+                'type' => 'number'
+            ],
+            'has_free_shipping' => [
+                'name' => __('Free shipping', 'wc-moova'),
+                'slug' => 'has_free_shipping',
+                'description' => __('Offer free shipping if the order amount is bigger than this price', 'wc-moova'),
+                'options' => [
+                    '0' => 'No',
+                    '1' => 'Si'
+                ],
+                'default' => '0',
+                'type' => 'select'
+            ],
+            'free_shipping_price' => [
+                'name' => __('Free shipping price', 'wc-moova'),
+                'description' => __('Minimum amount to buy to get free shipping', 'wc-moova'),
+                'slug' => 'free_shipping_price',
+                'type' => 'number'
             ],
             'tracking' => [
                 'name' => __('Tracking', 'wc-moova'),

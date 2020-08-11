@@ -30,17 +30,28 @@ class MoovaSdk
      * @param array $items
      * @return array|false
      */
-    public function get_price(array $from, array $to, array $items)
+    public function get_price(array $origin, array $to, array $items)
     {
-        $fromProvince = isset($from['state']) ? $from['state'] : '';
+        $from = [
+            'floor' => $origin['floor'],
+            'apartment' => $origin['apartment'],
+        ];
+
+        if (isset($from['street'])) {
+            $fromProvince = isset($origin['state']) ? $origin['state'] : '';
+            $from = array_merge($from, [
+                'address' => "{$origin['street']} {$origin['number']},{$fromProvince}, {$this->countryName}",
+                'state' => $origin['state'],
+                'postalCode' => $origin['postalCode']
+            ]);
+        } else {
+            $from = array_merge($from, [
+                "address" => $origin['address']
+            ]);
+        }
+
         $data_to_send = [
-            'from' => [
-                'address' => "{$from['street']} {$from['number']},{$fromProvince}, {$this->countryName}",
-                'floor' => $from['floor'],
-                'apartment' => $from['apartment'],
-                'state' => $from['state'],
-                'postalCode' => $from['postalCode'],
-            ],
+            'from' => $from,
             'to' => [
                 'floor' => $to['floor'],
                 'apartment' => $to['apartment'],
