@@ -19,6 +19,12 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
+
+= 1.2 =
+Add logger
+Offer free shippings
+Improve origin with googleplaceId
+
 = 1.1.9 =
 Fix quote with postalcodes
 Fix address with special numbers
