@@ -34,7 +34,7 @@ trait WooCommerceTrait
             'cp' => $postal_code,
             'locality' => $locality,
             'province' => $province,
-            'country' => $customer->get_shipping_country()
+            'country' => WC()->countries->countries[$customer->get_shipping_country()]
         ];
     }
 
@@ -110,12 +110,13 @@ trait WooCommerceTrait
             $province = $customer->get_billing_state();
         }
 
+        $country = $customer->get_shipping_country();
         $states =  WC()->countries->get_shipping_country_states();
-        if (!isset($states[Helper::get_option('country', 'AR')])) {
+        if (!isset($states[$country])) {
             return $province;
         }
 
-        $stateOptions = $states[Helper::get_option('country', 'AR')];
+        $stateOptions = $states[$country];
         if (isset($stateOptions[$province])) {
             return $stateOptions[$province];
         }

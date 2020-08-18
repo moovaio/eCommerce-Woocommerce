@@ -10,7 +10,6 @@ use Ecomerciar\Moova\Helper\Helper;
 class MoovaSdk
 {
     private $api;
-    private $countryName;
     public function __construct()
     {
         $this->api = new MoovaApi(
@@ -19,7 +18,6 @@ class MoovaSdk
             Helper::get_option('environment', 'test')
         );
         $this->userApi = new UserApi(Helper::get_option('environment', 'test'));
-        $this->countryName = WC()->countries->countries[Helper::get_option('country', 'AR')];
     }
 
     /**
@@ -37,16 +35,18 @@ class MoovaSdk
             'apartment' => $origin['apartment'],
         ];
 
-        if (isset($from['street'])) {
-            $fromProvince = isset($origin['state']) ? $origin['state'] : '';
-            $from = array_merge($from, [
-                'address' => "{$origin['street']} {$origin['number']},{$fromProvince}, {$this->countryName}",
-                'state' => $origin['state'],
-                'postalCode' => $origin['postalCode']
-            ]);
-        } else {
+        if (isset($origin['address'])) {
             $from = array_merge($from, [
                 "address" => $origin['address']
+            ]);
+        } else {
+            //Legacy
+            $countryName = WC()->countries->countries[Helper::get_option('country', 'AR')];
+            $fromProvince = isset($origin['state']) ? $origin['state'] : '';
+            $from = array_merge($from, [
+                'address' => "{$origin['street']} {$origin['number']},{$fromProvince}, {$countryName}",
+                'state' => $origin['state'],
+                'postalCode' => $origin['postalCode']
             ]);
         }
 
@@ -65,7 +65,7 @@ class MoovaSdk
         ];
 
         if (isset($to['number']) && !empty($to['number'])) {
-            $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$this->countryName}";
+            $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
         }
 
         $res = $this->api->post('/budgets/estimate', $data_to_send);
@@ -143,7 +143,7 @@ class MoovaSdk
                 'city' => $customer['locality'],
                 'state' => $customer['province'],
                 'postalCode' => $customer['cp'],
-                'country' => Helper::get_option('country', 'AR'),
+                'country' => $order->shipping_country,
                 'instructions' => $customer['extra_info'],
                 'contact' => [
                     'firstName' => $customer['first_name'],
