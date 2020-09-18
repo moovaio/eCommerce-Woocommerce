@@ -93,7 +93,7 @@ class WC_Moova extends \WC_Shipping_method
         $shippingPrice = Helper::get_option('price_iva', '1') ? $price['billing']['gross_price'] : $price['price'];
         $specialPricing =  Helper::get_option('has_special_price', 'default');
         $hasFreeShip = Helper::get_option('has_free_shipping', null) === "1" && Helper::get_option('free_shipping_price', null);
-        if ($hasFreeShip && Helper::get_option('free_shipping_price', null) > $cartPrice) {
+        if ($hasFreeShip && $cartPrice >  Helper::get_option('free_shipping_price', null)) {
             return 0;
         }
 

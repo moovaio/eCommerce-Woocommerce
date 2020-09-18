@@ -28,7 +28,10 @@ trait LoggerTrait
      */
     public static function log_info($msg)
     {
-        self::$logger->info(wc_print_r($msg, true), ['source' => 'WooCommerce Moova']);
+        if (Helper::get_option('debug')) {
+            self::$logger->info(wc_print_r($msg, true), ['source' => 'WooCommerce Moova']);
+        }
+       
     }
 
     /**
