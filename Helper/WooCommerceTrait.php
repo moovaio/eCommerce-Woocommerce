@@ -96,14 +96,21 @@ trait WooCommerceTrait
         return null;
     }
 
-
+    public static function get_province($customer)
+    {
+        $province = strtolower(self::get_province_wc($customer));
+        $map = [
+            'metropolitana de santiago' => 'Region Metropolitana de Santiago'
+        ];
+        return isset($map[$province]) ?  $map[$province] : $province;
+    }
     /**
      * Gets the province from a customer
      *
      * @param WC_Customer $customer
      * @return string
      */
-    public static function get_province($customer)
+    private static function get_province_wc($customer)
     {
         $province = '';
         if (!($province = $customer->get_shipping_state())) {
