@@ -20,6 +20,9 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 
 == Changelog ==
 
+
+=1.2.3=
+Show text event if the shipping is free
 =1.2.2=
 Fix bug Free shipping
 = 1.2.1 =

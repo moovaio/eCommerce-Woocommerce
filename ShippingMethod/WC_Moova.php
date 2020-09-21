@@ -79,37 +79,12 @@ class WC_Moova extends \WC_Shipping_method
         }
         $moovaSdk = new MoovaSdk();
         $price = $moovaSdk->get_price($seller, $customer, $items);
-        if (!empty($price)) {
+        if (!empty($price) || $price === 0) {
             $this->add_rate([
                 'id'        => $this->get_rate_id(), // ID for the rate. If not passed, this id:instance default will be used.
                 'label'     => $this->title, // Label for the rate.
-                'cost'      => $this->getPrice($price, WC()->cart->total) // Amount or array of costs (per item shipping).
+                'cost'      => $price // Amount or array of costs (per item shipping).
             ]);
         }
-    }
-
-    private function getPrice($price, $cartPrice)
-    {
-        $shippingPrice = Helper::get_option('price_iva', '1') ? $price['billing']['gross_price'] : $price['price'];
-        $specialPricing =  Helper::get_option('has_special_price', 'default');
-        $hasFreeShip = Helper::get_option('has_free_shipping', null) === "1" && Helper::get_option('free_shipping_price', null);
-        if ($hasFreeShip && $cartPrice >  Helper::get_option('free_shipping_price', null)) {
-            return 0;
-        }
-
-        if ($specialPricing === 'fixed' && Helper::get_option('fixed_price', null)) {
-            return Helper::get_option('fixed_price', null);
-        } elseif ($specialPricing === 'range') {
-            $min = Helper::get_option('min_price', 0);
-            if ($price < $min) {
-                return $min;
-            }
-            $max = Helper::get_option('max_price', null);
-            if ($price > $max) {
-                return $max;
-            }
-        }
-
-        return $shippingPrice;
     }
 }

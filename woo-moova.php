@@ -5,7 +5,7 @@ use Ecomerciar\Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 1.2.2
+ * Version: 1.2.3
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
@@ -191,6 +191,15 @@ class WCMoova
     {
         $shipping_methods['moova'] = '\Ecomerciar\Moova\ShippingMethod\WC_Moova';
         return $shipping_methods;
+    }
+
+    public function free_shipping_text($label, $method)
+    {
+        Helper::log_info('Methood:' . json_encode($method));
+        if ($method->cost == 0 && $method->method_id === 'moova') {
+            $label .= ' ' . wc_price(0);
+        }
+        return $label;
     }
 
     /**
