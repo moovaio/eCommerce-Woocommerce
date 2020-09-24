@@ -16,6 +16,7 @@ class Webhooks
      */
     public static function listener()
     {
+        try{
         $input = file_get_contents('php://input');
         $input = json_decode($input, true);
         Helper::log_info('Webhook recibido');
@@ -25,7 +26,10 @@ class Webhooks
         if (empty($input) || !self::validate_input($input)) {
             wp_die('WooCommerce Moova invalid Webhook', 'Moova Webhook', ['response' => 500]);
         }
+    }catch(\Throwable $th) {
+        Helper::log_info($th);
     }
+}
     /**
      * Validates the incoming webhook
      *
@@ -36,11 +40,13 @@ class Webhooks
     {
         $data = wp_unslash($data);
         if (empty($data['id'])) {
+            Helper::log_info('validate_input - Without id');
             return false;
         }
         $moova_id = filter_var($data['id'], FILTER_SANITIZE_STRING);
         $order_id = Helper::find_order_by_itemmeta_value($moova_id);
         if (empty($order_id)) {
+            Helper::log_info('validate_input - Order not found');
             return false;
         }
         self::handle_webhook($order_id, $data);
@@ -73,7 +79,7 @@ class Webhooks
     private function getOrderStatus($status)
     {
         if (!Helper::get_option('is_mapping_froom_moova_enabled')) {
-            return '';
+            return;
         }
         $mapping = Helper::get_option('receive_' . $status);
         if (Helper::get_option('debug')) {
