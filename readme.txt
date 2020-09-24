@@ -19,7 +19,7 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
-=1.2.4=
+=1.2.5=
 Improve logs
 =1.2.4=
 Map Region Metropolitana to work with other plugins
