@@ -19,6 +19,8 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
+=1.2.6=
+Improve logs
 =1.2.5=
 Improve logs
 =1.2.4=
