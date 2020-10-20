@@ -16,9 +16,9 @@ class BulkChanges
 
     public static function set_bulk_options($actions)
     {
-        $actions['force_create_bulk_shipments'] = __('Moova - Force creation shipments in waiting', 'wc-moova');
-        $actions['create_bulk_shipments'] = __('Moova - Create shipments in waiting', 'wc-moova');
-        $actions['start_bulk_shipments'] = __('Moova - Send the Moover',  'wc-moova');
+        $actions['force_create_bulk_shipments'] = __('Moova - Forzar creacion de envio incluso si no eligio Moova', 'wc-moova');
+        $actions['create_bulk_shipments'] = __('Moova - Crear solo si el cliente eligio Moova', 'wc-moova');
+        $actions['start_bulk_shipments'] = __('Moova - Cambiar envio creado a Listo para ser buscado',  'wc-moova');
         return $actions;
     }
 

@@ -33,22 +33,8 @@ class MoovaSdk
         $from = [
             'floor' => $origin['floor'],
             'apartment' => $origin['apartment'],
+            'address' => $origin['address'],
         ];
-
-        if (isset($origin['address'])) {
-            $from = array_merge($from, [
-                "address" => $origin['address']
-            ]);
-        } else {
-            //Legacy
-            $countryName = WC()->countries->countries[Helper::get_option('country', 'AR')];
-            $fromProvince = isset($origin['state']) ? $origin['state'] : '';
-            $from = array_merge($from, [
-                'address' => "{$origin['street']} {$origin['number']},{$fromProvince}, {$countryName}",
-                'state' => $origin['state'],
-                'postalCode' => $origin['postalCode']
-            ]);
-        }
 
         $data_to_send = [
             'from' => $from,
@@ -67,20 +53,23 @@ class MoovaSdk
         if (isset($to['number']) && !empty($to['number'])) {
             $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
         }
-
         $res = $this->api->post('/budgets/estimate', $data_to_send);
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
-        if (!$res || empty($res['budget_id'])) {
-            return false;
+        if (empty($res['budget_id'])) {
+            unset($data_to_send['to']['address']);
+            $res = $this->api->post('/budgets/estimate', $data_to_send);
         }
         return $this->formatPrice($res, WC()->cart->cart_contents_total);
     }
 
     private function formatPrice($price, $cartPrice)
     {
+        if (empty($price['budget_id'])) {
+            return false;
+        }
         $shippingPrice = Helper::get_option('price_iva', '1') ? $price['billing']['gross_price'] : $price['price'];
         $specialPricing =  Helper::get_option('has_special_price', 'default');
         $hasFreeShip = Helper::get_option('has_free_shipping', null) === "1" && Helper::get_option('free_shipping_price', null);
