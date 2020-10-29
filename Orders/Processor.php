@@ -194,8 +194,6 @@ class Processor
         $moovaSdk = new MoovaSdk();
         if ($shipping_method->get_meta('tracking_number')) {
             $moovaSdk->update_order($order);
-        } else {
-            $moovaSdk->process_order($order);
         }
     }
 }
