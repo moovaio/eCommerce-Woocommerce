@@ -6,6 +6,7 @@ use Ecomerciar\Moova\Api\MoovaApi;
 use Ecomerciar\Moova\Api\UserApi;
 
 use Ecomerciar\Moova\Helper\Helper;
+use Exception;
 
 class MoovaSdk
 {
@@ -53,15 +54,22 @@ class MoovaSdk
         if (isset($to['number']) && !empty($to['number'])) {
             $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
         }
-        $res = $this->api->post('/budgets/estimate', $data_to_send);
-        if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
-        }
-        if (empty($res['budget_id'])) {
+        try {
+            $res = $this->api->post('/budgets/estimate', $data_to_send);
+            if (Helper::get_option('debug')) {
+                Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+                Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            }
+            if (empty($res['budget_id'])) {
+                unset($data_to_send['to']['address']);
+                $res = $this->api->post('/budgets/estimate', $data_to_send);
+            }
+        } catch (Exception $error) {
+            Helper::log_debug('Budget from postalcode');
             unset($data_to_send['to']['address']);
             $res = $this->api->post('/budgets/estimate', $data_to_send);
         }
+
         return $this->formatPrice($res, WC()->cart->cart_contents_total);
     }
 
