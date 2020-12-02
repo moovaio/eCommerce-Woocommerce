@@ -77,11 +77,8 @@ class Webhooks
         return true;
     }
 
-    private function getOrderStatus($status)
+    private static function getOrderStatus($status)
     {
-        if (!Helper::get_option('is_mapping_froom_moova_enabled')) {
-            return;
-        }
         $mapping = Helper::get_option('receive_' . $status);
         if (Helper::get_option('debug')) {
             Helper::log_debug("Now we try to map this status $status to $mapping");

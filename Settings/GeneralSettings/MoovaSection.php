@@ -42,6 +42,7 @@ class MoovaSection extends Section implements SectionInterface
                 'slug' => 'clientsecret',
                 'type' => 'text'
             ],
+
         ];
     }
 }

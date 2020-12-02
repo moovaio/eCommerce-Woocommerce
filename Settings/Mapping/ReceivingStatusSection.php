@@ -31,19 +31,7 @@ class ReceivingStatusSection extends Section implements SectionInterface
      */
     public static function get_fields()
     {
-        $fields = [
-            'country' => [
-                'name' => __('Enable matching', 'wc-moova'),
-                'slug' => 'is_mapping_froom_moova_enabled',
-                'description' => __('When receiving this status from moova we will change the order state!', 'wc-moova'),
-                'type' => 'select',
-                'options' => [
-                    '0' => 'No',
-                    '1' => 'Si',
-                ]
-            ]
-        ];
-
+        $fields = [];
         $moovaStatus = Helper::moova_status();
         $options = array_merge(['' => 'Disable option'], wc_get_order_statuses());
         foreach ($moovaStatus as $state) {

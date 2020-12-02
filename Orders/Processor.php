@@ -23,9 +23,6 @@ class Processor
      */
     public static function handle_order_status(int $order_id, string $status_from, string $status_to, \WC_Order $order)
     {
-        $config_status = Helper::get_option('status_processing');
-        $cancel_status =  str_replace('wc-', '', Helper::get_option('status_cancel'));
-        $config_status = str_replace('wc-', '', $config_status);
         $ready_status =  str_replace('wc-', '', Helper::get_option('status_ready'));
         $shipping_method = Helper::getShippingMethod($order);
         if (!$shipping_method) {
@@ -33,7 +30,7 @@ class Processor
         }
         $moovaSdk = new MoovaSdk();
         $currentStatus = $order->get_status();
-        if ($currentStatus === $config_status && empty($shipping_method->get_meta('tracking_number'))) {
+        if (empty($shipping_method->get_meta('tracking_number'))) {
             $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
             if (!$res) {
                 Helper::add_error(__('The order could not be processed.', 'wc-moova'));
@@ -54,7 +51,7 @@ class Processor
             $shipping_method->save();
         } else if ($currentStatus === $ready_status) {
             self::update_status($order, 'READY');
-        } else if ($currentStatus === $cancel_status) {
+        } else if ($currentStatus === 'wc-cancelled') {
             self::update_status($order, 'CANCEL', 'Cancel by woocommercer admin');
         }
     }

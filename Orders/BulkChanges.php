@@ -16,8 +16,7 @@ class BulkChanges
 
     public static function set_bulk_options($actions)
     {
-        $actions['force_create_bulk_shipments'] = __('Moova - Forzar creacion de envio incluso si no eligio Moova', 'wc-moova');
-        $actions['create_bulk_shipments'] = __('Moova - Crear solo si el cliente eligio Moova', 'wc-moova');
+        $actions['force_create_bulk_shipments'] = __('Moova - Crear envio', 'wc-moova');
         $actions['start_bulk_shipments'] = __('Moova - Cambiar envio creado a Listo para ser buscado',  'wc-moova');
         return $actions;
     }
@@ -65,61 +64,6 @@ class BulkChanges
             return false;
         } catch (Error $error) {
             return false;
-        }
-    }
-
-    public static function create_bulk_shipments($redirect_to, $action, $post_ids)
-    {
-        if ($action !== 'create_bulk_shipments')
-            return $redirect_to; // Exit
-
-        $moovaSdk = new MoovaSdk();
-        $success = 0;
-        $failure = [];
-        foreach ($post_ids as $post_id) {
-            $order = wc_get_order($post_id);
-            $moovaId = self::createShipment($order, $moovaSdk);
-            if ($moovaId) {
-                $success += 1;
-            } else {
-                $failure[] = $post_id;
-            }
-        }
-
-        return $redirect_to = add_query_arg(array(
-            'response_bulk_create_moova' => '1',
-            'success' => $success,
-            'failure_ids' => implode(',', $failure),
-            'failure_total' => count($failure)
-        ), $redirect_to);
-    }
-
-    private static function createShipment($order, $moovaSdk)
-    {
-        try {
-            $shipping_method = Helper::getShippingMethod($order);
-
-            if ($shipping_method->get_meta('tracking_number')) {
-                return null;
-            }
-            $customer =  Helper::get_customer_from_order($order);
-            $res = $moovaSdk->process_order($order, $customer);
-
-            $tracking_id = $res['id'];
-            $shipping_method->update_meta_data('tracking_number', $tracking_id);
-            $res = $moovaSdk->get_shipping_label($tracking_id);
-            if ($res) {
-                $shipping_label = $res['label'];
-                $shipping_method->update_meta_data('shipping_label', $shipping_label);
-            }
-            $shipping_method->save();
-            return $tracking_id;
-        } catch (Exception $error) {
-            return null;
-        } catch (TypeError $error) {
-            return null;
-        } catch (Error $error) {
-            return null;
         }
     }
 

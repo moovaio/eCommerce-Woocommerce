@@ -78,7 +78,7 @@ class MoovaSdk
         if (empty($price['budget_id'])) {
             return false;
         }
-        $shippingPrice = Helper::get_option('price_iva', '1') ? $price['billing']['gross_price'] : $price['price'];
+        $shippingPrice = $price['billing']['gross_price'];
         $specialPricing =  Helper::get_option('has_special_price', 'default');
         $hasFreeShip = Helper::get_option('has_free_shipping', null) === "1" && Helper::get_option('free_shipping_price', null);
         if ($hasFreeShip && $cartPrice > Helper::get_option('free_shipping_price', null)) {

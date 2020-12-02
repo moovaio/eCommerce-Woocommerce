@@ -51,9 +51,7 @@ class Metabox
             return;
         }
 
-        $config_status = Helper::get_option('status_processing');
-        $config_status = str_replace('wc-', '', $config_status);
-        if ($order->has_status($config_status) || $config_status === '0' || $shipping_method->get_meta('tracking_number')) {
+        if ($shipping_method->get_meta('tracking_number')) {
             $tracking_number = $shipping_method->get_meta('tracking_number');
             if (!empty($tracking_number)) {
 
@@ -90,9 +88,6 @@ class Metabox
                     echo '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process_order">' . __('Process order', 'wc-moova') . '</a>';
                 }
             }
-        } else {
-            $statuses = wc_get_order_statuses();
-            printf(__('The order will be processed when its status is <strong>%s</strong>', 'wc-moova'), $statuses['wc-' . $config_status]);
         }
     }
 }
