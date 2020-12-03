@@ -4,7 +4,7 @@ Tags: moova, shipments
 Requires at least: 4.8
 Tested up to: 5.4
 Requires PHP: 7.0
-Stable tag: 1.2.8
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -19,6 +19,11 @@ With this plugin you can easily integrate your WooCommerce store with Moova
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
+=1.3=
+Remove webhooks from from
+Simplify mappings
+Change all moova shippings automatically to DRAFT
+Remove bulk actions to improve clarity
 =1.2.8=
 Fix bug change status
 =1.2.6=
