@@ -271,9 +271,10 @@ class MoovaSdk
         if ($reason) {
             $data_to_send['reason'] = $reason;
         }
-        $res = $this->api->post('/shippings/' . $order_id . '/' . strtolower($status), $data_to_send);
+        $url = '/shippings/' . $order_id . '/' . strtolower($status);
+        $res = $this->api->post($url, $data_to_send);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_debug(__("Data sent to Moova: $url", 'wc-moova'));
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['status']) || strtoupper($res['status']) !== strtoupper($status)) {

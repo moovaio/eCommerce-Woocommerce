@@ -51,7 +51,7 @@ class Processor
             $shipping_method->save();
         } else if ($currentStatus === $ready_status) {
             self::update_status($order, 'READY');
-        } else if ($currentStatus === 'wc-cancelled') {
+        } else if ($currentStatus == 'wc-cancelled' || $currentStatus == 'cancelled') {
             self::update_status($order, 'CANCEL', 'Cancel by woocommercer admin');
         }
     }

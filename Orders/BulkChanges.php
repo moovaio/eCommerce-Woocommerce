@@ -122,6 +122,13 @@ class BulkChanges
         $failures =  $_REQUEST['force_create_errors'];
         $totalFailures = intval($_REQUEST['force_create_total_errors']);
 
+        $success = intval($_REQUEST['success']);
+
+        if ($success || $success > 0) {
+            $message = __("We have created succesfully ",  'wc-moova') . $success . __(" shipments in Moova. ",  'wc-moova');
+            self::send_message('success', $message);
+        }
+
         if ($totalFailures > 0) {
             $message = __("We found error in the following orders"
                 . ". Please check they have a shipping address before creating them. Ids: ",  'wc-moova') .
@@ -130,7 +137,7 @@ class BulkChanges
         }
     }
 
-    private function send_message($type, $text)
+    private static function send_message($type, $text)
     {
         printf("<div id='message' class='$type updated fade'><p>$text</p></div>", 1);
     }
