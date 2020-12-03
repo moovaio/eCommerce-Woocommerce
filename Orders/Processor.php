@@ -146,6 +146,7 @@ class Processor
         }
         $tracking_id = $res['id'];
         $shipping_method->update_meta_data('tracking_number', $tracking_id);
+        $shipping_method->save();
         $res = $moovaSdk->get_shipping_label($tracking_id);
         if ($res) {
             $shipping_label = $res['label'];
