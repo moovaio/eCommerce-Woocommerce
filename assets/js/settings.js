@@ -60,4 +60,14 @@ var settings = wc_moova_settings;
   $("#has_special_price").change(showSpecialPricing);
   showFreeShipping();
   showSpecialPricing();
+
+  $('form').one('submit', function(e) {
+    e.preventDefault();
+    let placeId = $("#google_place_id").val();
+    if (!placeId) {
+      alert('Please select one address from the autocomplete');
+    }
+    $(this).submit();
+  });
+  
 })(jQuery, wc_moova_settings);

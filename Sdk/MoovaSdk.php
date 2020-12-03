@@ -283,18 +283,39 @@ class MoovaSdk
     }
 
     /**
-     * Updates the order status in Moova
+     * Get autocomplete
      *
-     * @param string $order_id
-     * @param string $status
-     * @param string $reason
-     * @return false|array
      */
     public function autocomplete($query)
     {
         $res = $this->userApi->get("/autocomplete?query=$query");
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($query)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+        }
+        return $res;
+    }
+
+
+    /**
+     * Set hooks
+     *
+     * @param string $order_id
+     * @param string $status
+     * @param string $reason
+     * @return false|array
+     */
+    public function setHooks()
+    {
+        $body = [
+            "webhook_enabled" => true,
+            "webhook_giveup_count" => 0,
+            "webhook_method" => "POST",
+            "webhook_url" => get_site_url(null, '/wc-api/wc-moova-orders')
+        ];
+        $res = $this->api->patch("/applications/webhooks", $body);
+        if (Helper::get_option('debug')) {
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($body)));
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
         }
         return $res;

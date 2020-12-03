@@ -3,8 +3,6 @@
 namespace Ecomerciar\Moova\Settings\Sections;
 
 use Ecomerciar\Moova\Settings\FieldFactory;
-use Ecomerciar\Moova\Settings\GeneralSettingsPage;
-use Ecomerciar\Moova\Helper\Helper;
 
 /**
  * Base Section class

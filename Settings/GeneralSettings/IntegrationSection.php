@@ -84,12 +84,6 @@ class IntegrationSection extends Section implements SectionInterface
                 'description' => __('This plugin offers a tracking form using the shortcode <strong>[moova_tracking_form]</strong>. You can use it in any page.', 'wc-moova'),
                 'type' => 'description'
             ],
-            'webhooks' => [
-                'name' => __('Shipments notifications', 'wc-moova'),
-                'slug' => 'webhooks',
-                'description' => sprintf(__('In order to receive notifications about your Moova shipments, you need to create a webhook in your Moova dashboard, use this URL: <strong>%s</strong> with the POST method.', 'wc-moova'), get_site_url(null, '/wc-api/wc-moova-orders')),
-                'type' => 'description'
-            ],
             'environment' => [
                 'name' => __('Environment', 'wc-moova'),
                 'slug' => 'environment',

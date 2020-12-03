@@ -35,7 +35,6 @@ add_action('woocommerce_api_wc-moova-orders', ['\Ecomerciar\Moova\Orders\Webhook
 
 // --- Bulk changes
 add_filter('bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'set_bulk_options'], 20, 1);
-add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_create_bulk_shipments']);
 
 add_filter('handle_bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'start_bulk_shipments'], 10, 3);
 add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_start_bulk_shipments']);

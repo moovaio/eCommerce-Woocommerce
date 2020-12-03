@@ -2,6 +2,8 @@
 
 namespace Ecomerciar\Moova\Helper;
 
+use Ecomerciar\Moova\Sdk\MoovaSdk;
+
 trait PageTrait
 {
     /**
@@ -77,6 +79,12 @@ trait PageTrait
             $value = strip_tags($value);
             update_option('wc-moova-' . $setting['slug'], $value);
             $saved = true;
+        }
+        $appId = empty($post_data['clientid']) ? null : $post_data['clientid'];
+        $appKey = empty($post_data['clientsecret']) ? null : $post_data['clientsecret'];
+        if ($appId && $appKey) {
+            $moova_sdk = new MoovaSdk();
+            $moova_sdk->setHooks();
         }
         return $saved;
     }

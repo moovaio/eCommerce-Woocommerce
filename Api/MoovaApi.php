@@ -45,6 +45,15 @@ class MoovaApi extends ApiConnector implements ApiInterface
         return $this->exec('PUT', $url, $body, $headers);
     }
 
+    public function patch(string $endpoint, array $body = [], array $headers = [])
+    {
+        $url = $this->get_base_url() . $endpoint;
+        $url = $this->add_params_to_url($url, http_build_query($this->api_config));
+        $headers['Content-Type'] = 'application/json';
+        $headers['Authorization'] = $this->auth_header;
+        return $this->exec('PATCH', $url, $body, $headers);
+    }
+
     public function delete(string $endpoint, array $body = [], array $headers = [])
     {
         $url = $this->get_base_url() . $endpoint;
