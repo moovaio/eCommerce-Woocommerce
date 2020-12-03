@@ -61,10 +61,10 @@ class BulkChanges
         }
 
         $redirect_to = add_query_arg(array(
-            'response_bulk_create_moova' => '1',
+            'response_force_create' => '1',
             'success' => $success,
-            'failure_ids' => implode(',', $failure),
-            'failure_total' => count($failure)
+            'force_create_errors' => implode(',', $failure),
+            'force_create_total_errors' => count($failure)
         ), $redirect_to);
 
         return $redirect_to;
@@ -96,6 +96,7 @@ class BulkChanges
 
             $tracking_id = $res['id'];
             $shipping_method->update_meta_data('tracking_number', $tracking_id);
+            $shipping_method->save();
             $res = $moovaSdk->get_shipping_label($tracking_id);
             if ($res) {
                 $shipping_label = $res['label'];
