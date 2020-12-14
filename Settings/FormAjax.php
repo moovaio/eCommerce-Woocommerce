@@ -21,4 +21,32 @@ class FormAjax
 
         die();
     }
+
+    public function rate()
+    {
+        $rate_action = $_POST['rate_action'];
+        $minShippings = get_option('wc-moova-min-shippings');
+        if ('done-rating' === $rate_action) {
+            $minShippings = -1;
+        } else {
+            switch ($minShippings) {
+                case 10:
+                    $minShippings = 30;
+                    break;
+                case 30:
+                    $minShippings = 50;
+                    break;
+                case 50:
+                    $minShippings = 100;
+                    break;
+                case 100:
+                    $minShippings = -1;
+                    break;
+            }
+        }
+        update_option('wc-moova-min-shippings', $minShippings);
+
+        echo  1;
+        exit;
+    }
 }

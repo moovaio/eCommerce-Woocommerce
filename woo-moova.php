@@ -164,8 +164,10 @@ class WCMoova
     public static function register_scripts()
     {
         wp_enqueue_style('wc-moova-settings-css', Helper::get_assets_folder_url() . '/css/settings.css');
+        wp_enqueue_style('wc-moova-rate-css', Helper::get_assets_folder_url() . '/css/rate.css');
         wp_register_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
         wp_register_script('wc-moova-settings-js', Helper::get_assets_folder_url() . '/js/settings.js');
+        wp_enqueue_script('wc-moova-rating-js', Helper::get_assets_folder_url() . '/js/rate.js');
     }
 
     /**
@@ -210,6 +212,53 @@ class WCMoova
     public static function load_textdomain()
     {
         load_plugin_textdomain('wc-moova', false, basename(dirname(__FILE__)) . '/languages');
+    }
+
+    /**
+     * Display a message after 10, 30 and 100 shippings.
+     *
+     * @author Axel candia
+     */
+    public function qualify_application()
+    {
+        global $wpdb;
+        $minShippings = get_option('wc-moova-min-shippings');
+        if ($minShippings == null) {
+            update_option('wc-moova-min-shippings', 10);
+            $minShippings = 10;
+        }
+        update_option('wc-moova-min-shippings', 10);
+        if ($minShippings == -1) {
+            return;
+        }
+
+        $order_items_table = $wpdb->prefix . 'woocommerce_order_items';
+        $query = "SELECT count(*) FROM $order_items_table WHERE order_item_name = 'Moova'  ";
+        $shippingsWithMoova = $wpdb->get_var($query);
+        if ($shippingsWithMoova < $minShippings) {
+            return;
+        }
+
+?>
+        <div class="notice notice-success" id="moova-rate-app" data-moova-ajax-url=<?php echo (admin_url('admin-ajax.php')) ?> data-moova-ajax-nonce=<?php echo (wp_create_nonce('wc-moova')) ?>>
+            <div>
+                <p>
+                    <?php echo (sprintf(
+                        __("Hey! Congratulations for your %d shipping with Moova!! We hope you are enjoying our plugin.
+                            Could you please do me a BIG favor and give it a 5-star rating on WordPress?
+                            Just to help us spread the word and boost our motivation.", 'wc-moova'),
+                        $shippingsWithMoova
+                    )) ?>
+                </p>
+                <strong><em>~ Axel Candia</em></strong>
+            </div>
+            <ul>
+                <li><a data-rate-action="rate" href="https://wordpress.org/support/plugin/moova-for-woocommerce/reviews/#postform" target="_blank"><?php echo (__("Yes sure!!", 'wc-moova')) ?></a> </li>
+                <li><a data-rate-action="done-rating" href="#"><?php echo (__("I al ready did", 'wc-moova')) ?></a></li>
+                <li><a data-rate-action="deny-rating" href="#"><?php echo (__("No thanks", 'wc-moova')) ?></a></li>
+            </ul>
+        </div>
+<?php
     }
 }
 $settings_page = new WCMoova();
