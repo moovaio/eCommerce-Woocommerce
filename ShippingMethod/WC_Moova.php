@@ -71,20 +71,45 @@ class WC_Moova extends \WC_Shipping_method
      */
     public function calculate_shipping($package = [])
     {
-        $seller = Helper::get_seller_from_settings();
-        $customer = Helper::get_customer_from_cart(WC()->customer);
-        $items = Helper::get_items_from_cart(WC()->cart);
-        if ($items === false) {
-            return;
+        if (is_plugin_active('dokan-lite/dokan.php')) {
+            $rate = $this->get_rate_dokan();
+        } else {
+            $rate = $this->get_single_origin_rate();
         }
-        $moovaSdk = new MoovaSdk();
-        $price = $moovaSdk->get_price($seller, $customer, $items);
-        if (!empty($price) || $price === 0) {
+
+        if (!empty($rate) || $rate === 0) {
             $this->add_rate([
                 'id'        => $this->get_rate_id(), // ID for the rate. If not passed, this id:instance default will be used.
                 'label'     => $this->title, // Label for the rate.
-                'cost'      => $price // Amount or array of costs (per item shipping).
+                'cost'      => $rate // Amount or array of costs (per item shipping).
             ]);
         }
+    }
+
+    public function get_rate_dokan()
+    {
+        $moovaSdk = new MoovaSdk();
+        $final_price = 0;
+        $items_per_vendor = Helper::divide_items_per_vendor(WC()->cart);
+        $customer = Helper::get_customer_from_cart(WC()->customer);
+        $vendor_list = array_keys($items_per_vendor);
+        foreach ($vendor_list as $vendor_id) {
+            $vendor_cart = $items_per_vendor[$vendor_id];
+            $vendor = Helper::get_dokan_seller_by_id($vendor_id);
+            $format_origin = Helper::format_dokan_origin_to_moova($vendor);
+            $price = $moovaSdk->get_price($format_origin, $customer, $vendor_cart);
+            if (!$price) return;
+            $final_price += $price;
+        }
+        return $final_price;
+    }
+
+    public function get_single_origin_rate()
+    {
+        $moovaSdk = new MoovaSdk();
+        $seller = Helper::get_seller_from_settings();
+        $items = Helper::get_items_from_cart(WC()->cart);
+        $customer = Helper::get_customer_from_cart(WC()->customer);
+        return $moovaSdk->get_price($seller, $customer, $items);
     }
 }

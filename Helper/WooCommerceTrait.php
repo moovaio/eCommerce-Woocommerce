@@ -375,7 +375,8 @@ trait WooCommerceTrait
             'length' => wc_get_dimension(floatval($product->get_length()), $dimension_unit),
             'weight' => wc_get_weight(floatval($product->get_weight()), $weight_unit),
             'price' => $product->get_price(),
-            'description' => $product->get_name()
+            'description' => $product->get_name(),
+            'vendor_id' => $product->post->post_author
         );
         return $new_product;
     }
@@ -397,6 +398,30 @@ trait WooCommerceTrait
             $products[] = $new_product;
         }
         return $products;
+    }
+
+    /**
+     * Gets items by vendor
+     *
+     * @param WC_Cart $cart
+     * @return false|array
+     */
+    public static function divide_items_per_vendor($cart)
+    {
+        $vendor_items = array();
+        $items = $cart->get_cart();
+        foreach ($items as $item) {
+            $product_id = $item['data']->get_id();
+            $new_product = self::get_product_dimensions($product_id);
+            $new_product['quantity'] = $item['quantity'];
+            $vendor_id = $new_product['vendor_id'];
+            Helper::log_info($vendor_id);
+            if (!isset($vendor_items[$vendor_id])) {
+                $vendor_items[$vendor_id] = [];
+            }
+            $vendor_items[$vendor_id][] = $new_product;
+        }
+        return $vendor_items;
     }
 
     /**
