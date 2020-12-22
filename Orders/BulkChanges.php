@@ -2,13 +2,6 @@
 
 namespace Ecomerciar\Moova\Orders;
 
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Sdk\MoovaSdk;
-use Error;
-use ErrorException;
-use Exception;
-use TypeError;
-
 defined('ABSPATH') || exit;
 
 class BulkChanges
@@ -25,34 +18,11 @@ class BulkChanges
     {
         if ($action !== 'force_create_bulk_shipments')
             return $redirect_to;
-
-        $moovaShipping = WC()->shipping->get_shipping_methods()['moova'];
-
-        $errors = [];
-        $itemsToCreate = [];
-        foreach ($post_ids as $post_id) {
-            $item = new  \WC_Order_Item_Shipping();
-            $item->set_method_title($moovaShipping->method_title);
-            $item->set_method_id($moovaShipping->id);
-            $order = wc_get_order($post_id);
-            if (!self::isAddressCorrect($order)) {
-                $errors[] = $post_id;
-                continue;
-            }
-            $shipping_method = Helper::getShippingMethod($order);
-            if (!$shipping_method) {
-                $order->add_item($item);
-                $order->save();
-            }
-            $itemsToCreate[] = $post_id;
-        }
-
-        $moovaSdk = new MoovaSdk();
         $success = 0;
         $failure = [];
         foreach ($post_ids as $post_id) {
             $order = wc_get_order($post_id);
-            $moovaId = self::createShipment($order, $moovaSdk);
+            $moovaId = Processor::process_order_and_childrens($order);
             if ($moovaId) {
                 $success += 1;
             } else {
@@ -68,50 +38,6 @@ class BulkChanges
         ), $redirect_to);
 
         return $redirect_to;
-    }
-
-    private static function isAddressCorrect($order)
-    {
-        try {
-            Helper::get_customer_from_order($order);
-            return true;
-        } catch (Exception $error) {
-            return false;
-        } catch (Error $error) {
-            return false;
-        }
-    }
-
-    private static function createShipment($order, $moovaSdk)
-    {
-        try {
-            $shipping_method = Helper::getShippingMethod($order);
-
-            if ($shipping_method->get_meta('tracking_number')) {
-                return null;
-            }
-
-            $customer =  Helper::get_customer_from_order($order);
-            $res = $moovaSdk->process_order($order, $customer);
-
-            $tracking_id = $res['id'];
-            $shipping_method->update_meta_data('tracking_number', $tracking_id);
-            $shipping_method->save();
-            $res = $moovaSdk->get_shipping_label($tracking_id);
-            if ($res) {
-                $shipping_label = $res['label'];
-                $shipping_method->update_meta_data('shipping_label', $shipping_label);
-            }
-            $shipping_method->save();
-            return $tracking_id;
-        } catch (Exception $error) {
-            //Si la excepcion es de coso entonces obtengo el ID y lo guardo
-            return null;
-        } catch (TypeError $error) {
-            return null;
-        } catch (Error $error) {
-            return null;
-        }
     }
 
     // The results notice from bulk action on orders

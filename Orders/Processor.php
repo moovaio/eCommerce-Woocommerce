@@ -28,27 +28,10 @@ class Processor
         if (!$shipping_method) {
             return;
         }
-        $moovaSdk = new MoovaSdk();
         $currentStatus = $order->get_status();
+        Helper::log_info("Handling status for $order_id");
         if (empty($shipping_method->get_meta('tracking_number'))) {
-            $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
-            if (!$res) {
-                Helper::add_error(__('The order could not be processed.', 'wc-moova'));
-                return;
-            }
-            $tracking_id = $res['id'];
-            $shipping_method->update_meta_data('tracking_number', $tracking_id);
-            $shipping_method->save();
-
-            $res = $moovaSdk->get_shipping_label($tracking_id);
-            if (!$res) {
-                Helper::add_error(__('Shipping label could not be found.', 'wc-moova'));
-                return;
-            }
-            $shipping_label = $res['label'];
-            $shipping_method->update_meta_data('shipping_label', $shipping_label);
-
-            $shipping_method->save();
+            self::process_order_and_childrens($order, $shipping_method);
         } else if ($currentStatus === $ready_status) {
             self::update_status($order, 'READY');
         } else if ($currentStatus == 'wc-cancelled' || $currentStatus == 'cancelled') {
@@ -117,44 +100,70 @@ class Processor
     }
 
     /**
-     * Process an order in Moova, made for AJAX calls
+     * Process an order in Moova
      *
      * @return void
      */
-    public static function process_order_ajax()
+    public static function process_order_and_childrens($order, $shipping_method = null)
     {
-        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty($_POST['order_id'])) {
-            wp_send_json_error();
+        global $wpdb;
+
+        $posts_table = $wpdb->prefix . 'posts';
+        $query = "SELECT ID FROM $posts_table WHERE POST_PARENT ={$order->id}";
+        $list_of_child_orders = $wpdb->get_results($query);
+        if (empty($list_of_child_orders)) {
+            return (array) self::format_creation($order, $shipping_method);
+        }
+        $list_of_tracking_ids = [];
+        foreach ($list_of_child_orders as $child) {
+            $child_order = wc_get_order($child->ID);
+            $tracking_id = self::format_creation($child_order);
+            if ($tracking_id) {
+                $list_of_tracking_ids[] = $tracking_id;
+            }
         }
 
-        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
-        $order = wc_get_order($order_id);
-        if (!$order) {
-            wp_send_json_error();
+        foreach ($list_of_tracking_ids as $tracking_id) {
+            self::set_shipping_method_in_order($order, $tracking_id);
         }
+        return $list_of_tracking_ids;
+    }
 
-        $moovaSdk = new MoovaSdk();
-
-        $shipping_method = Helper::getShippingMethod($order);
-        if (!$shipping_method) {
-            wp_send_json_error();
+    public static function format_creation($order, $shipping_method = null)
+    {
+        try {
+            Helper::log_info("Processing order {$order->id}");
+            $moovaSdk = new MoovaSdk();
+            $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
+            if (!$res) {
+                return false;
+            }
+            $tracking_id = $res['id'];
+            self::set_shipping_method_in_order($order, $res['id'], $shipping_method);
+            return $tracking_id;
+        } catch (Exception $error) {
+            return null;
+        } catch (TypeError $error) {
+            return null;
+        } catch (Error $error) {
+            return null;
         }
+    }
 
-        $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
-        if (!$res) {
-            wp_send_json_error();
-        }
-        $tracking_id = $res['id'];
-        $shipping_method->update_meta_data('tracking_number', $tracking_id);
-        $shipping_method->save();
+    public static function set_shipping_method_in_order($order, $tracking_id, $shipping_method = null, $moovaSdk = null)
+    {
+        $moovaSdk = $moovaSdk ?? new MoovaSdk();
+        $item = $shipping_method ?? new  \WC_Order_Item_Shipping();
+        $moovaShippingmethod = WC()->shipping->get_shipping_methods()['moova'];
+        $item->set_method_title($moovaShippingmethod->method_title);
+        $item->set_method_id($moovaShippingmethod->id);
+        $item->update_meta_data('tracking_number', $tracking_id);
         $res = $moovaSdk->get_shipping_label($tracking_id);
-        if ($res) {
-            $shipping_label = $res['label'];
-            $shipping_method->update_meta_data('shipping_label', $shipping_label);
+        if ($res && !empty($res['label'])) {
+            $item->update_meta_data('shipping_label', $res['label']);
         }
-        $shipping_method->save();
-
-        wp_send_json_success();
+        $order->add_item($item);
+        $order->save();
     }
 
     /**

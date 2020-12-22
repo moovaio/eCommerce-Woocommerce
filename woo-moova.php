@@ -227,7 +227,7 @@ class WCMoova
             update_option('wc-moova-min-shippings', 10);
             $minShippings = 10;
         }
-        update_option('wc-moova-min-shippings', 10);
+
         if ($minShippings == -1) {
             return;
         }
@@ -247,7 +247,7 @@ class WCMoova
                         __("Hey! Congratulations for your %d shipping with Moova!! We hope you are enjoying our plugin.
                             Could you please do me a BIG favor and give it a 5-star rating on WordPress?
                             Just to help us spread the word and boost our motivation.", 'wc-moova'),
-                        $shippingsWithMoova
+                        $minShippings
                     )) ?>
                 </p>
                 <strong><em>~ Axel Candia</em></strong>

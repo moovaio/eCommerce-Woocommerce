@@ -22,7 +22,6 @@ add_filter('woocommerce_cart_shipping_method_full_label', ['WCMoova', 'free_ship
 add_action('woocommerce_order_status_changed', ['\Ecomerciar\Moova\Orders\Processor', 'handle_order_status'], 10, 4);
 add_action('add_meta_boxes', ['\Ecomerciar\Moova\Orders\Metabox', 'create']);
 add_action('wp_ajax_generate_order_shipping_label', ['\Ecomerciar\Moova\Orders\Processor', 'order_create_shipping_label_ajax']);
-add_action('wp_ajax_process_order', ['\Ecomerciar\Moova\Orders\Processor', 'process_order_ajax']);
 add_action('wp_ajax_change_order_status', ['\Ecomerciar\Moova\Orders\Processor', 'change_order_status']);
 add_action('wp_ajax_get_autocomplete_street', ['\Ecomerciar\Moova\Settings\FormAjax', 'autocomplete']);
 add_action('wp_ajax_set_rate_minimum_shippings', ['\Ecomerciar\Moova\Settings\FormAjax', 'rate']);

@@ -149,7 +149,7 @@ class MoovaSdk
 
     private static function get_shipping_data(\WC_Order $order)
     {
-        $seller = Helper::get_seller_from_settings();
+        $seller = Helper::get_seller_from_settings($order);
         $customer = Helper::get_customer_from_order($order);
         $orderItems = Helper::get_items_from_order($order);
         return [
@@ -179,6 +179,7 @@ class MoovaSdk
                 'assurance' => false,
                 'items' => $orderItems
             ],
+            'internalOrderId' => get_site_url(null) . '-' . $order->get_id(),
             'internalCode' => $order->get_id(),
             'description' => '',
             'label' => '',
