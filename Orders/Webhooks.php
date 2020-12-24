@@ -2,6 +2,7 @@
 
 namespace Ecomerciar\Moova\Orders;
 
+use Ecomerciar\Moova\Helper\DatabaseTrait;
 use Ecomerciar\Moova\Helper\Helper;
 use Ecomerciar\Moova\Sdk\MoovaSdk;
 
@@ -18,19 +19,22 @@ class Webhooks
     {
         try {
             $input = file_get_contents('php://input');
+            Helper::log_info("Webhook recibido:$input");
             $input = json_decode($input, true);
-            Helper::log_info('Webhook recibido');
             if (Helper::get_option('debug')) {
                 Helper::log_debug(__FUNCTION__ . ' - Webhook recibido de Moova: ' . json_encode($input));
             }
+
             if (empty($input) || !self::validate_input($input)) {
                 wp_die('WooCommerce Moova invalid Webhook', 'Moova Webhook', ['response' => 500]);
             }
         } catch (\Throwable $th) {
+            Helper::log_info($th);
             Helper::log_info('Unexpected error');
             return true;
         }
     }
+
     /**
      * Validates the incoming webhook
      *
@@ -45,14 +49,37 @@ class Webhooks
             return true;
         }
         $moova_id = filter_var($data['id'], FILTER_SANITIZE_STRING);
-        $order_id = Helper::find_order_by_itemmeta_value($moova_id);
-        if (empty($order_id)) {
+        $list_orders = Helper::get_orders_by_itemmeta_value($moova_id);
+
+        if (empty($list_orders)) {
             Helper::log_info('validate_input - Order not found');
             return true;
         }
-        self::handle_webhook($order_id, $data);
+        self::handle_webhook($list_orders[0]->order_id, $data);
+
+        if (sizeof($list_orders) == 1) {
+            return true;
+        }
+
+        $main_child_order = wc_get_order($list_orders[0]->order_id);
+        $parent = wc_get_order($main_child_order->get_parent_id());
+        $order_status = Helper::get_option('receive_' . $data['status']);
+
+        if (!$order_status || $parent->get_status() === $order_status) {
+            return true;
+        }
+
+        $list_child_orders = DatabaseTrait::get_orders_by_parent_id($parent->get_id());
+        foreach ($list_child_orders as $child) {
+            if ($child->post_status !== $order_status) {
+                return true;
+            }
+        }
+
+        self::handle_webhook($parent->get_id(), $data);
         return true;
     }
+
     /**
      * Handles and processes the webhook
      *
@@ -66,24 +93,13 @@ class Webhooks
         $status = self::translate_order_status($data['status']);
         $order->add_order_note('Moova - ' . $status . '. ' . $data['date']);
 
-        $newOrderStatus = self::getOrderStatus($data['status']);
-        if ($newOrderStatus) {
-            $order->update_status($newOrderStatus);
+        $new_order_status = Helper::get_option('receive_' . $data['status']);
+        if ($new_order_status) {
+            $order->update_status($new_order_status);
         }
-
         $order->save();
         Helper::log_info(sprintf(__('Order #%s updated with status: %s', 'wc-moova'), $order_id, $status));
-
         return true;
-    }
-
-    private static function getOrderStatus($status)
-    {
-        $mapping = Helper::get_option('receive_' . $status);
-        if (Helper::get_option('debug')) {
-            Helper::log_debug("Now we try to map this status $status to $mapping");
-        }
-        return $mapping;
     }
 
     /**

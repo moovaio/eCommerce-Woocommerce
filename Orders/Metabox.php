@@ -26,7 +26,7 @@ class Metabox
 
     public static function content($post, $metabox)
     {
-        $order = wc_get_order($post->ID);
+        $order = wc_get_order($post->id);
         if (empty($order)) {
             return false;
         }
@@ -34,7 +34,7 @@ class Metabox
         wp_localize_script('wc-moova-orders-js', 'wc_moova_settings', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'ajax_nonce' => wp_create_nonce('wc-moova'),
-            'order_id' => $post->ID,
+            'order_id' => $post->id,
             'text_shipping_label_current' => __('Creating shipping label...', 'wc-moova'),
             'text_shipping_label_completed' => __('Shipping label created', 'wc-moova'),
             'text_shipping_label_name' => __('Generate shipping label', 'wc-moova'),
@@ -46,7 +46,7 @@ class Metabox
             'text_order_status_name' => __('Mark order as ready to be shipped', 'wc-moova'),
             'text_error' => __('There was an error, please try again', 'wc-moova')
         ]);
-        $shipping_method = Helper::getShippingMethod($order);
+        $shipping_method = Helper::get_shipping_method($order);
         if (!$shipping_method) {
             return;
         }

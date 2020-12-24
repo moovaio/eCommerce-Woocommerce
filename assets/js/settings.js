@@ -62,12 +62,10 @@ var settings = wc_moova_settings;
   showSpecialPricing();
 
   $('form').one('submit', function(e) {
-    e.preventDefault();
-    let placeId = $("#google_place_id").val();
-    if (!placeId) {
-      alert('Please select one address from the autocomplete');
+    if (document.getElementById("google_place_id") && !$("#google_place_id").val()) {
+      e.preventDefault()
+        alert('Please select one address from the autocomplete');
     }
-    $(this).submit();
   });
   
 })(jQuery, wc_moova_settings);

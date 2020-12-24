@@ -81,19 +81,23 @@ trait WooCommerceTrait
         return $data;
     }
 
-    public static function getShippingMethod($order)
+    public static function get_shipping_method($order)
     {
         if (!$order->has_shipping_method('moova')) {
             return null;
         }
 
+        $method = null;
         foreach ($order->get_shipping_methods() as $shipping_method) {
-            if ($shipping_method['method_id'] === 'moova') {
+            $is_moova = ($shipping_method['method_id'] === 'moova');
+            if ($is_moova && $shipping_method->get_meta('tracking_number')) {
                 return $shipping_method;
+            } else if ($is_moova) {
+                $method = $shipping_method;
             }
         }
 
-        return null;
+        return $method;
     }
 
     public static function get_province($customer)

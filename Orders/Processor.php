@@ -2,6 +2,7 @@
 
 namespace Ecomerciar\Moova\Orders;
 
+use Ecomerciar\Moova\Helper\DatabaseTrait;
 use Ecomerciar\Moova\Helper\Helper;
 use Ecomerciar\Moova\Sdk\MoovaSdk;
 use Error;
@@ -24,12 +25,12 @@ class Processor
     public static function handle_order_status(int $order_id, string $status_from, string $status_to, \WC_Order $order)
     {
         $ready_status =  str_replace('wc-', '', Helper::get_option('status_ready'));
-        $shipping_method = Helper::getShippingMethod($order);
+        $shipping_method = Helper::get_shipping_method($order);
         if (!$shipping_method) {
             return;
         }
         $currentStatus = $order->get_status();
-        Helper::log_info("Handling status for $order_id");
+        Helper::log_info("Handling status $currentStatus for $order_id. Ready=$ready_status");
         if (empty($shipping_method->get_meta('tracking_number'))) {
             self::process_order_and_childrens($order, $shipping_method);
         } else if ($currentStatus === $ready_status) {
@@ -43,16 +44,14 @@ class Processor
     {
         try {
             $moovaSdk = new MoovaSdk();
-            $shipping_method = Helper::getShippingMethod($order);
+            $shipping_method = Helper::get_shipping_method($order);
             $moova_id = $shipping_method->get_meta('tracking_number');
-            if ($shipping_method['method_id'] !== 'moova' && $moova_id) {
+            Helper::log_info("Updating status $moova_id");
+            if (!$shipping_method) {
                 return null;
             }
             $res =  $moovaSdk->update_order_status($moova_id, $status, $reason);
-            if ($res) {
-                return $moova_id;
-            }
-            return null;
+            return $res ? $moova_id : null;
         } catch (Exception $error) {
             return null;
         } catch (TypeError $error) {
@@ -80,7 +79,7 @@ class Processor
 
         $moovaSdk = new MoovaSdk();
 
-        $shipping_method = Helper::getShippingMethod($order);
+        $shipping_method = Helper::get_shipping_method($order);
         if (!$shipping_method) {
             wp_send_json_error();
         }
@@ -106,17 +105,13 @@ class Processor
      */
     public static function process_order_and_childrens($order, $shipping_method = null)
     {
-        global $wpdb;
-
-        $posts_table = $wpdb->prefix . 'posts';
-        $query = "SELECT ID FROM $posts_table WHERE POST_PARENT ={$order->id}";
-        $list_of_child_orders = $wpdb->get_results($query);
+        $list_of_child_orders = DatabaseTrait::get_orders_by_parent_id($order->id);
         if (empty($list_of_child_orders)) {
             return (array) self::format_creation($order, $shipping_method);
         }
         $list_of_tracking_ids = [];
         foreach ($list_of_child_orders as $child) {
-            $child_order = wc_get_order($child->ID);
+            $child_order = wc_get_order($child->id);
             $tracking_id = self::format_creation($child_order);
             if ($tracking_id) {
                 $list_of_tracking_ids[] = $tracking_id;
@@ -194,7 +189,7 @@ class Processor
     public static function notifyMoova($order_id)
     {
         $order = wc_get_order($order_id);
-        $shipping_method = Helper::getShippingMethod($order);
+        $shipping_method = Helper::get_shipping_method($order);
         if (empty($shipping_method)) {
             return null;
         }

@@ -127,9 +127,8 @@ class MoovaSdk
 
     public function update_order(\WC_Order $order)
     {
-
         if (!$order) return true;
-        $shipping_method = Helper::getShippingMethod($order);
+        $shipping_method = Helper::get_shipping_method($order);
         $moova_id = $shipping_method->get_meta('tracking_number');
 
         $data_to_send = self::get_shipping_data($order);
@@ -179,8 +178,7 @@ class MoovaSdk
                 'assurance' => false,
                 'items' => $orderItems
             ],
-            'internalOrderId' => get_site_url(null) . '-' . $order->get_id(),
-            'internalCode' => $order->get_id(),
+            'internalOrderId' => $order->get_id(),
             'description' => '',
             'label' => '',
             'type' => 'woocommerce_24_horas_max',
