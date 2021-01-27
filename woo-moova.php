@@ -5,13 +5,13 @@ use Ecomerciar\Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 1.4
+ * Version: 1.5
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
  * Text Domain: wc-moova
  * WC requires at least: 3.3
- * WC tested up to: 4.3
+ * WC tested up to: 4.9.2
  */
 
 defined('ABSPATH') || exit;
@@ -254,7 +254,7 @@ class WCMoova
             </div>
             <ul>
                 <li><a data-rate-action="rate" href="https://wordpress.org/support/plugin/moova-for-woocommerce/reviews/#postform" target="_blank"><?php echo (__("Yes sure!!", 'wc-moova')) ?></a> </li>
-                <li><a data-rate-action="done-rating" href="#"><?php echo (__("I al ready did", 'wc-moova')) ?></a></li>
+                <li><a data-rate-action="done-rating" href="#"><?php echo (__("I already did", 'wc-moova')) ?></a></li>
                 <li><a data-rate-action="deny-rating" href="#"><?php echo (__("No thanks", 'wc-moova')) ?></a></li>
             </ul>
         </div>

@@ -70,10 +70,10 @@ class MoovaSdk
             $res = $this->api->post('/budgets/estimate', $data_to_send);
         }
 
-        return $this->formatPrice($res, WC()->cart->cart_contents_total);
+        return $this->format_price($res, WC()->cart->cart_contents_total);
     }
 
-    private function formatPrice($price, $cartPrice)
+    private function format_price($price, $cartPrice)
     {
         if (empty($price['budget_id'])) {
             return false;
@@ -151,6 +151,8 @@ class MoovaSdk
         $seller = Helper::get_seller_from_settings($order);
         $customer = Helper::get_customer_from_order($order);
         $orderItems = Helper::get_items_from_order($order);
+        $parse = parse_url(get_site_url());
+        $domain = $parse['host'];
         return [
             'scheduledDate' => null,
             'currency' => get_woocommerce_currency(),
@@ -178,6 +180,7 @@ class MoovaSdk
                 'assurance' => false,
                 'items' => $orderItems
             ],
+            'internalCode' => $order->get_id() . " ($domain)",
             'internalOrderId' => $order->get_id(),
             'description' => '',
             'label' => '',
