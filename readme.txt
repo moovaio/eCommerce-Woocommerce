@@ -3,7 +3,7 @@ Tags: moova, shipments, shipping, rates, woocommerce, Argentina, Chile, Uruguay,
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 7.0
-Stable tag: 1.6
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -24,8 +24,10 @@ The main features:
 3. Use the Settings->Moova screen to configure the plugin
 
 == Changelog ==
-= 1.6 =
+= 1.7 =
 - Improve free shipping
+- Fix metadata
+- Fix duplicated
 = 1.4 =
 - Compatible with Dokan
 = 1.3 =
