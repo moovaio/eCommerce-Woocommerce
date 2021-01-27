@@ -110,6 +110,10 @@ class WC_Moova extends \WC_Shipping_method
         $seller = Helper::get_seller_from_settings();
         $items = Helper::get_items_from_cart(WC()->cart);
         $customer = Helper::get_customer_from_cart(WC()->customer);
+        $unable_to_calculate = empty($seller) || empty($customer) || !empty($items);
+        if ($unable_to_calculate) {
+            return null;
+        }
         return $moovaSdk->get_price($seller, $customer, $items);
     }
 }
