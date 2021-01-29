@@ -72,8 +72,10 @@ class WC_Moova extends \WC_Shipping_method
     public function calculate_shipping($package = [])
     {
         if (is_plugin_active('dokan-lite/dokan.php')) {
+            Helper::log_info('calculate_shipping - using dokan');
             $rate = $this->get_rate_dokan();
         } else {
+            Helper::log_info('calculate_shipping - using single origin');
             $rate = $this->get_single_origin_rate();
         }
 
@@ -110,10 +112,13 @@ class WC_Moova extends \WC_Shipping_method
         $seller = Helper::get_seller_from_settings();
         $items = Helper::get_items_from_cart(WC()->cart);
         $customer = Helper::get_customer_from_cart(WC()->customer);
-        $unable_to_calculate = empty($seller) || empty($customer) || !empty($items);
+        $unable_to_calculate = empty($seller);
         if ($unable_to_calculate) {
             return null;
         }
+        Helper::log_info('get_single_origin_rate - Calling get_price ');
+        Helper::log_info('get_single_origin_rate - $seller:' . json_encode($seller));
+        Helper::log_info('get_single_origin_rate - $customer:' . json_encode($customer));
         return $moovaSdk->get_price($seller, $customer, $items);
     }
 }
