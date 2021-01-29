@@ -42,3 +42,4 @@ add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_f
 
 // ---- Ask for review
 add_action('admin_notices', ['WCMoova', 'qualify_application']);
+add_filter('woocommerce_default_address_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'wdm_override_default_address_fields']);

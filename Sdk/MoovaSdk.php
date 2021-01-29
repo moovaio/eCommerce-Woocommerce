@@ -152,7 +152,7 @@ class MoovaSdk
         $customer = Helper::get_customer_from_order($order);
         $orderItems = Helper::get_items_from_order($order);
         $parse = parse_url(get_site_url());
-        $domain = $parse['host'];
+        $prefix = substr($parse['host'], 0, 3);
         return [
             'scheduledDate' => null,
             'currency' => get_woocommerce_currency(),
@@ -180,8 +180,7 @@ class MoovaSdk
                 'assurance' => false,
                 'items' => $orderItems
             ],
-            'internalCode' => $order->get_id() . " ($domain)",
-            'internalOrderId' => $order->get_id(),
+            'internalCode' => $prefix . "-" . $order->get_id(),
             'description' => '',
             'label' => '',
             'type' => 'woocommerce_24_horas_max',

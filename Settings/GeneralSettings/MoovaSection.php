@@ -42,6 +42,11 @@ class MoovaSection extends Section implements SectionInterface
                 'slug' => 'clientsecret',
                 'type' => 'text'
             ],
+            'google_api_key' => [
+                'name' => __('Google Api Key', 'wc-moova'),
+                'slug' => 'google_api_key',
+                'type' => 'text'
+            ],
 
         ];
     }

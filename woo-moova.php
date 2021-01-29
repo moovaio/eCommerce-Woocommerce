@@ -28,8 +28,9 @@ class WCMoova
     public function __construct()
     {
         add_action('plugins_loaded', [$this, 'setScripts']);
-        add_action('admin_menu', [$this, 'setMenuPages'], 11);
+        add_action('admin_menu', [$this, 'set_menu_pages'], 11);
         add_action('admin_enqueue_scripts', [$this, 'register_scripts']);
+        add_action('woocommerce_after_checkout_form', [$this, 'register_scripts_checkout']);
     }
     /**
      * Checks system requirements
@@ -116,15 +117,23 @@ class WCMoova
         self::load_textdomain();
     }
 
-    public function setMenuPages()
+    public function set_menu_pages()
     {
         add_menu_page(
-            'Configuracion general',
+            'Ajustes',
             'Moova',
             'manage_options',
             'wc-moova-settings',
             ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage'],
             plugin_dir_url(__FILE__) . 'assets/img/icon-menu.svg'
+        );
+
+        add_submenu_page(
+            'wc-moova-settings',
+            'Ajustes',
+            'Ajustes',
+            'manage_options',
+            'wc-moova-settings'
         );
 
         add_submenu_page(
@@ -135,8 +144,6 @@ class WCMoova
             'wc-moova-mapping',
             ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'initPage']
         );
-
-
         add_submenu_page(
             'wc-moova-settings',
             'Logs',
@@ -168,6 +175,26 @@ class WCMoova
         wp_register_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
         wp_register_script('wc-moova-settings-js', Helper::get_assets_folder_url() . '/js/settings.js');
         wp_enqueue_script('wc-moova-rating-js', Helper::get_assets_folder_url() . '/js/rate.js');
+    }
+
+    /**
+     * Register all scripts in checkout
+     * 
+     * @return void
+     */
+    public static function register_scripts_checkout()
+    {
+        $key = Helper::get_option('google_api_key');
+        if ($key) {
+            wp_enqueue_script('checkout', Helper::get_assets_folder_url() . '/js/checkout.js');
+            wp_enqueue_script(
+                'checkout-moova',
+                "https://maps.googleapis.com/maps/api/js?key=$key&libraries=places&callback=initMap",
+                [],
+                false,
+                true
+            );
+        }
     }
 
     /**
