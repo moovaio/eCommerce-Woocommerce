@@ -41,14 +41,15 @@ function initMap() {
 		return autocomplete;
 	}
 
-  function placeMarker(location, marker) {
-    let types = ['billing', 'shipping'];
-    for (let type of types) {
-      document.getElementById(type+'_moova_lat').value = location.lat();
-		  document.getElementById(type+'_moova_lng').value = location.lng();
-    }
+	function placeMarker(location, marker) {
+		let types = ['billing', 'shipping'];
+		for (let type of types) {
+			document.getElementById(type + '_moova_lat').value = location.lat();
+			document.getElementById(type + '_moova_lng').value = location.lng();
+		}
 
 		marker.setPosition(location);
+		setMoovaCustomFields();
 	}
 
 	class Place {
@@ -80,49 +81,38 @@ function initMap() {
 
 			this.marker.setPosition(place.geometry.location);
 			this.marker.setVisible(true);
-      
-      document.getElementById(this.type + '_moova_lat').value = place.geometry.location.lat();
-      document.getElementById(this.type + '_moova_lng').value = place.geometry.location.lng();
-      
-      let postalCode = place.address_components.find(element => element.types[0] === 'postal_code')
-      let city = place.address_components.find(element => element.types[0] === "administrative_area_level_1")
-      let country = place.address_components.find(element => element.types[0] === 'country')
 
-      document.getElementById(this.type + '_postcode').value = postalCode.long_name;
-      document.getElementById(this.type + '_city').value = city.long_name;
+			document.getElementById(this.type + '_moova_lat').value = place.geometry.location.lat();
+			document.getElementById(this.type + '_moova_lng').value = place.geometry.location.lng();
 
+			let postalCode = place.address_components.find(element => element.types[0] === 'postal_code')
+			let city = place.address_components.find(element => element.types[0] === "administrative_area_level_1")
+			let country = place.address_components.find(element => element.types[0] === 'country')
+
+			document.getElementById(this.type + '_postcode').value = postalCode.long_name;
+			document.getElementById(this.type + '_city').value = city.long_name;
+			setMoovaCustomFields();
 		}
 	}
 
 	init();
 }
 
-jQuery(function ($) {
-	function setMoovaCustomFields() {
-		$.ajax({
-			type: 'POST',
-			url: wc_checkout_params.ajax_url,
-			data: {
-				'action': 'moova_custom_fields',
-				'lat': $("#billing_moova_lat").val(),
-				'lng': $("#billing_moova_lng").val(),
-			},
-			success: function(result) {
-				$('body').trigger('update_checkout');
-			}
-		});
-	}
-
-	// On start
-	if ($("#billing_moova_lat").val() != '')
-		setMoovaCustomFields();
-
-	// On change event
-	$('form.checkout').on('change', "#billing_moova_lat", function() {
-		setMoovaCustomFields();
+function setMoovaCustomFields() {
+	let type = document.getElementById('ship-to-different-address-checkbox').checked ? 'shipping' : 'billing';
+	jQuery.ajax({
+		type: 'POST',
+		url: wc_checkout_params.ajax_url,
+		data: {
+			'action': 'moova_custom_fields',
+			'lat': jQuery("#" + type + "_moova_lat").val(),
+			'lng': jQuery("#" + type + "_moova_lng").val(),
+		},
+		success: function(result) {
+			jQuery('body').trigger('update_checkout');
+		}
 	});
-	
-	$('form.checkout').on('change', "#billing_moova_lng", function() {
-		setMoovaCustomFields();
-	});
-});
+}
+
+if (jQuery("#billing_moova_lat").val() != '')
+	setMoovaCustomFields();

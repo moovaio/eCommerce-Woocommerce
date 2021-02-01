@@ -31,9 +31,6 @@ class MoovaSdk
      */
     public function get_price(array $origin, array $to, array $items)
     {
-        Helper::log_info("Get_price");
-        Helper::log_info("Get_price - Origin:" . json_encode($origin));
-        Helper::log_info("Get_price - Destination:" . json_encode($to));
         $from = [
             'floor' => $origin['floor'],
             'apartment' => $origin['apartment'],
@@ -53,10 +50,10 @@ class MoovaSdk
             ],
             'type' => 'woocommerce_24_horas_max'
         ];
-        if (!empty(WC()->session->get('moova_lat'))) {
+        if (!empty($to['lat'])) {
             $data_to_send['to']['coords'] = [
-                'lat' => WC()->session->get('moova_lat'),
-                'lng' => WC()->session->get('moova_lng')
+                'lat' => empty($to['lat']),
+                'lng' => empty($to['lng'])
             ];
         } elseif (isset($to['number']) && !empty($to['number'])) {
             $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
@@ -74,6 +71,7 @@ class MoovaSdk
         } catch (Exception $error) {
             Helper::log_debug('Budget from postalcode');
             unset($data_to_send['to']['address']);
+            unset($data_to_send['to']['coords']);
             $res = $this->api->post('/budgets/estimate', $data_to_send);
         }
 
@@ -160,21 +158,33 @@ class MoovaSdk
         $orderItems = Helper::get_items_from_order($order);
         $parse = parse_url(get_site_url());
         $prefix = substr($parse['host'], 0, 3);
+        $to = [
+            'street' => $customer['street'],
+            'number' => $customer['number'],
+            'city' => $customer['locality'],
+            'state' => $customer['province'],
+        ];
+
+        if (!empty($customer['lat'])) {
+            $to = [
+                'coords' => [
+                    'lat' => $customer['lat'],
+                    'lng' => $customer['lng']
+                ],
+                'addressDescription' => "{$customer['street']} {$customer['number']}"
+            ];
+        }
         return [
             'scheduledDate' => null,
             'currency' => get_woocommerce_currency(),
             'type' => 'regular',
             'flow' => 'manual',
             'from' => $seller,
-            'to' => [
-                'street' => $customer['street'],
-                'number' => $customer['number'],
+            'to' => array_merge($to, [
+                'country' => $order->shipping_country,
                 'floor' => $customer['floor'],
                 'apartment' => $customer['apartment'],
-                'city' => $customer['locality'],
-                'state' => $customer['province'],
                 'postalCode' => $customer['cp'],
-                'country' => $order->shipping_country,
                 'instructions' => $customer['extra_info'],
                 'contact' => [
                     'firstName' => $customer['first_name'],
@@ -182,7 +192,7 @@ class MoovaSdk
                     'email' => $customer['email'],
                     'phone' => $customer['phone']
                 ]
-            ],
+            ]),
             'conf' => [
                 'assurance' => false,
                 'items' => $orderItems

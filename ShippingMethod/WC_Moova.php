@@ -116,9 +116,6 @@ class WC_Moova extends \WC_Shipping_method
         if ($unable_to_calculate) {
             return null;
         }
-        Helper::log_info('get_single_origin_rate - Calling get_price ');
-        Helper::log_info('get_single_origin_rate - $seller:' . json_encode($seller));
-        Helper::log_info('get_single_origin_rate - $customer:' . json_encode($customer));
         return $moovaSdk->get_price($seller, $customer, $items);
     }
 }

@@ -7,7 +7,7 @@ namespace Ecomerciar\Moova\Checkout;
  */
 class Checkout
 {
-    function wdm_override_default_address_fields($address_fields)
+    public static function moova_override_default_address_fields($address_fields)
     {
 
         $temp_fields = array();
@@ -15,7 +15,8 @@ class Checkout
         $address_fields['moova_lat'] = array(
             'label' => __('Latitude', 'woocommerce'),
             'placeholder' => '',
-            'type'  => 'text'
+            'type'  => 'text',
+            'class'      => array('form-row-wide', 'address-field'),
         );
         $address_fields['moova_lng'] = array(
             'label' => __('Longitude', 'woocommerce'),
@@ -26,7 +27,7 @@ class Checkout
         return $address_fields;
     }
 
-    function get_ajax_moova_custom_fields()
+    public function get_ajax_moova_custom_fields()
     {
         if (isset($_POST['lat'])) {
             WC()->session->set('moova_lat', esc_attr($_POST['lat']));
@@ -36,7 +37,7 @@ class Checkout
         die();
     }
 
-    function refresh_shipping_methods()
+    public function refresh_shipping_methods()
     {
         $bool = true;
         if (WC()->session->get('billing_area') != '') $bool = false;

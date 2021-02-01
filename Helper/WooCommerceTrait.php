@@ -35,9 +35,17 @@ trait WooCommerceTrait
             'locality' => $locality,
             'province' => $province,
             'country' => WC()->countries->countries[$customer->get_shipping_country()],
-            'lat' => WC()->session->get('moova_lat'),
-            'lng' => WC()->session->get('moova_lng')
+            'lat' => self::get_coord('lat', $customer),
+            'lng' => self::get_coord('lng', $customer)
         ];
+    }
+
+    public static function get_coord($place, $customer)
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            return $customer->get_meta("_shipping_moova_$place");
+        }
+        return WC()->session->get("moova_$place");
     }
 
     /**
