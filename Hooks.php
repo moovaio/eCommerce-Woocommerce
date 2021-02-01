@@ -42,4 +42,9 @@ add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_f
 
 // ---- Ask for review
 add_action('admin_notices', ['WCMoova', 'qualify_application']);
+
+// ---- Edit de the checkout
 add_filter('woocommerce_default_address_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'wdm_override_default_address_fields']);
+add_action('wp_ajax_moova_custom_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'get_ajax_moova_custom_fields']);
+add_action('wp_ajax_nopriv_moova_custom_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'get_ajax_moova_custom_fields']);
+add_action('woocommerce_checkout_update_order_review', ['\Ecomerciar\Moova\Checkout\Checkout', 'refresh_shipping_methods'], 10, 1);

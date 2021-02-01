@@ -25,4 +25,26 @@ class Checkout
 
         return $address_fields;
     }
+
+    function get_ajax_moova_custom_fields()
+    {
+        if (isset($_POST['lat'])) {
+            WC()->session->set('moova_lat', esc_attr($_POST['lat']));
+            WC()->session->set('moova_lng', esc_attr($_POST['lng']));
+            echo $_POST['lat'];
+        }
+        die();
+    }
+
+    function refresh_shipping_methods()
+    {
+        $bool = true;
+        if (WC()->session->get('billing_area') != '') $bool = false;
+
+        // Mandatory to make it work with shipping methods
+        foreach (WC()->cart->get_shipping_packages() as $package_key => $package) {
+            WC()->session->set('shipping_for_package_' . $package_key, $bool);
+        }
+        WC()->cart->calculate_shipping();
+    }
 }

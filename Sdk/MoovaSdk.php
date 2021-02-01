@@ -50,8 +50,12 @@ class MoovaSdk
             ],
             'type' => 'woocommerce_24_horas_max'
         ];
-
-        if (isset($to['number']) && !empty($to['number'])) {
+        if (!empty(WC()->session->get('moova_lat'))) {
+            $data_to_send['to']['coords'] = [
+                'lat' => WC()->session->get('moova_lat'),
+                'lng' => WC()->session->get('moova_lng')
+            ];
+        } elseif (isset($to['number']) && !empty($to['number'])) {
             $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
         }
         try {

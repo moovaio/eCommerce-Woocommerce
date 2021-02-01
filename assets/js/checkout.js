@@ -96,3 +96,33 @@ function initMap() {
 
 	init();
 }
+
+jQuery(function ($) {
+	function setMoovaCustomFields() {
+		$.ajax({
+			type: 'POST',
+			url: wc_checkout_params.ajax_url,
+			data: {
+				'action': 'moova_custom_fields',
+				'lat': $("#billing_moova_lat").val(),
+				'lng': $("#billing_moova_lng").val(),
+			},
+			success: function(result) {
+				$('body').trigger('update_checkout');
+			}
+		});
+	}
+
+	// On start
+	if ($("#billing_moova_lat").val() != '')
+		setMoovaCustomFields();
+
+	// On change event
+	$('form.checkout').on('change', "#billing_moova_lat", function() {
+		setMoovaCustomFields();
+	});
+	
+	$('form.checkout').on('change', "#billing_moova_lng", function() {
+		setMoovaCustomFields();
+	});
+});

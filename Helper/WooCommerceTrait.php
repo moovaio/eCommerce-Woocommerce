@@ -34,7 +34,9 @@ trait WooCommerceTrait
             'cp' => $postal_code,
             'locality' => $locality,
             'province' => $province,
-            'country' => WC()->countries->countries[$customer->get_shipping_country()]
+            'country' => WC()->countries->countries[$customer->get_shipping_country()],
+            'lat' => WC()->session->get('moova_lat'),
+            'lng' => WC()->session->get('moova_lng')
         ];
     }
 
