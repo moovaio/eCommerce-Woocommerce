@@ -374,15 +374,25 @@ trait WooCommerceTrait
         if (!$product) return false;
         $dimension_unit = 'cm';
         $weight_unit = 'g';
-
         $new_product = array(
-            'height' => wc_get_dimension(floatval($product->get_height()), $dimension_unit),
-            'width' => wc_get_dimension(floatval($product->get_width()), $dimension_unit),
-            'length' => wc_get_dimension(floatval($product->get_length()), $dimension_unit),
-            'weight' => wc_get_weight(floatval($product->get_weight()), $weight_unit),
+            'height' => round(
+                wc_get_dimension(floatval($product->get_height()), $dimension_unit),
+                2
+            ),
+            'width' => round(
+                wc_get_dimension(floatval($product->get_width()), $dimension_unit),
+                2
+            ),
+            'length' => round(
+                wc_get_dimension(floatval($product->get_length()), $dimension_unit),
+                2
+            ),
+            'weight' => round(
+                wc_get_weight(floatval($product->get_weight()), $weight_unit),
+                2
+            ),
             'price' => $product->get_price(),
-            'description' => $product->get_name(),
-            'vendor_id' => $product->post->post_author
+            'name' => $product->get_name()
         );
         return $new_product;
     }

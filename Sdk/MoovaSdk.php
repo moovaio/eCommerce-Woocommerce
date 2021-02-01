@@ -31,6 +31,9 @@ class MoovaSdk
      */
     public function get_price(array $origin, array $to, array $items)
     {
+        Helper::log_info("Get_price");
+        Helper::log_info("Get_price - Origin:" . json_encode($origin));
+        Helper::log_info("Get_price - Destination:" . json_encode($to));
         $from = [
             'floor' => $origin['floor'],
             'apartment' => $origin['apartment'],
