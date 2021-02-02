@@ -42,15 +42,20 @@ trait PageTrait
         ]);
 
         $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
-
+        $video_url = null;
 ?>
         <div class="moova-form-wrapper wrap">
             <div class="settings-header">
                 <img src="<?php echo $logo_url; ?>" class="logo">
             </div>
-            <form action="admin.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
+            <form action=" admin.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
                 <?php
                 settings_fields($pageName);
+                if ($video_url) {
+                ?>
+                    <iframe width="600" height="400" src="<?php echo $video_url; ?>"></iframe>
+                <?php
+                }
                 do_settings_sections($pageName);
                 wp_nonce_field('_wpmoovanonce', 'wc-moova-save-preferences');
                 submit_button(__('Save', 'wc-moova'));

@@ -50,3 +50,4 @@ add_action('wp_ajax_nopriv_moova_custom_fields', ['\Ecomerciar\Moova\Checkout\Ch
 add_action('woocommerce_checkout_update_order_review', ['\Ecomerciar\Moova\Checkout\Checkout', 'refresh_shipping_methods'], 10, 1);
 add_filter('woocommerce_admin_billing_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'moova_override_default_address_fields']);
 add_filter('woocommerce_admin_shipping_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'moova_override_default_address_fields']);
+add_action('woocommerce_after_checkout_form', ['\Ecomerciar\Moova\Checkout\Checkout', 'register_scripts']);

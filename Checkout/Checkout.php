@@ -2,11 +2,35 @@
 
 namespace Ecomerciar\Moova\Checkout;
 
+use Ecomerciar\Moova\Helper\Helper;
+
 /**
  * Our main payment method class
  */
 class Checkout
 {
+    /**
+     * Register all scripts in checkout
+     * 
+     * @return void
+     */
+    public static function register_scripts()
+    {
+        $key = Helper::get_option('google_api_key');
+        if ($key) {
+            wp_enqueue_script('checkout', Helper::get_assets_folder_url() . '/js/checkout.js');
+            wp_enqueue_script(
+                'checkout-moova',
+                "https://maps.googleapis.com/maps/api/js?key=$key&libraries=places&callback=initMap",
+                [],
+                false,
+                true
+            );
+            wp_enqueue_style('wc-moova-checkout-css', Helper::get_assets_folder_url() . '/css/checkout.css');
+        }
+    }
+
+
     public static function moova_override_default_address_fields($address_fields)
     {
 

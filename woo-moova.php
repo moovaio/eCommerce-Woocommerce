@@ -30,7 +30,6 @@ class WCMoova
         add_action('plugins_loaded', [$this, 'setScripts']);
         add_action('admin_menu', [$this, 'set_menu_pages'], 11);
         add_action('admin_enqueue_scripts', [$this, 'register_scripts']);
-        add_action('woocommerce_after_checkout_form', [$this, 'register_scripts_checkout']);
     }
     /**
      * Checks system requirements
@@ -175,26 +174,6 @@ class WCMoova
         wp_register_script('wc-moova-orders-js', Helper::get_assets_folder_url() . '/js/orders.min.js');
         wp_register_script('wc-moova-settings-js', Helper::get_assets_folder_url() . '/js/settings.js');
         wp_enqueue_script('wc-moova-rating-js', Helper::get_assets_folder_url() . '/js/rate.js');
-    }
-
-    /**
-     * Register all scripts in checkout
-     * 
-     * @return void
-     */
-    public static function register_scripts_checkout()
-    {
-        $key = Helper::get_option('google_api_key');
-        if ($key) {
-            wp_enqueue_script('checkout', Helper::get_assets_folder_url() . '/js/checkout.js');
-            wp_enqueue_script(
-                'checkout-moova',
-                "https://maps.googleapis.com/maps/api/js?key=$key&libraries=places&callback=initMap",
-                [],
-                false,
-                true
-            );
-        }
     }
 
     /**
