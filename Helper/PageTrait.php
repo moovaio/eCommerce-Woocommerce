@@ -42,7 +42,7 @@ trait PageTrait
         ]);
 
         $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
-        $video_url = null;
+        $video_url = 'https://www.youtube.com/embed/2wyjHtUpHgE';
 ?>
         <div class="moova-form-wrapper wrap">
             <div class="settings-header">
