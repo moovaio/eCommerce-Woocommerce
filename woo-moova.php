@@ -5,13 +5,13 @@ use Ecomerciar\Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 2.1
+ * Version: 2.2
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
  * Text Domain: wc-moova
  * WC requires at least: 3.3
- * WC tested up to: 4.9.2
+ * WC tested up to: 5.4
  */
 
 defined('ABSPATH') || exit;

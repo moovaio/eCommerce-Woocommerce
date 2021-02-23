@@ -376,7 +376,7 @@ trait WooCommerceTrait
      * @param int $product_id
      * @return false|array
      */
-    public static function get_product_dimensions($product_id)
+    public static function get_product_dimensions($product_id, $quantity = 1)
     {
         $product = wc_get_product($product_id);
         if (!$product) return false;
@@ -400,9 +400,10 @@ trait WooCommerceTrait
                 2
             ),
             'price' => $product->get_price(),
-            'name' => $product->get_name()
+            'name' => $product->get_name(),
+            'quantity' => $quantity
         );
-        return $new_product;
+        return ["item" => $new_product];
     }
 
     /**
@@ -417,8 +418,7 @@ trait WooCommerceTrait
         $items = $cart->get_cart();
         foreach ($items as $item) {
             $product_id = $item['data']->get_id();
-            $new_product = self::get_product_dimensions($product_id);
-            $new_product['quantity'] = $item['quantity'];
+            $new_product = self::get_product_dimensions($product_id, $item['quantity']);
             $products[] = $new_product;
         }
         return $products;
@@ -436,9 +436,8 @@ trait WooCommerceTrait
         $items = $cart->get_cart();
         foreach ($items as $item) {
             $product_id = $item['data']->get_id();
-            $new_product = self::get_product_dimensions($product_id);
-            $new_product['quantity'] = $item['quantity'];
-            $vendor_id = $new_product['vendor_id'];
+            $new_product = self::get_product_dimensions($product_id, $item['quantity']);
+            $vendor_id = $new_product['item']['vendor_id'];
             Helper::log_info($vendor_id);
             if (!isset($vendor_items[$vendor_id])) {
                 $vendor_items[$vendor_id] = [];
@@ -462,8 +461,7 @@ trait WooCommerceTrait
             $product_id = $item->get_variation_id();
             if (!$product_id)
                 $product_id = $item->get_product_id();
-            $new_product = self::get_product_dimensions($product_id);
-            $new_product['quantity'] = $item['quantity'];
+            $new_product = self::get_product_dimensions($product_id, $item['quantity']);
             $products[] = $new_product;
         }
         return $products;
