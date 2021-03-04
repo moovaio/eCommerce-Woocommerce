@@ -437,8 +437,8 @@ trait WooCommerceTrait
         foreach ($items as $item) {
             $product_id = $item['data']->get_id();
             $new_product = self::get_product_dimensions($product_id, $item['quantity']);
-            $vendor_id = $new_product['item']['vendor_id'];
-            Helper::log_info($vendor_id);
+            $product = wc_get_product($product_id);
+            $vendor_id = $product->post->post_author;
             if (!isset($vendor_items[$vendor_id])) {
                 $vendor_items[$vendor_id] = [];
             }
