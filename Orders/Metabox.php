@@ -53,6 +53,7 @@ class Metabox
 
         if ($shipping_method->get_meta('tracking_number')) {
             $tracking_number = $shipping_method->get_meta('tracking_number');
+            $tracking_url = $shipping_method->get_meta('tracking_url');
             if (!empty($tracking_number)) {
 
                 // Tracking number
@@ -60,12 +61,6 @@ class Metabox
                 $tracking_number = $matches[1];
                 printf(__('The order has been processed, tracking number: <strong>%s</strong>', 'wc-moova'), $tracking_number);
 
-                // Tracking URL
-                if (Helper::get_option('environment') === 'prod') {
-                    $tracking_url = 'https://dashboard.moova.io/external?id=' . $tracking_number;
-                } else {
-                    $tracking_url = 'https://dev.moova.io/external?id=' . $tracking_number;
-                }
                 echo '<a class="button-primary" style="display:block;margin:10px 0;" href="' . $tracking_url . '" target="_blank">' . __('Track order', 'wc-moova') . '</a>';
 
                 // Label URL

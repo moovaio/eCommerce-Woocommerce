@@ -30,7 +30,6 @@ class Checkout
         }
     }
 
-
     public static function moova_override_default_address_fields($address_fields)
     {
 
@@ -71,5 +70,26 @@ class Checkout
             WC()->session->set('shipping_for_package_' . $package_key, $bool);
         }
         WC()->cart->calculate_shipping();
+    }
+
+    public static function thank_you_message($str, $order)
+    {
+        /*$is_moova = true;
+        if ($is_moova) {
+            $str .= 'Segui tu envio : <a href=""> aqui</a>';
+        }*/
+        return $str;
+    }
+
+    function custom_items($order_id)
+    {
+        $order = wc_get_order($order_id);
+        $shipping_method = Helper::get_shipping_method($order);
+        if ($shipping_method) {
+            $url = $shipping_method->get_meta('tracking_url');
+            $message = "Segui tu envio y valida que tu direccion sea la correcta haciendo" .
+                "<a style='color: #0272a9;' href='$url'> click aquí</a>";
+            echo $message;
+        }
     }
 }

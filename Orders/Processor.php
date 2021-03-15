@@ -118,9 +118,6 @@ class Processor
             }
         }
 
-        foreach ($list_of_tracking_ids as $tracking_id) {
-            self::set_shipping_method_in_order($order, $tracking_id);
-        }
         return $list_of_tracking_ids;
     }
 
@@ -134,7 +131,7 @@ class Processor
                 return false;
             }
             $tracking_id = $res['id'];
-            self::set_shipping_method_in_order($order, $res['id'], $shipping_method);
+            self::set_shipping_method_in_order($order, $res, $shipping_method);
             return $tracking_id;
         } catch (Exception $error) {
             return null;
@@ -145,14 +142,21 @@ class Processor
         }
     }
 
-    public static function set_shipping_method_in_order($order, $tracking_id, $shipping_method = null, $moovaSdk = null)
+    public static function set_shipping_method_in_order($order, $moovaOrder, $shipping_method = null, $moovaSdk = null)
     {
         $moovaSdk = $moovaSdk ?? new MoovaSdk();
         $item = $shipping_method ?? new  \WC_Order_Item_Shipping();
         $moovaShippingmethod = WC()->shipping->get_shipping_methods()['moova'];
+        $tracking_id = $moovaOrder['id'];
+        $hash = $moovaOrder['hash'];
         $item->set_method_title($moovaShippingmethod->method_title);
         $item->set_method_id($moovaShippingmethod->id);
         $item->update_meta_data('tracking_number', $tracking_id);
+
+        $domain = Helper::get_option('environment') === 'prod' ? 'dashboard' : 'dev';
+        $tracking_url = "https://$domain.moova.io/external/$tracking_id?hash=$hash";
+        $item->update_meta_data('tracking_url', $tracking_url);
+
         $res = $moovaSdk->get_shipping_label($tracking_id);
         if ($res && !empty($res['label'])) {
             $item->update_meta_data('shipping_label', $res['label']);

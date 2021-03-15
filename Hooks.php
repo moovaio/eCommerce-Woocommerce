@@ -51,3 +51,5 @@ add_action('woocommerce_checkout_update_order_review', ['\Ecomerciar\Moova\Check
 add_filter('woocommerce_admin_billing_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'moova_override_default_address_fields']);
 add_filter('woocommerce_admin_shipping_fields', ['\Ecomerciar\Moova\Checkout\Checkout', 'moova_override_default_address_fields']);
 add_action('woocommerce_after_checkout_form', ['\Ecomerciar\Moova\Checkout\Checkout', 'register_scripts']);
+add_filter('woocommerce_thankyou_order_received_text', ['\Ecomerciar\Moova\Checkout\Checkout', 'thank_you_message'], 10, 2);
+add_action('woocommerce_thankyou', ['\Ecomerciar\Moova\Checkout\Checkout', 'custom_items'], 1);
