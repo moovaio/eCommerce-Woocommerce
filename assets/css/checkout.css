@@ -1,6 +1,9 @@
 #billing_moova_lat_field,
 #billing_moova_lng_field,
 #shipping_moova_lat_field,
-#shipping_moova_lng_field {
+#shipping_moova_lng_field,
+#billing_moova_schedule_date_field,
+#shipping_moova_schedule_date_field
+ {
   display: none;
 }

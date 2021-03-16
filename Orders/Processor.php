@@ -126,7 +126,7 @@ class Processor
         try {
             Helper::log_info("Processing order {$order->id}");
             $moovaSdk = new MoovaSdk();
-            $res = $moovaSdk->process_order($order, Helper::get_customer_from_order($order));
+            $res = $moovaSdk->process_order($order);
             if (!$res) {
                 return false;
             }

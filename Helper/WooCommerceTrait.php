@@ -35,17 +35,17 @@ trait WooCommerceTrait
             'locality' => $locality,
             'province' => $province,
             'country' => WC()->countries->countries[$customer->get_shipping_country()],
-            'lat' => self::get_coord('lat', $customer),
-            'lng' => self::get_coord('lng', $customer)
+            'lat' => self::get_custom_shipping_type('lat', $customer),
+            'lng' => self::get_custom_shipping_type('lng', $customer)
         ];
     }
 
-    public static function get_coord($place, $customer)
+    public static function get_custom_shipping_type($type, $customer)
     {
         if (session_status() == PHP_SESSION_NONE) {
-            return $customer->get_meta("_shipping_moova_$place");
+            return $customer->get_meta("_shipping_moova_$type");
         }
-        return WC()->session->get("moova_$place");
+        return WC()->session->get("moova_$type");
     }
 
     /**

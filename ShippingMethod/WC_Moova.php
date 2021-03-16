@@ -100,7 +100,7 @@ class WC_Moova extends \WC_Shipping_method
             $vendor = Helper::get_dokan_seller_by_id($vendor_id);
             $format_origin = Helper::format_dokan_origin_to_moova($vendor);
             $price = $moovaSdk->get_price($format_origin, $customer, $vendor_cart);
-            if (!$price && $price != 0) return;
+            if ($price == false) return false;
             $final_price += $price;
         }
         return $final_price;

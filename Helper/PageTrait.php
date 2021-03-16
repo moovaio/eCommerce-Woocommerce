@@ -85,8 +85,9 @@ trait PageTrait
             update_option('wc-moova-' . $setting['slug'], $value);
             $saved = true;
         }
-        $appId = empty($post_data['clientid']) ? null : $post_data['clientid'];
-        $appKey = empty($post_data['clientsecret']) ? null : $post_data['clientsecret'];
+        $prefixEnv = $post_data['environment'] === 'test' ? 'dev' : '';
+        $appId = empty($post_data[$prefixEnv . 'clientid']) ? null : $post_data[$prefixEnv . 'clientid'];
+        $appKey = empty($post_data[$prefixEnv . 'clientsecret']) ? null : $post_data[$prefixEnv . 'clientsecret'];
         if ($appId && $appKey) {
             $moova_sdk = new MoovaSdk();
             $moova_sdk->setHooks();

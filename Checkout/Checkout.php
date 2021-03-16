@@ -41,10 +41,17 @@ class Checkout
             'type'  => 'text',
             'class'      => array('form-row-wide', 'address-field'),
         );
+
         $address_fields['moova_lng'] = array(
             'label' => __('Longitude', 'woocommerce'),
             'placeholder' => '',
             'type'  => 'text'
+        );
+
+        $address_fields['moova_schedule_date'] = array(
+            'label' => __('Delivery Day', 'woocommerce'),
+            'placeholder' => '',
+            'type'  => 'date'
         );
 
         return $address_fields;

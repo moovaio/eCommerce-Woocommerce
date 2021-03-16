@@ -13,9 +13,10 @@ class MoovaSdk
     private $api;
     public function __construct()
     {
+        $prefixEnv = Helper::get_option('environment', 'test') === 'test' ? 'dev' : '';
         $this->api = new MoovaApi(
-            Helper::get_option('clientid', ''),
-            Helper::get_option('clientsecret', ''),
+            Helper::get_option($prefixEnv . 'clientid', ''),
+            Helper::get_option($prefixEnv . 'clientsecret', ''),
             Helper::get_option('environment', 'test')
         );
         $this->userApi = new UserApi(Helper::get_option('environment', 'test'));
@@ -64,12 +65,15 @@ class MoovaSdk
                 Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
                 Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
             }
-            if (empty($res['budget_id'])) {
+            if ($res && empty($res['budget_id'])) {
                 unset($data_to_send['to']['address']);
                 $res = $this->api->post('/budgets/estimate', $data_to_send);
             }
         } catch (Exception $error) {
-            Helper::log_debug('Budget from postalcode');
+        }
+
+        if (empty($res['budget_id'])) {
+            Helper::log_info('Budget from postalcode');
             unset($data_to_send['to']['address']);
             unset($data_to_send['to']['coords']);
             $res = $this->api->post('/budgets/estimate', $data_to_send);
@@ -156,6 +160,8 @@ class MoovaSdk
         $seller = Helper::get_seller_from_settings($order);
         $customer = Helper::get_customer_from_order($order);
         $orderItems = Helper::get_items_from_order($order);
+        $scheduledDate = Helper::get_custom_shipping_type('schedule_date', $order);
+        $scheduledDate = $scheduledDate ?  "$scheduledDate 01:00:00" : null;
         $parse = parse_url(get_site_url());
         $prefix = substr($parse['host'], 0, 3);
         $to = [
@@ -174,8 +180,9 @@ class MoovaSdk
                 'addressDescription' => "{$customer['street']} {$customer['number']}"
             ];
         }
+        Helper::log_info($scheduledDate);
         return [
-            'scheduledDate' => null,
+            'scheduledDate' => $scheduledDate,
             'currency' => get_woocommerce_currency(),
             'type' => 'regular',
             'flow' => 'manual',
