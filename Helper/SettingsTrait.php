@@ -68,7 +68,7 @@ trait SettingsTrait
     {
         global $wpdb;
         $row = $wpdb->get_row(
-            "SELECT seller_id FROM wp_2.wp_dokan_orders WHERE order_id={$order->id}",
+            "SELECT seller_id FROM wp_dokan_orders WHERE order_id={$order->id}",
             ARRAY_A
         );
 
