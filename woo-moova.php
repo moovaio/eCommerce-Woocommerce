@@ -11,7 +11,7 @@ use Ecomerciar\Moova\Helper\Helper;
  * Author URI: https://moova.io/
  * Text Domain: wc-moova
  * WC requires at least: 3.3
- * WC tested up to: 5.4
+ * WC tested up to: 5.6
  */
 
 defined('ABSPATH') || exit;
