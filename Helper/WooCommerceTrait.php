@@ -42,10 +42,18 @@ trait WooCommerceTrait
 
     public static function get_custom_shipping_type($type, $customer)
     {
+        $response = '';
         if (session_status() == PHP_SESSION_NONE) {
-            return $customer->get_meta("_shipping_moova_$type");
+            $response = $customer->get_meta("_billing_moova_$type");
+        } else {
+            $response = WC()->session->get("moova_$type");
         }
-        return WC()->session->get("moova_$type");
+        if (empty($response)) {
+            $postData = '';
+            parse_str(WC()->checkout->get_value('post_data'), $postData);
+            $response = $postData["billing_moova_$type"];
+        }
+        return $response;
     }
 
     /**

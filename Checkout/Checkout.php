@@ -32,9 +32,6 @@ class Checkout
 
     public static function moova_override_default_address_fields($address_fields)
     {
-
-        $temp_fields = array();
-
         $address_fields['moova_lat'] = array(
             'label' => __('Latitude', 'woocommerce'),
             'placeholder' => '',

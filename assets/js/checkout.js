@@ -89,7 +89,9 @@ function initMap() {
 			let city = place.address_components.find(element => element.types[0] === "administrative_area_level_1")
 			let country = place.address_components.find(element => element.types[0] === 'country')
 
-			document.getElementById(this.type + '_postcode').value = postalCode.long_name;
+			if (postalCode) {
+				document.getElementById(this.type + '_postcode').value = postalCode.long_name;
+			}
 			document.getElementById(this.type + '_city').value = city.long_name;
 			setMoovaCustomFields();
 		}

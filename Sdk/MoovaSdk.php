@@ -53,8 +53,8 @@ class MoovaSdk
         ];
         if (!empty($to['lat'])) {
             $data_to_send['to']['coords'] = [
-                'lat' => empty($to['lat']),
-                'lng' => empty($to['lng'])
+                'lat' => $to['lat'],
+                'lng' => $to['lng']
             ];
         } elseif (isset($to['number']) && !empty($to['number'])) {
             $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
