@@ -57,7 +57,7 @@ class MoovaSdk
                 'lng' => $to['lng']
             ];
         } elseif (isset($to['number']) && !empty($to['number'])) {
-            $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['province']}, {$to['country']}";
+            $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['locality']}, {$to['province']}, {$to['country']}";
         }
         try {
             $res = $this->api->post('/budgets/estimate', $data_to_send);
