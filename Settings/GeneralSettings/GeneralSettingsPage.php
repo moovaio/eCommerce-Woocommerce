@@ -4,7 +4,7 @@ namespace Ecomerciar\Moova\Settings\GeneralSettings;
 
 use Ecomerciar\Moova\Helper\Helper;
 use Ecomerciar\Moova\Settings\GeneralSettings\MoovaSection;
-use Ecomerciar\Moova\Settings\GeneralSettings\IntegrationSection;
+use Ecomerciar\Moova\Settings\GeneralSettings\CheckoutSection;
 use Ecomerciar\Moova\Settings\GeneralSettings\SellerSection;
 
 defined('ABSPATH') || exit;
@@ -24,7 +24,7 @@ class GeneralSettingsPage
         return array_merge(
             MoovaSection::get_fields(),
             SellerSection::get_fields(),
-            IntegrationSection::get_fields()
+            CheckoutSection::get_fields()
         );
     }
 
@@ -41,7 +41,7 @@ class GeneralSettingsPage
         $section->add('wc-moova-settings');
         $section = new SellerSection();
         $section->add('wc-moova-settings');
-        $section = new IntegrationSection();
+        $section = new CheckoutSection();
         $section->add('wc-moova-settings');
     }
 

@@ -24,6 +24,14 @@ class WCMoova
     const PLUGIN_NAME = 'Moova';
     const MAIN_FILE = __FILE__;
     const MAIN_DIR = __DIR__;
+    const WITHOUT_NEXT_DAY_DELIVERY = [
+        'Fri',
+        'Sat',
+    ];
+    const NOT_WORKING_DAYS = [
+        'Sat',
+        'Sun',
+    ];
 
     public function __construct()
     {
@@ -154,8 +162,8 @@ class WCMoova
 
         add_submenu_page(
             'wc-moova-settings',
-            'Ayuda',
-            'Ayuda',
+            'Help & News',
+            'Help & News',
             'manage_options',
             'wc-moova-help',
             ['\Ecomerciar\Moova\Settings\Support\SupportPage', 'initPage']
@@ -201,15 +209,56 @@ class WCMoova
         return $shipping_methods;
     }
 
-    public function free_shipping_text($label, $method)
+    public function customize_label_shipping_checkout($label, $method)
     {
-        Helper::log_info('Methood:' . json_encode($method));
-        if ($method->cost == 0 && $method->method_id === 'moova') {
-            $label .= ' ' . wc_price(0);
+        $imageUrl = Helper::get_assets_folder_url() . '/img/icon-shipping.png';
+        if ($method->method_id === 'moova') {
+            if (strpos($label, '${shippingDays}') !== false) {
+                $delivery_day = self::get_delivery_day();
+                $label = str_replace('${shippingDays}', $delivery_day, $label);
+                $label = "<span style='vertical-align: top!important;'>$label</span>";
+            }
+
+            if (Helper::get_option('show_moova_image_checkout')) {
+                $label = "<img width='60px' style='display: inline-block;margin-right: 6px;' src='$imageUrl'>" . $label;
+            }
+
+            if ($method->cost == 0) {
+
+                $label .= '<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Gratis</span>';
+            }
         }
         return $label;
     }
 
+    public static function get_delivery_day()
+    {
+        $today = current_time('D');
+        $canDeliverTomorrow = !in_array($today, self::WITHOUT_NEXT_DAY_DELIVERY);
+        $packagingDays = self::get_packaging_days($today);
+
+        if ($packagingDays == 0) {
+            return "hoy!";
+        } elseif (($packagingDays == 1) && $canDeliverTomorrow) {
+            return "mañana";
+        }
+        $suffix = ($packagingDays == 1) ? 'día hábil' : 'días hábiles';
+        return "en {$packagingDays} $suffix!";
+    }
+
+    public static function get_packaging_days($today)
+    {
+        $timezone = new DateTimeZone(wp_timezone_string());
+        $timeLimit = new \DateTime("today 15:00", $timezone);
+        $currentDate = new \DateTime(current_time("mysql"), $timezone);
+        $packagingDays = Helper::get_option('moova_shipping_days', 0);
+        if ($packagingDays == 0) {
+            $canDeliverToday = !in_array($today, self::NOT_WORKING_DAYS);
+            return ($currentDate < $timeLimit) && $canDeliverToday ? 0 : 1;
+        }
+
+        return $packagingDays;
+    }
     /**
      * Loads the plugin text domain
      *

@@ -52,6 +52,8 @@ class MoovaSdk
             'type' => 'woocommerce_24_horas_max'
         ];
         if (!empty($to['lat'])) {
+            unset($data_to_send['to']['postalCode']);
+            unset($data_to_send['from']['postalCode']);
             $data_to_send['to']['coords'] = [
                 'lat' => $to['lat'],
                 'lng' => $to['lng']
@@ -59,20 +61,17 @@ class MoovaSdk
         } elseif (isset($to['number']) && !empty($to['number'])) {
             $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['locality']}, {$to['province']}, {$to['country']}";
         }
+
         try {
             $res = $this->api->post('/budgets/estimate', $data_to_send);
             if (Helper::get_option('debug')) {
                 Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
                 Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
             }
-            if ($res && empty($res['budget_id'])) {
-                unset($data_to_send['to']['address']);
-                $res = $this->api->post('/budgets/estimate', $data_to_send);
-            }
         } catch (Exception $error) {
         }
 
-        if (empty($res['budget_id'])) {
+        if (empty($res['budget_id']) && !empty($data_to_send['from']['postalCode'])) {
             Helper::log_info('Budget from postalcode');
             unset($data_to_send['to']['address']);
             unset($data_to_send['to']['coords']);

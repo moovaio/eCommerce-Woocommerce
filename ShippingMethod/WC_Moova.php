@@ -54,12 +54,8 @@ class WC_Moova extends \WC_Shipping_method
             'title' => [
                 'title' => __('Title', 'woocommerce'),
                 'type' => 'text',
-                'description' => __('Choose the name that your customers will see in the checkout', 'wc-moova'),
-                'default' => __('Moova', 'wc-moova')
-            ],
-            'free_shipping' => [
-                'title' => __('Free shipping', 'wc-moova'),
-                'type' => 'checkbox'
+                'description' => __('Choose the name that your customers will see in the checkout. Put ${shippingDays} to show when it will arrive', 'wc-moova'),
+                'default' => __('Tu pedido llega ${shippingDays}', 'wc-moova')
             ]
         ];
     }

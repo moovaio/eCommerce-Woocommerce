@@ -1,5 +1,5 @@
 === Moova for WooCommerce ===
-Tags: moova, shipments, shipping, rates, woocommerce, Argentina, Chile, Uruguay, Peru, Guatemala, Mexico
+Tags: moova, shipments, shipping, rates, woocommerce, Argentina, Chile, Uruguay, Peru, Guatemala, Mexico,envios
 Requires at least: 4.6
 Tested up to: 5.6
 Requires PHP: 7.0
@@ -13,7 +13,6 @@ Plugin to connect Moova's Shipping services with WooCommerce
 Integrate with moova to get same-day shipping at affordable rates. This extension would allow clients to from Uruguay, Argentina, Mexico, Chile, Peru, Guatemala, and Panama to automate your shippings.
 
 The main features: 
-
 * Live Shipping Rate: Based on the product weight, box dimensions, shipping origin, destination, etc. this plugin will fetch Moova rates for shipping services.
 * Real-time tracking: We will provide a tracking number that will enable your client to see all the shipping status from our website. We will also notify of all the shipping status to your store
 * Shipments in 24 hours: Improve the user experience by enabling our 24 hours shipping. We will give a label for all their shippings automatically and ready to print

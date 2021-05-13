@@ -6,12 +6,12 @@ use Ecomerciar\Moova\Settings\Sections\Section;
 use Ecomerciar\Moova\Settings\Sections\SectionInterface;
 
 /**
- * IntegrationSection class
+ * CheckoutSection class
  */
-class IntegrationSection extends Section implements SectionInterface
+class CheckoutSection extends Section implements SectionInterface
 {
     private $data = [
-        'slug' => 'wc-moova-integration-settings'
+        'slug' => 'wc-moova-checkout-settings'
     ];
 
     /**
@@ -19,7 +19,7 @@ class IntegrationSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Integration settings', 'wc-moova');
+        $this->data['name'] = __('Checkout settings', 'wc-moova');
         parent::__construct($this->data);
     }
 
@@ -31,6 +31,24 @@ class IntegrationSection extends Section implements SectionInterface
     public static function get_fields()
     {
         $fields = [
+            'show_moova_image_checkout' => [
+                'name' => __('Show moova image in checkout', 'wc-moova'),
+                'slug' => 'show_moova_image_checkout',
+                'description' => __('In the checkout we will show the moova icon', 'wc-moova'),
+                'options' => [
+                    '0' => 'No',
+                    '1' => 'Yes'
+                ],
+                'default' => '1',
+                'type' => 'select'
+            ],
+            'moova_shipping_days' => [
+                'name' => __('How many days it takes to send package to moova', 'wc-moova'),
+                'slug' => 'moova_shipping_days',
+                'description' => __('If you take an extra time to make the packaging and to send it to moova write it here in days', 'wc-moova'),
+                'type' => 'number',
+                'default' => 0,
+            ],
             'has_special_price' => [
                 'name' => __('Offer a special price to the client', 'wc-moova'),
                 'slug' => 'has_special_price',
@@ -83,26 +101,6 @@ class IntegrationSection extends Section implements SectionInterface
                 'slug' => 'tracking',
                 'description' => __('This plugin offers a tracking form using the shortcode <strong>[moova_tracking_form]</strong>. You can use it in any page.', 'wc-moova'),
                 'type' => 'description'
-            ],
-            'environment' => [
-                'name' => __('Environment', 'wc-moova'),
-                'slug' => 'environment',
-                'description' => __('', 'wc-moova'),
-                'type' => 'select',
-                'options' => [
-                    'prod' => __('Production', 'wc-moova'),
-                    'test' => __('Test', 'wc-moova')
-                ]
-            ],
-            'debug' => [
-                'name' => __('Debug Mode', 'wc-moova'),
-                'slug' => 'debug',
-                'description' => __('Activate the debug log for developers. If you do not know what is this then probably you do not need to activate it', 'wc-moova'),
-                'type' => 'select',
-                'options' => [
-                    '0' => 'No',
-                    '1' => 'Si'
-                ]
             ]
         ];
         return $fields;

@@ -71,13 +71,6 @@ trait WooCommerceTrait
         if (!empty($address['number'])) {
             $full_address .= ' ' . $address['number'];
         }
-        if (!empty($address['floor'])) {
-            $full_address .= ', ';
-            $full_address .= $address['floor'];
-            if (!empty($address['apartment'])) {
-                $full_address .= ' ' . $address['apartment'];
-            }
-        }
         $full_address .= '. ';
         $full_address .= $locality . ' ' . $postal_code . ', ' . $province;
         return $full_address;

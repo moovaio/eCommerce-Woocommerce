@@ -16,7 +16,7 @@ add_action('admin_init', ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'ini
 
 // --- Shipment Method
 add_filter('woocommerce_shipping_methods', ['WCMoova', 'add_shipping_method']);
-add_filter('woocommerce_cart_shipping_method_full_label', ['WCMoova', 'free_shipping_text'], 10, 2);
+add_filter('woocommerce_cart_shipping_method_full_label', ['WCMoova', 'customize_label_shipping_checkout'], 10, 2);
 
 // --- Order section
 add_action('woocommerce_order_status_changed', ['\Ecomerciar\Moova\Orders\Processor', 'handle_order_status'], 10, 4);
