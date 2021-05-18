@@ -219,15 +219,16 @@ class MoovaSdk
      */
     public function get_shipping_label(string $order_id)
     {
-        $res = $this->api->get('/shippings/' . $order_id . '/label');
-        if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, $order_id));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
-        }
-        if (empty($res['label'])) {
-            Helper::log_error(sprintf(__('Could not find shipping label of order %s', 'wc-moova'), $order_id));
+        try {
+            $res = $this->api->get('/shippings/' . $order_id . '/label');
+            if (empty($res['label'])) {
+                Helper::log_error(sprintf(__('Could not find shipping label of order %s', 'wc-moova'), $order_id));
+                return false;
+            }
+        } catch (Exception $error) {
             return false;
         }
+
         return $res;
     }
 

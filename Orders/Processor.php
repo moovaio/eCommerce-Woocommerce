@@ -106,6 +106,7 @@ class Processor
     public static function process_order_and_childrens($order, $shipping_method = null)
     {
         $list_of_child_orders = DatabaseTrait::get_orders_by_parent_id($order->id);
+        Helper::log_info("process_order_and_childrens - list_of_child_orders:" . json_encode($list_of_child_orders));
         if (empty($list_of_child_orders)) {
             return (array) self::format_creation($order, $shipping_method);
         }
@@ -158,7 +159,9 @@ class Processor
         $item->update_meta_data('tracking_url', $tracking_url);
 
         $res = $moovaSdk->get_shipping_label($tracking_id);
+
         if ($res && !empty($res['label'])) {
+            $order->add_order_note("Etiqueta: " . $res['label']);
             $item->update_meta_data('shipping_label', $res['label']);
         }
         $order->add_item($item);
