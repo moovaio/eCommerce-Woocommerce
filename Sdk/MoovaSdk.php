@@ -119,15 +119,13 @@ class MoovaSdk
     public function process_order(\WC_Order $order)
     {
         $data_to_send = self::get_shipping_data($order);
+        Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
         $res = $this->api->post('/shippings', $data_to_send);
-        if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
-        }
+        Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+
         if (empty($res['id'])) {
             Helper::log_error(__('Order could not be processed', 'wc-moova'));
             Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
-            Helper::log_error(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
             return false;
         }
         return $res;

@@ -129,6 +129,7 @@ class Processor
             $moovaSdk = new MoovaSdk();
             $res = $moovaSdk->process_order($order);
             if (!$res) {
+                Helper::log_info($res);
                 return false;
             }
             $tracking_id = $res['id'];
