@@ -310,6 +310,8 @@ trait WooCommerceTrait
         //firts we'll asume the user did things right. Something like "piso 24, depto. 5h"
         preg_match('/(piso|p|p.) ?(\w+),? ?(departamento|depto|dept|dpto|dpt|dpt.º|depto.|dept.|dpto.|dpt.|apartamento|apto|apt|apto.|apt.) ?(\w+)/i', $fl_apt, $res);
         $line2 = $res;
+        $floor=null;
+        $apartment=null
 
         if (!empty($line2)) {
             //everything was written great. Now lets grab what matters
