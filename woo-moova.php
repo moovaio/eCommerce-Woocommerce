@@ -5,7 +5,7 @@ use Ecomerciar\Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 3.1
+ * Version: 3.2
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/

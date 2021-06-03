@@ -311,7 +311,7 @@ trait WooCommerceTrait
         preg_match('/(piso|p|p.) ?(\w+),? ?(departamento|depto|dept|dpto|dpt|dpt.º|depto.|dept.|dpto.|dpt.|apartamento|apto|apt|apto.|apt.) ?(\w+)/i', $fl_apt, $res);
         $line2 = $res;
         $floor=null;
-        $apartment=null
+        $apartment=null;
 
         if (!empty($line2)) {
             //everything was written great. Now lets grab what matters
