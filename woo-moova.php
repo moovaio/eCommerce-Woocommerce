@@ -209,7 +209,7 @@ class WCMoova
         return $shipping_methods;
     }
 
-    public function customize_label_shipping_checkout($label, $method)
+    public static function customize_label_shipping_checkout($label, $method)
     {
         $imageUrl = Helper::get_assets_folder_url() . '/img/icon-shipping.png';
         if ($method->method_id === 'moova') {
@@ -274,7 +274,7 @@ class WCMoova
      *
      * @author Axel candia
      */
-    public function qualify_application()
+    public static function qualify_application()
     {
         global $wpdb;
         $minShippings = get_option('wc-moova-min-shippings');

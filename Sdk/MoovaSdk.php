@@ -185,7 +185,7 @@ class MoovaSdk
             'flow' => 'manual',
             'from' => $seller,
             'to' => array_merge($to, [
-                'country' => $order->shipping_country,
+                'country' => $customer['country'],
                 'floor' => $customer['floor'],
                 'apartment' => $customer['apartment'],
                 'postalCode' => $customer['cp'],

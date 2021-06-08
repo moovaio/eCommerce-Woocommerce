@@ -136,6 +136,7 @@ class Processor
             self::set_shipping_method_in_order($order, $res, $shipping_method);
             return $tracking_id;
         } catch (Exception $error) {
+            Helper::log_info($error);
             return null;
         } catch (TypeError $error) {
             return null;

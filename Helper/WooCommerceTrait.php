@@ -34,7 +34,7 @@ trait WooCommerceTrait
             'cp' => $postal_code,
             'locality' => $locality,
             'province' => $province,
-            'country' => WC()->countries->countries[$customer->get_shipping_country()],
+            'country' => $customer->shipping_country ?? WC()->countries->countries[ $customer->get_shipping_country() ],
             'lat' => self::get_custom_shipping_type('lat', $customer),
             'lng' => self::get_custom_shipping_type('lng', $customer)
         ];
@@ -51,7 +51,9 @@ trait WooCommerceTrait
         if (empty($response)) {
             $postData = '';
             parse_str(WC()->checkout->get_value('post_data'), $postData);
-            $response = $postData["billing_moova_$type"];
+            if(isset($postData["billing_moova_$type"])){
+                $response = $postData["billing_moova_$type"];
+            }
         }
         return $response;
     }

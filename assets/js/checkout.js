@@ -116,5 +116,5 @@ function setMoovaCustomFields() {
 	});
 }
 
-if (jQuery("#billing_moova_lat").val() != '')
+if (jQuery("#billing_moova_lat") && jQuery("#billing_moova_lat").val() != '')
 	setMoovaCustomFields();

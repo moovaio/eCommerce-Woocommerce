@@ -64,7 +64,7 @@ class Checkout
         die();
     }
 
-    public function refresh_shipping_methods()
+    public static function refresh_shipping_methods()
     {
         $bool = true;
         if (WC()->session->get('billing_area') != '') $bool = false;
@@ -85,7 +85,7 @@ class Checkout
         return $str;
     }
 
-    function custom_items($order_id)
+    public static function custom_items($order_id)
     {
         $order = wc_get_order($order_id);
         $shipping_method = Helper::get_shipping_method($order);
