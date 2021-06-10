@@ -34,7 +34,7 @@ trait WooCommerceTrait
             'cp' => $postal_code,
             'locality' => $locality,
             'province' => $province,
-            'country' => $customer->shipping_country ?? WC()->countries->countries[ $customer->get_shipping_country() ],
+            'country' => $customer->get_shipping_country(),
             'lat' => self::get_custom_shipping_type('lat', $customer),
             'lng' => self::get_custom_shipping_type('lng', $customer)
         ];
@@ -45,13 +45,13 @@ trait WooCommerceTrait
         $response = '';
         if (session_status() == PHP_SESSION_NONE) {
             $response = $customer->get_meta("_billing_moova_$type");
-        } else {
+        } elseif (isset(WC()->session)) {
             $response = WC()->session->get("moova_$type");
         }
         if (empty($response)) {
             $postData = '';
             parse_str(WC()->checkout->get_value('post_data'), $postData);
-            if(isset($postData["billing_moova_$type"])){
+            if (isset($postData["billing_moova_$type"])) {
                 $response = $postData["billing_moova_$type"];
             }
         }
@@ -312,8 +312,8 @@ trait WooCommerceTrait
         //firts we'll asume the user did things right. Something like "piso 24, depto. 5h"
         preg_match('/(piso|p|p.) ?(\w+),? ?(departamento|depto|dept|dpto|dpt|dpt.º|depto.|dept.|dpto.|dpt.|apartamento|apto|apt|apto.|apt.) ?(\w+)/i', $fl_apt, $res);
         $line2 = $res;
-        $floor=null;
-        $apartment=null;
+        $floor = null;
+        $apartment = null;
 
         if (!empty($line2)) {
             //everything was written great. Now lets grab what matters
