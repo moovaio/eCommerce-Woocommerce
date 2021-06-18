@@ -7,6 +7,7 @@ use Ecomerciar\Moova\Helper\Helper;
 use Ecomerciar\Moova\Sdk\MoovaSdk;
 use Error;
 use Exception;
+use Throwable;
 use TypeError;
 
 defined('ABSPATH') || exit;
@@ -205,6 +206,29 @@ class Processor
         $moovaSdk = new MoovaSdk();
         if ($shipping_method->get_meta('tracking_number')) {
             $moovaSdk->update_order($order);
+        }
+    }
+
+    public static function get_latest_status($order)
+    {
+        try {
+            $shipping_method = Helper::get_shipping_method($order);
+            $id = $shipping_method->get_meta('tracking_number');
+            if (!$shipping_method) {
+                return false;
+            }
+            $moovaSdk = new MoovaSdk();
+            $status = $moovaSdk->get_order_status($id);
+            Helper::log_info($status);
+            Webhooks::validate_input([
+                "status" => $status,
+                "id" => $id
+            ]);
+            return true;
+        } catch (\Throwable $th) {
+            Helper::log_info("get_latest_status - Unable to process $order->id");
+            Helper::log_info($th);
+            return false;
         }
     }
 }

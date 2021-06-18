@@ -41,7 +41,7 @@ class Webhooks
      * @param array $data
      * @return bool
      */
-    private static function validate_input(array $data)
+    public static function validate_input(array $data)
     {
         $data = wp_unslash($data);
         if (empty($data['id'])) {

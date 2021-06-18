@@ -37,8 +37,14 @@ add_action('woocommerce_api_wc-moova-orders', ['\Ecomerciar\Moova\Orders\Webhook
 add_filter('bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'set_bulk_options'], 20, 1);
 add_filter('handle_bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'start_bulk_shipments'], 10, 3);
 add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_start_bulk_shipments']);
+
+
 add_filter('handle_bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'force_create_bulk_shipments'], 10, 3);
 add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_force_create']);
+
+
+add_filter('handle_bulk_actions-edit-shop_order', ['\Ecomerciar\Moova\Orders\BulkChanges', 'force_latest_status_shipments'], 10, 3);
+add_action('admin_notices', ['\Ecomerciar\Moova\Orders\BulkChanges', 'response_force_latest_status']);
 
 // ---- Ask for review
 add_action('admin_notices', ['WCMoova', 'qualify_application']);
