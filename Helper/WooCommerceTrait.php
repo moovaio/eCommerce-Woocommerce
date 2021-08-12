@@ -429,6 +429,18 @@ trait WooCommerceTrait
         return $products;
     }
 
+    /*
+    */
+    public static function get_items_per_package($package)
+    {
+        $parsed_items = [];
+        foreach ($package['contents'] as $item) {
+            $product_id = $item['product_id'];
+            $parsed_items[] = self::get_product_dimensions($product_id, $item['quantity']);
+        }
+        return $parsed_items;
+    }
+
     /**
      * Gets items by vendor
      *
