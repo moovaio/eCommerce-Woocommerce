@@ -67,10 +67,10 @@ class WC_Moova extends \WC_Shipping_method
      */
     public function calculate_shipping($package = [])
     {
-        Helper::log_info('*****************************');
-        Helper::log_info('Package:');
-        Helper::log_info(json_encode($package));
-        if (is_plugin_active('dokan-lite/dokan.php')) {
+        if (isset($package['seller_id'])) {
+            Helper::log_info('calculate_shipping - using dokan spliter');
+            $rate = $this->get_splited_dokan_rate($package);
+        } elseif (is_plugin_active('dokan-lite/dokan.php')) {
             Helper::log_info('calculate_shipping - using dokan');
             $rate = $this->get_rate_dokan();
         } else {
@@ -110,6 +110,24 @@ class WC_Moova extends \WC_Shipping_method
         $moovaSdk = new MoovaSdk();
         $seller = Helper::get_seller_from_settings();
         $items = Helper::get_items_from_cart(WC()->cart);
+        $customer = Helper::get_customer_from_cart(WC()->customer);
+        $unable_to_calculate = empty($seller);
+        if ($unable_to_calculate) {
+            return null;
+        }
+        return $moovaSdk->get_price($seller, $customer, $items);
+    }
+
+
+    /*
+    Some payed can have dokan rates divided per vendor
+    */
+    public function get_splited_dokan_rate($package)
+    {
+        $moovaSdk = new MoovaSdk();
+        $store = Helper::get_dokan_seller_by_id($package['seller_id']);
+        $seller = Helper::format_dokan_origin_to_moova($store);
+        $items = Helper::get_items_per_package($package);
         $customer = Helper::get_customer_from_cart(WC()->customer);
         $unable_to_calculate = empty($seller);
         if ($unable_to_calculate) {
