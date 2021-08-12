@@ -46,14 +46,14 @@ trait PageTrait
 ?>
         <div class="moova-form-wrapper wrap">
             <div class="settings-header">
-                <img src="<?php echo $logo_url; ?>" class="logo">
+                <img src="<?php echo esc_attr($logo_url) ?>" class="logo">
             </div>
-            <form action=" admin.php?page=<?php echo $pageName ?>" method="post" class="form-wrapper">
+            <form action=" admin.php?page=<?php echo esc_attr($pageName) ?>" method="post" class="form-wrapper">
                 <?php
                 settings_fields($pageName);
                 if ($video_url) {
                 ?>
-                    <iframe width="600" height="400" src="<?php echo $video_url; ?>"></iframe>
+                    <iframe width="600" height="400" src="<?php echo esc_attr($video_url); ?>"></iframe>
                 <?php
                 }
                 do_settings_sections($pageName);

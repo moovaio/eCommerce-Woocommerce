@@ -59,7 +59,7 @@ class Checkout
         if (isset($_POST['lat'])) {
             WC()->session->set('moova_lat', esc_attr($_POST['lat']));
             WC()->session->set('moova_lng', esc_attr($_POST['lng']));
-            echo $_POST['lat'];
+            echo esc_attr($_POST['lat']);
         }
         die();
     }
@@ -93,7 +93,7 @@ class Checkout
             $url = $shipping_method->get_meta('tracking_url');
             $message = "Segui tu envio y valida que tu direccion sea la correcta haciendo" .
                 "<a style='color: #0272a9;' href='$url'> click aquí</a>";
-            echo $message;
+            echo esc_attr($message);
         }
     }
 }

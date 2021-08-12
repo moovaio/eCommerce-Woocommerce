@@ -67,6 +67,9 @@ class WC_Moova extends \WC_Shipping_method
      */
     public function calculate_shipping($package = [])
     {
+        Helper::log_info('*****************************');
+        Helper::log_info('Package:');
+        Helper::log_info(json_encode($package));
         if (is_plugin_active('dokan-lite/dokan.php')) {
             Helper::log_info('calculate_shipping - using dokan');
             $rate = $this->get_rate_dokan();
