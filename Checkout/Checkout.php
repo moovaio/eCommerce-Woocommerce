@@ -57,9 +57,9 @@ class Checkout
     public function get_ajax_moova_custom_fields()
     {
         if (isset($_POST['lat'])) {
-            WC()->session->set('moova_lat', esc_attr($_POST['lat']));
-            WC()->session->set('moova_lng', esc_attr($_POST['lng']));
-            echo esc_attr($_POST['lat']);
+            WC()->session->set('moova_lat', sanitize_text_field($_POST['lat']));
+            WC()->session->set('moova_lng', sanitize_text_field($_POST['lng']));
+            echo sanitize_text_field($_POST['lat']);
         }
         die();
     }
@@ -93,7 +93,7 @@ class Checkout
             $url = $shipping_method->get_meta('tracking_url');
             $message = "Segui tu envio y valida que tu direccion sea la correcta haciendo" .
                 "<a style='color: #0272a9;' href='$url'> click aquí</a>";
-            echo esc_attr($message);
+            echo esc_html($message);
         }
     }
 }
