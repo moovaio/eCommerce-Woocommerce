@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecomerciar\Moova\Helper;
+namespace Moova\Helper;
 
-use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Moova\Sdk\MoovaSdk;
 
 trait PageTrait
 {

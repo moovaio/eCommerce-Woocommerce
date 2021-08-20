@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecomerciar\Moova\ShippingMethod;
+namespace Moova\ShippingMethod;
 
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Moova\Helper\Helper;
+use Moova\Sdk\MoovaSdk;
 
 defined('ABSPATH') || class_exists('\WC_Shipping_method') || exit;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Fields;
+namespace Moova\Settings\Fields;
 
 final class NumberField extends Field
 {

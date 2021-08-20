@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Mapping;
+namespace Moova\Settings\Mapping;
 
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Settings\Mapping\ReceivingStatusSection;
-use Ecomerciar\Moova\Settings\Mapping\SendingStatusSection;
+use Moova\Helper\Helper;
+use Moova\Settings\Mapping\ReceivingStatusSection;
+use Moova\Settings\Mapping\SendingStatusSection;
 
 
 defined('ABSPATH') || exit;

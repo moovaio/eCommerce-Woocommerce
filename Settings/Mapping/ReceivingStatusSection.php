@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Mapping;
+namespace Moova\Settings\Mapping;
 
-use Ecomerciar\Moova\Settings\Sections\Section;
-use Ecomerciar\Moova\Settings\Sections\SectionInterface;
-use Ecomerciar\Moova\Helper\Helper;
+use Moova\Settings\Sections\Section;
+use Moova\Settings\Sections\SectionInterface;
+use Moova\Helper\Helper;
 
 /**
  * MoovaSection class

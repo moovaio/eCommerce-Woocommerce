@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings;
+namespace Moova\Settings;
 
-use Ecomerciar\Moova\Settings\Fields\DescriptionField;
-use Ecomerciar\Moova\Settings\Fields\NumberField;
-use Ecomerciar\Moova\Settings\Fields\SelectField;
-use Ecomerciar\Moova\Settings\Fields\TextField;
+use Moova\Settings\Fields\DescriptionField;
+use Moova\Settings\Fields\NumberField;
+use Moova\Settings\Fields\SelectField;
+use Moova\Settings\Fields\TextField;
 
 /**
  * This factory creates a FieldInterface

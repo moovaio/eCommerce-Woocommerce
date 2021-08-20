@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Fields;
+namespace Moova\Settings\Fields;
 
-use Ecomerciar\Moova\Settings\FieldsPrinter;
+use Moova\Settings\FieldsPrinter;
 
 class Field implements FieldInterface
 {

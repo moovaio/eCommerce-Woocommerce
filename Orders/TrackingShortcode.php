@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecomerciar\Moova\Orders;
+namespace Moova\Orders;
 
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Moova\Helper\Helper;
+use Moova\Sdk\MoovaSdk;
 
 defined('ABSPATH') || exit;
 
@@ -22,10 +22,10 @@ class TrackingShortcode
         <br />
         <input name="submit_button" type="submit"  value="' . __('Rastree su envio', 'wc-moova') . '"  id="update_button"  class="moova-tracking-form-submit update_button" style="cursor: pointer;background-color: #4fa0ff;border: 1px solid #4fa0ff;color: white;padding: 5px 10px;display: inline-block;border-radius: 4px;font-weight: 600;margin-bottom: 10px;text-align: center;"/>
         </form>';
-        if (empty($_GET['moova_tracking_id'])) {
+        if (empty(sanitize_text_field($_GET['moova_tracking_id']))) {
             return $content;
         }
-        $moova_id = $_GET['moova_tracking_id'];
+        $moova_id = sanitize_text_field($_GET['moova_tracking_id']);
         $moova_id = filter_var($moova_id, FILTER_SANITIZE_SPECIAL_CHARS);
         $moovaSdk = new MoovaSdk();
         $tracking_statuses = $moovaSdk->get_tracking($moova_id);

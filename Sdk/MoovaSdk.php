@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecomerciar\Moova\Sdk;
+namespace Moova\Sdk;
 
-use Ecomerciar\Moova\Api\MoovaApi;
-use Ecomerciar\Moova\Api\UserApi;
+use Moova\Api\MoovaApi;
+use Moova\Api\UserApi;
 
-use Ecomerciar\Moova\Helper\Helper;
+use Moova\Helper\Helper;
 use Exception;
 
 class MoovaSdk

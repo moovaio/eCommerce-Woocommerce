@@ -1,13 +1,12 @@
 <?php
 
-namespace Ecomerciar\Moova\Orders;
+namespace Moova\Orders;
 
-use Ecomerciar\Moova\Helper\DatabaseTrait;
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Moova\Helper\DatabaseTrait;
+use Moova\Helper\Helper;
+use Moova\Sdk\MoovaSdk;
 use Error;
 use Exception;
-use Throwable;
 use TypeError;
 
 defined('ABSPATH') || exit;
@@ -68,7 +67,7 @@ class Processor
      */
     public static function order_create_shipping_label_ajax()
     {
-        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty($_POST['order_id'])) {
+        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'wc-moova') || empty(sanitize_text_field($_POST['order_id']))) {
             wp_send_json_error();
         }
 
@@ -178,7 +177,7 @@ class Processor
      */
     public static function change_order_status()
     {
-        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty($_POST['order_id'])) {
+        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty(sanitize_text_field($_POST['order_id']))) {
             wp_send_json_error();
         }
 

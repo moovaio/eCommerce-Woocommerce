@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecomerciar\Moova\Orders;
+namespace Moova\Orders;
 
-use Ecomerciar\Moova\Helper\DatabaseTrait;
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Moova\Helper\DatabaseTrait;
+use Moova\Helper\Helper;
+use Moova\Sdk\MoovaSdk;
 
 defined('ABSPATH') || exit;
 

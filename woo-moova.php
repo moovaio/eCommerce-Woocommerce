@@ -1,6 +1,6 @@
 <?php
 
-use Ecomerciar\Moova\Helper\Helper;
+use Moova\Helper\Helper;
 
 /**
  * Plugin Name: Moova for WooCommerce
@@ -114,7 +114,7 @@ class WCMoova
                 }
 
                 $name = str_replace('\\', '/', $class);
-                $name = str_replace('Ecomerciar/Moova/', '', $name);
+                $name = str_replace('Moova/', '', $name);
                 require_once plugin_dir_path(__FILE__) . $name . '.php';
             }
 
@@ -131,7 +131,7 @@ class WCMoova
             'Moova',
             'manage_options',
             'wc-moova-settings',
-            ['\Ecomerciar\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage'],
+            ['\Moova\Settings\GeneralSettings\GeneralSettingsPage', 'initPage'],
             plugin_dir_url(__FILE__) . 'assets/img/icon-menu.svg'
         );
 
@@ -149,7 +149,7 @@ class WCMoova
             'Mapeo',
             'manage_options',
             'wc-moova-mapping',
-            ['\Ecomerciar\Moova\Settings\Mapping\MappingPage', 'initPage']
+            ['\Moova\Settings\Mapping\MappingPage', 'initPage']
         );
         add_submenu_page(
             'wc-moova-settings',
@@ -157,7 +157,7 @@ class WCMoova
             'Logs',
             'manage_options',
             'wc-moova-logs',
-            ['\Ecomerciar\Moova\Settings\Logs\LogsPage', 'initPage']
+            ['\Moova\Settings\Logs\LogsPage', 'initPage']
         );
 
         add_submenu_page(
@@ -166,7 +166,7 @@ class WCMoova
             'Help & News',
             'manage_options',
             'wc-moova-help',
-            ['\Ecomerciar\Moova\Settings\Support\SupportPage', 'initPage']
+            ['\Moova\Settings\Support\SupportPage', 'initPage']
         );
     }
 
@@ -205,7 +205,7 @@ class WCMoova
      */
     public static function add_shipping_method($shipping_methods)
     {
-        $shipping_methods['moova'] = '\Ecomerciar\Moova\ShippingMethod\WC_Moova';
+        $shipping_methods['moova'] = '\Moova\ShippingMethod\WC_Moova';
         return $shipping_methods;
     }
 

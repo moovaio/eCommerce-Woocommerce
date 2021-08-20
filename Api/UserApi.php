@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecomerciar\Moova\Api;
+namespace Moova\Api;
 
 class UserApi extends ApiConnector implements ApiInterface
 {

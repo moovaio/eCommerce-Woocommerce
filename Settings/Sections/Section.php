@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Sections;
+namespace Moova\Settings\Sections;
 
-use Ecomerciar\Moova\Settings\FieldFactory;
+use Moova\Settings\FieldFactory;
 
 /**
  * Base Section class

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecomerciar\Moova\Helper;
+namespace Moova\Helper;
 
 trait DatabaseTrait
 {

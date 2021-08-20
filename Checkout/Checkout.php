@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecomerciar\Moova\Checkout;
+namespace Moova\Checkout;
 
-use Ecomerciar\Moova\Helper\Helper;
+use Moova\Helper\Helper;
 
 /**
  * Our main payment method class

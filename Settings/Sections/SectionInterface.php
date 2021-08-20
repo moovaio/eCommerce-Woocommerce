@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Sections;
+namespace Moova\Settings\Sections;
 
 interface SectionInterface
 {

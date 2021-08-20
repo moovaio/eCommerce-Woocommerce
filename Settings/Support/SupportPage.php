@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\Support;
+namespace Moova\Settings\Support;
 
-use Ecomerciar\Moova\Helper\Helper;
+use Moova\Helper\Helper;
 
 
 defined('ABSPATH') || exit;

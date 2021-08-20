@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecomerciar\Moova\Orders;
+namespace Moova\Orders;
 
 defined('ABSPATH') || exit;
 
@@ -45,9 +45,9 @@ class BulkChanges
     // The results notice from bulk action on orders
     public static function response_force_create()
     {
-        if (empty($_REQUEST['response_force_create'])) return; // Exit
+        if (empty(sanitize_text_field($_REQUEST['response_force_create']))) return; // Exit
 
-        $failures =  $_REQUEST['force_create_errors'];
+        $failures =  sanitize_text_field($_REQUEST['force_create_errors']);
         $totalFailures = intval($_REQUEST['force_create_total_errors']);
 
         $success = intval($_REQUEST['success']);
@@ -100,8 +100,8 @@ class BulkChanges
     {
         if (empty($_REQUEST['response_start_bulk_shipments'])) return; // Exit
 
-        $success = intval($_REQUEST['success']);
-        $failures =  $_REQUEST['failure_ids'];
+        $success = intval( sanitize_text_field($_REQUEST['success']));
+        $failures =  sanitize_text_field($_REQUEST['failure_ids']);
         $totalFailures = intval($_REQUEST['failure_total']);
 
         if ($success || $success > 0) {
@@ -148,7 +148,7 @@ class BulkChanges
         if (empty($_REQUEST['response_force_latest_status'])) return;
 
         $success = intval($_REQUEST['success']);
-        $failures =  $_REQUEST['failure_ids'];
+        $failures =  sanitize_text_field($_REQUEST['failure_ids']);
         $totalFailures = intval($_REQUEST['failure_total']);
 
         if ($success || $success > 0) {

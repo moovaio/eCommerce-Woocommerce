@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings;
+namespace Moova\Settings;
 
-use Ecomerciar\Moova\Settings\Fields\FieldInterface;
-use Ecomerciar\Moova\Settings\Fields\NumberField;
-use Ecomerciar\Moova\Settings\Fields\SelectField;
-use Ecomerciar\Moova\Settings\Fields\TextField;
-use Ecomerciar\Moova\Settings\Fields\DescriptionField;
+use Moova\Settings\Fields\FieldInterface;
+use Moova\Settings\Fields\NumberField;
+use Moova\Settings\Fields\SelectField;
+use Moova\Settings\Fields\TextField;
+use Moova\Settings\Fields\DescriptionField;
 
 /**
  * Class that will print all our settings fields

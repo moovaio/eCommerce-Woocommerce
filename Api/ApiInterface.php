@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecomerciar\Moova\Api;
+namespace Moova\Api;
 
 interface ApiInterface
 {

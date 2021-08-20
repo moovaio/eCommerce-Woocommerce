@@ -1,16 +1,16 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings;
+namespace Moova\Settings;
 
 defined('ABSPATH') || exit;
 
-use Ecomerciar\Moova\Sdk\MoovaSdk;
+use Moova\Sdk\MoovaSdk;
 
 class FormAjax
 {
     public function autocomplete()
     {
-        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova')) {
+        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'wc-moova')) {
             wp_send_json_error();
         }
 
@@ -24,7 +24,7 @@ class FormAjax
 
     public function rate()
     {
-        $rate_action = $_POST['rate_action'];
+        $rate_action = sanitize_text_field($_POST['rate_action']);
         $minShippings = get_option('wc-moova-min-shippings');
         if ('done-rating' === $rate_action) {
             $minShippings = -1;

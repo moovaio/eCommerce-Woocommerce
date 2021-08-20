@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecomerciar\Moova\Settings\GeneralSettings;
+namespace Moova\Settings\GeneralSettings;
 
-use Ecomerciar\Moova\Helper\Helper;
-use Ecomerciar\Moova\Settings\GeneralSettings\MoovaSection;
-use Ecomerciar\Moova\Settings\GeneralSettings\CheckoutSection;
-use Ecomerciar\Moova\Settings\GeneralSettings\SellerSection;
+use Moova\Helper\Helper;
+use Moova\Settings\GeneralSettings\MoovaSection;
+use Moova\Settings\GeneralSettings\CheckoutSection;
+use Moova\Settings\GeneralSettings\SellerSection;
 
 defined('ABSPATH') || exit;
 
