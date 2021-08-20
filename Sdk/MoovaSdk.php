@@ -65,8 +65,8 @@ class MoovaSdk
         try {
             $res = $this->api->post('/budgets/estimate', $data_to_send);
             if (Helper::get_option('debug')) {
-                Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
-                Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+                Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
+                Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
             }
         } catch (Exception $error) {
         }
@@ -119,13 +119,13 @@ class MoovaSdk
     public function process_order(\WC_Order $order)
     {
         $data_to_send = self::get_shipping_data($order);
-        Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+        Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
         $res = $this->api->post('/shippings', $data_to_send);
-        Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+        Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
 
         if (empty($res['id'])) {
-            Helper::log_error(__('Order could not be processed', 'wc-moova'));
-            Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_error(__('Order could not be processed', 'moova-for-woocommerce'));
+            Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             return false;
         }
         return $res;
@@ -140,13 +140,13 @@ class MoovaSdk
         $data_to_send = self::get_shipping_data($order);
         $res = $this->api->put("/shippings/$moova_id", $data_to_send);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['id'])) {
-            Helper::log_error(__('Order could not be updated', 'wc-moova'));
-            Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($data_to_send)));
-            Helper::log_error(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            Helper::log_error(__('Order could not be updated', 'moova-for-woocommerce'));
+            Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_error(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
             return false;
         }
         return $res;
@@ -220,7 +220,7 @@ class MoovaSdk
         try {
             $res = $this->api->get('/shippings/' . $order_id . '/label');
             if (empty($res['label'])) {
-                Helper::log_error(sprintf(__('Could not find shipping label of order %s', 'wc-moova'), $order_id));
+                Helper::log_error(sprintf(__('Could not find shipping label of order %s', 'moova-for-woocommerce'), $order_id));
                 return false;
             }
         } catch (Exception $error) {
@@ -255,11 +255,11 @@ class MoovaSdk
     {
         $res = $this->api->get('/shippings/' . $order_id);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, $order_id));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, $order_id));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['id'])) {
-            Helper::log_error(sprintf(__('Could not get order %s', 'wc-moova'), $order_id));
+            Helper::log_error(sprintf(__('Could not get order %s', 'moova-for-woocommerce'), $order_id));
             return false;
         }
         return $res;
@@ -297,8 +297,8 @@ class MoovaSdk
         $url = '/shippings/' . $order_id . '/' . strtolower($status);
         $res = $this->api->post($url, $data_to_send);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(__("Data sent to Moova: $url", 'wc-moova'));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            Helper::log_debug(__("Data sent to Moova: $url", 'moova-for-woocommerce'));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         }
         if (empty($res['status']) || strtoupper($res['status']) !== strtoupper($status)) {
             return false;
@@ -314,8 +314,8 @@ class MoovaSdk
     {
         $res = $this->userApi->get("/autocomplete?query=$query");
         if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($query)));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($query)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         }
         return $res;
     }
@@ -339,8 +339,8 @@ class MoovaSdk
         ];
         $res = $this->api->patch("/applications/webhooks", $body);
         if (Helper::get_option('debug')) {
-            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($body)));
-            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'wc-moova'), __FUNCTION__, json_encode($res)));
+            Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($body)));
+            Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         }
         return $res;
     }

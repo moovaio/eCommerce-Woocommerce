@@ -98,7 +98,7 @@ class Webhooks
             $order->update_status($new_order_status);
         }
         $order->save();
-        Helper::log_info(sprintf(__('Order #%s updated with status: %s', 'wc-moova'), $order_id, $status));
+        Helper::log_info(sprintf(__('Order #%s updated with status: %s', 'moova-for-woocommerce'), $order_id, $status));
         return true;
     }
 

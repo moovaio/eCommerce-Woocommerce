@@ -9,7 +9,7 @@ use Moova\Helper\Helper;
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
- * Text Domain: wc-moova
+ * Text Domain: moova-for-woocommerce
  * WC requires at least: 3.3
  * WC tested up to: 5.8
  */
@@ -51,17 +51,17 @@ class WCMoova
 
         if ($system['flag']) {
             deactivate_plugins(plugin_basename(__FILE__));
-            echo '<div class="notice notice-error is-dismissible">';
-            echo '<p>' . sprintf(__('<strong>%s/strong> Requires at least %s version %s or greater.', 'wc-moova'), self::PLUGIN_NAME, $system['flag'], $system['version']) . '</p>';
-            echo '</div>';
+            echo esc_html('<div class="notice notice-error is-dismissible">'
+                . '<p>' . sprintf(__('<strong>%s/strong> Requires at least %s version %s or greater.', 'moova-for-woocommerce'), self::PLUGIN_NAME, $system['flag'], $system['version']) . '</p>'
+                . '</div>');
             return false;
         }
 
         if (!class_exists('WooCommerce')) {
             deactivate_plugins(plugin_basename(__FILE__));
-            echo '<div class="notice notice-error is-dismissible">';
-            echo '<p>' . sprintf(__('WooCommerce must be active before using <strong>%s</strong>', 'wc-moova'), self::PLUGIN_NAME) . '</p>';
-            echo '</div>';
+            echo esc_html('<div class="notice notice-error is-dismissible">'
+                . '<p>' . sprintf(__('WooCommerce must be active before using <strong>%s</strong>', 'moova-for-woocommerce'), self::PLUGIN_NAME) . '</p>'
+                . '</div>');
             return false;
         }
 
@@ -192,7 +192,7 @@ class WCMoova
      */
     public static function create_settings_link(array $links)
     {
-        $link = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=wc-moova-settings')) . '">' . __('Settings', 'wc-moova') . '</a>';
+        $link = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=wc-moova-settings')) . '">' . __('Settings', 'moova-for-woocommerce') . '</a>';
         array_unshift($links, $link);
         return $links;
     }
@@ -295,22 +295,22 @@ class WCMoova
         }
 
 ?>
-        <div class="notice notice-success" id="moova-rate-app" data-moova-ajax-url=<?php echo (admin_url('admin-ajax.php')) ?> data-moova-ajax-nonce=<?php echo (wp_create_nonce('wc-moova')) ?>>
+        <div class="notice notice-success" id="moova-rate-app" data-moova-ajax-url=<?php echo (esc_url(admin_url('admin-ajax.php'))) ?> data-moova-ajax-nonce=<?php echo esc_textarea((wp_create_nonce('moova-for-woocommerce'))) ?>>
             <div>
                 <p>
-                    <?php echo (sprintf(
+                    <?php esc_textarea( (sprintf(
                         __("Hey! Congratulations for your %d shipping with Moova!! We hope you are enjoying our plugin.
                             Could you please do me a BIG favor and give it a 5-star rating on WordPress?
-                            Just to help us spread the word and boost our motivation.", 'wc-moova'),
+                            Just to help us spread the word and boost our motivation.", 'moova-for-woocommerce'),
                         $minShippings
                     )) ?>
                 </p>
                 <strong><em>~ Axel Candia</em></strong>
             </div>
             <ul>
-                <li><a data-rate-action="rate" href="https://wordpress.org/support/plugin/moova-for-woocommerce/reviews/#postform" target="_blank"><?php echo (__("Yes sure!!", 'wc-moova')) ?></a> </li>
-                <li><a data-rate-action="done-rating" href="#"><?php echo (__("I already did", 'wc-moova')) ?></a></li>
-                <li><a data-rate-action="deny-rating" href="#"><?php echo (__("No thanks", 'wc-moova')) ?></a></li>
+                <li><a data-rate-action="rate" href="https://wordpress.org/support/plugin/moova-for-woocommerce/reviews/#postform" target="_blank"><?php echo esc_textarea((__("Yes sure!!", 'moova-for-woocommerce'))) ?></a> </li>
+                <li><a data-rate-action="done-rating" href="#"><?php echo esc_textarea((__("I already did", 'moova-for-woocommerce'))) ?></a></li>
+                <li><a data-rate-action="deny-rating" href="#"><?php echo esc_textarea((__("No thanks", 'moova-for-woocommerce'))) ?></a></li>
             </ul>
         </div>
 <?php

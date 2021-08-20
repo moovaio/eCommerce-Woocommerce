@@ -59,7 +59,7 @@ class Checkout
         if (isset($_POST['lat'])) {
             WC()->session->set('moova_lat', sanitize_text_field($_POST['lat']));
             WC()->session->set('moova_lng', sanitize_text_field($_POST['lng']));
-            echo sanitize_text_field($_POST['lat']);
+            echo esc_textarea($_POST['lat']);
         }
         die();
     }

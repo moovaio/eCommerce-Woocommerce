@@ -20,7 +20,7 @@ class ReceivingStatusSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Match moova status', 'wc-moova');
+        $this->data['name'] = __('Match moova status', 'moova-for-woocommerce');
         parent::__construct($this->data);
     }
 
@@ -36,9 +36,9 @@ class ReceivingStatusSection extends Section implements SectionInterface
         $options = array_merge(['' => 'Disable option'], wc_get_order_statuses());
         foreach ($moovaStatus as $state) {
             $fields["receive_$state"] = [
-                'name' => __($state, 'wc-moova'),
+                'name' => __($state, 'moova-for-woocommerce'),
                 'slug' => "receive_$state",
-                'description' => __("If you don't want to enable this state select 'Disable option'", 'wc-moova'),
+                'description' => __("If you don't want to enable this state select 'Disable option'", 'moova-for-woocommerce'),
                 'type' => 'select',
                 'options' => $options
             ];

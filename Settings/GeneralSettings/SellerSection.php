@@ -20,7 +20,7 @@ class SellerSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Sender settings', 'wc-moova');
+        $this->data['name'] = __('Sender settings', 'moova-for-woocommerce');
         parent::__construct($this->data);
     }
 
@@ -33,54 +33,54 @@ class SellerSection extends Section implements SectionInterface
     {
         return [
             'first_name' => [
-                'name' => __('Name', 'wc-moova'),
+                'name' => __('Name', 'moova-for-woocommerce'),
                 'slug' => 'first_name',
                 'type' => 'text'
             ],
             'last_name' => [
-                'name' => __('Last name', 'wc-moova'),
+                'name' => __('Last name', 'moova-for-woocommerce'),
                 'slug' => 'last_name',
                 'type' => 'text'
             ],
             'email' => [
-                'name' => __('Email', 'wc-moova'),
+                'name' => __('Email', 'moova-for-woocommerce'),
                 'slug' => 'email',
                 'type' => 'text'
             ],
             'phone' => [
-                'name' => __('Phone number', 'wc-moova'),
+                'name' => __('Phone number', 'moova-for-woocommerce'),
                 'slug' => 'phone',
                 'type' => 'text'
             ],
             'address_autocomplete' => [
-                'name' => __('Street', 'wc-moova'),
+                'name' => __('Street', 'moova-for-woocommerce'),
                 'slug' => 'address_autocomplete',
                 'type' => 'text',
-                'description' => __('Example: Lavalleja 297, Buenos Aires. Please select one of the options on the autocomplete', 'wc-moova')
+                'description' => __('Example: Lavalleja 297, Buenos Aires. Please select one of the options on the autocomplete', 'moova-for-woocommerce')
             ],
             'google_place_id' => [
-                'name' => __('PlaceId', 'wc-moova'),
+                'name' => __('PlaceId', 'moova-for-woocommerce'),
                 'slug' => 'google_place_id',
                 'type' => 'text',
-                'description' => __('', 'wc-moova')
+                'description' => __('', 'moova-for-woocommerce')
             ],
             'floor' => [
-                'name' => __('Floor', 'wc-moova'),
+                'name' => __('Floor', 'moova-for-woocommerce'),
                 'slug' => 'floor',
                 'type' => 'text',
-                'description' => __('Example: 2', 'wc-moova')
+                'description' => __('Example: 2', 'moova-for-woocommerce')
             ],
             'apartment' => [
-                'name' => __('Apt. Number (Optional)', 'wc-moova'),
+                'name' => __('Apt. Number (Optional)', 'moova-for-woocommerce'),
                 'slug' => 'apartment',
                 'type' => 'text',
-                'description' => __('Example: A', 'wc-moova')
+                'description' => __('Example: A', 'moova-for-woocommerce')
             ],
             'observations' => [
-                'name' => __('Notes about the direction', 'wc-moova'),
+                'name' => __('Notes about the direction', 'moova-for-woocommerce'),
                 'slug' => 'observations',
                 'type' => 'text',
-                'description' => __('Example: Door bell does not work', 'wc-moova')
+                'description' => __('Example: Door bell does not work', 'moova-for-woocommerce')
             ]
         ];
     }

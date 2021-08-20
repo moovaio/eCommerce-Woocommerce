@@ -20,7 +20,7 @@ class MoovaSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Moova settings', 'wc-moova');
+        $this->data['name'] = __('Moova settings', 'moova-for-woocommerce');
         parent::__construct($this->data);
     }
 
@@ -33,45 +33,45 @@ class MoovaSection extends Section implements SectionInterface
     {
         return [
             'clientid' => [
-                'name' => __('Client ID', 'wc-moova'),
+                'name' => __('Client ID', 'moova-for-woocommerce'),
                 'slug' => 'clientid',
                 'type' => 'text'
             ],
             'clientsecret' => [
-                'name' => __('Client Secret', 'wc-moova'),
+                'name' => __('Client Secret', 'moova-for-woocommerce'),
                 'slug' => 'clientsecret',
                 'type' => 'text'
             ],
             'devclientid' => [
-                'name' => __('Testing Client ID', 'wc-moova'),
+                'name' => __('Testing Client ID', 'moova-for-woocommerce'),
                 'slug' => 'devclientid',
                 'type' => 'text'
             ],
             'devclientsecret' => [
-                'name' => __('Testing Client Secret', 'wc-moova'),
+                'name' => __('Testing Client Secret', 'moova-for-woocommerce'),
                 'slug' => 'devclientsecret',
                 'type' => 'text'
             ],
             'google_api_key' => [
-                'name' => __('Google Api Key', 'wc-moova'),
+                'name' => __('Google Api Key', 'moova-for-woocommerce'),
                 'slug' => 'google_api_key',
                 'type' => 'text'
             ],
 
             'environment' => [
-                'name' => __('Environment', 'wc-moova'),
+                'name' => __('Environment', 'moova-for-woocommerce'),
                 'slug' => 'environment',
-                'description' => __('', 'wc-moova'),
+                'description' => __('', 'moova-for-woocommerce'),
                 'type' => 'select',
                 'options' => [
-                    'prod' => __('Production', 'wc-moova'),
-                    'test' => __('Test', 'wc-moova')
+                    'prod' => __('Production', 'moova-for-woocommerce'),
+                    'test' => __('Test', 'moova-for-woocommerce')
                 ]
             ],
             'debug' => [
-                'name' => __('Debug Mode', 'wc-moova'),
+                'name' => __('Debug Mode', 'moova-for-woocommerce'),
                 'slug' => 'debug',
-                'description' => __('Activate the debug log for developers. If you do not know what is this then probably you do not need to activate it', 'wc-moova'),
+                'description' => __('Activate the debug log for developers. If you do not know what is this then probably you do not need to activate it', 'moova-for-woocommerce'),
                 'type' => 'select',
                 'options' => [
                     '0' => 'No',

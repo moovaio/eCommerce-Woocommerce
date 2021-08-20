@@ -9,9 +9,9 @@ class BulkChanges
 
     public static function set_bulk_options($actions)
     {
-        $actions['force_create_bulk_shipments'] = __('Moova - Send with Moova', 'wc-moova');
-        $actions['start_bulk_shipments'] = __('Moova - Change shipping to Ready',  'wc-moova');
-        $actions['force_latest_status_shipments'] = __('Moova - Force latest status', 'wc-moova');
+        $actions['force_create_bulk_shipments'] = __('Moova - Send with Moova', 'moova-for-woocommerce');
+        $actions['start_bulk_shipments'] = __('Moova - Change shipping to Ready',  'moova-for-woocommerce');
+        $actions['force_latest_status_shipments'] = __('Moova - Force latest status', 'moova-for-woocommerce');
 
         return $actions;
     }
@@ -53,13 +53,13 @@ class BulkChanges
         $success = intval($_REQUEST['success']);
 
         if ($success || $success > 0) {
-            $message = __("We have created succesfully ",  'wc-moova') . $success . __(" shipments in Moova. ",  'wc-moova');
+            $message = __("We have created succesfully ",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
             self::send_message('success', $message);
         }
 
         if ($totalFailures > 0) {
             $message = __("We found error in the following orders"
-                . ". Please check they have a shipping address before creating them. Ids: ",  'wc-moova') .
+                . ". Please check they have a shipping address before creating them. Ids: ",  'moova-for-woocommerce') .
                 $failures;
             self::send_message('error', $message);
         }
@@ -100,18 +100,18 @@ class BulkChanges
     {
         if (empty($_REQUEST['response_start_bulk_shipments'])) return; // Exit
 
-        $success = intval( sanitize_text_field($_REQUEST['success']));
+        $success = intval(sanitize_text_field($_REQUEST['success']));
         $failures =  sanitize_text_field($_REQUEST['failure_ids']);
         $totalFailures = intval($_REQUEST['failure_total']);
 
         if ($success || $success > 0) {
-            $message = __("We have started succesfully ",  'wc-moova') . $success . __(" shipments in Moova. ",  'wc-moova');
+            $message = __("We have started succesfully ",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
             self::send_message('success', $message);
         }
 
         if ($totalFailures || $totalFailures > 0) {
             $message = __("We found error in the following orders"
-                . ". Please check they are already created Moova shipments and they are not in status READY: ",  'wc-moova') .
+                . ". Please check they are already created Moova shipments and they are not in status READY: ",  'moova-for-woocommerce') .
                 $failures;
             self::send_message('error', $message);
         }
@@ -152,12 +152,12 @@ class BulkChanges
         $totalFailures = intval($_REQUEST['failure_total']);
 
         if ($success || $success > 0) {
-            $message = __("We got the latest status succesfully of",  'wc-moova') . $success . __(" shipments in Moova. ",  'wc-moova');
+            $message = __("We got the latest status succesfully of",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
             self::send_message('success', $message);
         }
 
         if ($totalFailures || $totalFailures > 0) {
-            $message = __("We found error in the following orders, please be sure they are moova shippings:",  'wc-moova') .
+            $message = __("We found error in the following orders, please be sure they are moova shippings:",  'moova-for-woocommerce') .
                 $failures;
             self::send_message('error', $message);
         }

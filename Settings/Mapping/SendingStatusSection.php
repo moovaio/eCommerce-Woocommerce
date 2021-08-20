@@ -3,7 +3,7 @@
 namespace Moova\Settings\Mapping;
 
 use Moova\Settings\Sections\Section;
-use Moova\Settings\Sections\SectionInterface; 
+use Moova\Settings\Sections\SectionInterface;
 
 /**
  * MoovaSection class
@@ -19,7 +19,7 @@ class SendingStatusSection extends Section implements SectionInterface
      */
     public function __construct()
     {
-        $this->data['name'] = __('Inform to Moova', 'wc-moova');
+        $this->data['name'] = __('Inform to Moova', 'moova-for-woocommerce');
         parent::__construct($this->data);
     }
 
@@ -34,13 +34,13 @@ class SendingStatusSection extends Section implements SectionInterface
         $fields =
             [
                 'status_ready' => [
-                    'name' => __('Status to send a moover', 'wc-moova'),
+                    'name' => __('Status to send a moover', 'moova-for-woocommerce'),
                     'slug' => 'status_ready',
-                    'description' => __('When an order has this status, its receive a moover', 'wc-moova'),
+                    'description' => __('When an order has this status, its receive a moover', 'moova-for-woocommerce'),
                     'type' => 'select',
                     'default' => '0',
                     'options' => array_merge(
-                        ['0' => __('Disable option', 'wc-moova')],
+                        ['0' => __('Disable option', 'moova-for-woocommerce')],
                         $status
                     )
                 ]

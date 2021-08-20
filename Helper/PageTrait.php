@@ -31,14 +31,14 @@ trait PageTrait
         }
         $settings_saved = self::save_settings($_POST, $fields);
         if ($settings_saved) {
-            Helper::add_success(__('Settings saved', 'wc-moova'), true);
+            Helper::add_success(__('Settings saved', 'moova-for-woocommerce'), true);
         }
         wp_enqueue_script("jquery-ui-core");
         wp_enqueue_script("jquery-ui-autocomplete");
         wp_enqueue_script('wc-moova-settings-js');
         wp_localize_script('wc-moova-settings-js', 'wc_moova_settings', [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'ajax_nonce' => wp_create_nonce('wc-moova')
+            'ajax_nonce' => wp_create_nonce('moova-for-woocommerce')
         ]);
 
         $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
@@ -48,17 +48,17 @@ trait PageTrait
             <div class="settings-header">
                 <img src="<?php echo esc_url_raw($logo_url) ?>" class="logo">
             </div>
-            <form action=" admin.php?page=<?php echo sanitize_text_field($pageName) ?>" method="post" class="form-wrapper">
+            <form action=" admin.php?page=<?php echo esc_attr($pageName); ?>" method="post" class="form-wrapper">
                 <?php
                 settings_fields($pageName);
                 if ($video_url) {
                 ?>
-                    <iframe width="600" height="400" src="<?php echo sanitize_text_field($video_url); ?>"></iframe>
+                    <iframe width="600" height="400" src="<?php echo esc_url($video_url); ?>"></iframe>
                 <?php
                 }
                 do_settings_sections($pageName);
                 wp_nonce_field('_wpmoovanonce', 'wc-moova-save-preferences');
-                submit_button(__('Save', 'wc-moova'));
+                submit_button(__('Save', 'moova-for-woocommerce'));
                 ?>
             </form>
         </div>

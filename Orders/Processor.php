@@ -67,7 +67,7 @@ class Processor
      */
     public static function order_create_shipping_label_ajax()
     {
-        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'wc-moova') || empty(sanitize_text_field($_POST['order_id']))) {
+        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'moova-for-woocommerce') || empty(sanitize_text_field($_POST['order_id']))) {
             wp_send_json_error();
         }
 
@@ -177,7 +177,7 @@ class Processor
      */
     public static function change_order_status()
     {
-        if (!wp_verify_nonce($_POST['nonce'], 'wc-moova') || empty(sanitize_text_field($_POST['order_id']))) {
+        if (!wp_verify_nonce($_POST['nonce'], 'moova-for-woocommerce') || empty(sanitize_text_field($_POST['order_id']))) {
             wp_send_json_error();
         }
 

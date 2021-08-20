@@ -29,19 +29,19 @@ class LogsPage
 ?>
         <div class="moova-form-wrapper wrap">
             <div class="settings-header">
-                <img src="<?php echo $logo_url; ?>" class="logo">
+                <img src="<?php echo esc_url($logo_url); ?>" class="logo">
             </div>
 
             <div class="form-wrapper">
-                <h1> <?php echo __('Logs', 'wc-moova') ?></h1>
+                <h1> <?php echo esc_textarea(__('Logs', 'moova-for-woocommerce')) ?></h1>
                 <?php
                 if ($fileLogName) {
                 ?>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Reading from <?php echo $fileLogName ?> </label>
+                        <label for="exampleFormControlSelect1">Reading from <?php echo esc_textarea($fileLogName) ?> </label>
                         </br></br>
                         <p id="log_code">
-                            <?php echo $fileContent ?>
+                            <?php echo esc_textarea($fileContent) ?>
                         </p>
                     </div>
                 <?php

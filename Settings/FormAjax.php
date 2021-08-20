@@ -10,7 +10,7 @@ class FormAjax
 {
     public function autocomplete()
     {
-        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'wc-moova')) {
+        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'moova-for-woocommerce')) {
             wp_send_json_error();
         }
 
@@ -46,7 +46,7 @@ class FormAjax
         }
         update_option('wc-moova-min-shippings', $minShippings);
 
-        echo  1;
+        echo esc_textarea(1);
         exit;
     }
 }
