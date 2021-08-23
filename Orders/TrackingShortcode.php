@@ -26,7 +26,6 @@ class TrackingShortcode
             return $content;
         }
         $moova_id = sanitize_text_field($_GET['moova_tracking_id']);
-        $moova_id = filter_var($moova_id, FILTER_SANITIZE_SPECIAL_CHARS);
         $moovaSdk = new MoovaSdk();
         $tracking_statuses = $moovaSdk->get_tracking($moova_id);
         if ($tracking_statuses === false) {

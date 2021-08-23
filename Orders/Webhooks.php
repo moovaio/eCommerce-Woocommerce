@@ -48,7 +48,7 @@ class Webhooks
             Helper::log_info('validate_input - Without id');
             return true;
         }
-        $moova_id = filter_var($data['id'], FILTER_SANITIZE_STRING);
+        $moova_id = sanitize_text_field($data['id']);
         $list_orders = Helper::get_orders_by_itemmeta_value($moova_id);
 
         if (empty($list_orders)) {
