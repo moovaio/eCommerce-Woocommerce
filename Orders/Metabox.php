@@ -51,38 +51,38 @@ class Metabox
             return;
         }
 
-        if ($shipping_method->get_meta('tracking_number')) {
+        $container_moova = '';
+        if (!empty($shipping_method->get_meta('tracking_number'))) {
             $tracking_number = $shipping_method->get_meta('tracking_number');
             $tracking_url = $shipping_method->get_meta('tracking_url');
-            if (!empty($tracking_number)) {
+            // Tracking number
+            preg_match('/([a-zA-Z0-9]+)-/', $tracking_number, $matches);
+            $tracking_number = $matches[1];
+            printf(__('The order has been processed, tracking number: <strong>%s</strong>', 'moova-for-woocommerce'), $tracking_number);
 
-                // Tracking number
-                preg_match('/([a-zA-Z0-9]+)-/', $tracking_number, $matches);
-                $tracking_number = $matches[1];
-                printf(__('The order has been processed, tracking number: <strong>%s</strong>', 'moova-for-woocommerce'), $tracking_number);
+            $container_moova = '<a class="button-primary" style="display:block; margin:10px 0;" href="' . $tracking_url . '" target="_blank">' . __('Track order', 'moova-for-woocommerce') . '</a>';
 
-                echo esc_html('<a class="button-primary" style="display:block;margin:10px 0;" href="' . $tracking_url . '" target="_blank">' . __('Track order', 'moova-for-woocommerce') . '</a>');
-
-                // Label URL
-                $label_url = $shipping_method->get_meta('shipping_label');
-                if (empty($label_url)) {
-                    echo esc_html('<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="generate_order_shipping_label">' . __('Generate shipping label', 'moova-for-woocommerce') . '</a>');
-                } else {
-                    echo esc_html('<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" href="' . $label_url . '">' . __('View shipping label', 'moova-for-woocommerce') . '</a>');
-                }
-
-                // Update status
-                $moova_sdk = new MoovaSdk();
-                $moova_status = $moova_sdk->get_order_status($tracking_number);
-                if (trim(strtoupper($moova_status)) === 'DRAFT') {
-                    echo esc_html('<a class="button-primary" style="display:block;margin:10px 0;" data-action="change_order_status" data-to-status="ready">' . __('Mark order as ready to be shipped', 'moova-for-woocommerce') . '</a>');
-                }
+            // Label URL
+            $label_url = $shipping_method->get_meta('shipping_label');
+            if (empty($label_url)) {
+                $container_moova .= '<a class="button-primary" style="display:block; margin:10px 0;" target="_blank" data-action="generate_order_shipping_label">' . __('Generate shipping label', 'moova-for-woocommerce') . '</a>';
             } else {
-                echo esc_textarea(__('The order is not processed yet', 'moova-for-woocommerce'));
-                if ($config_status === '0') {
-                    echo esc_html('<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process_order">' . __('Process order', 'moova-for-woocommerce') . '</a>');
-                }
+                $container_moova .= '<a class="button-primary" style="display:block; margin:10px 0;" target="_blank" href="' . $label_url . '">' . __('View shipping label', 'moova-for-woocommerce') . '</a>';
+            }
+
+            // Update status
+            $moova_sdk = new MoovaSdk();
+            $moova_status = $moova_sdk->get_order_status($tracking_number);
+            if (trim(strtoupper($moova_status)) === 'DRAFT') {
+                $container_moova .= '<a class="button-primary" style="display:block;margin:10px 0;" data-action="change_order_status" data-to-status="ready">' . __('Mark order as ready to be shipped', 'moova-for-woocommerce') . '</a>';
+            }
+        } else {
+            $container_moova .= __('The order is not processed yet', 'moova-for-woocommerce');
+            if ($config_status === '0') {
+                $container_moova .= '<a class="button-primary" style="display:block;margin:10px 0;" target="_blank" data-action="process_order">' . __('Process order', 'moova-for-woocommerce') . '</a>';
             }
         }
+
+        echo $container_moova;
     }
 }

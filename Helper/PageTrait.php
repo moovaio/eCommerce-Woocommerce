@@ -25,8 +25,8 @@ trait PageTrait
             die('what are you doing here?');
         }
 
-        $nonce = $_REQUEST['_wpmoovanonce'] ?? null;
-        if (!empty($_POST) && $nonce && !wp_verify_nonce($nonce, 'wc-moova-save-preferences')) {
+        $nonce = sanitize_text_field($_REQUEST['_wpmoovanonce']) ?? null;
+        if ($nonce && !wp_verify_nonce($nonce, 'wc-moova-save-preferences')) {
             die('what are you doing here?');
         }
         $settings_saved = self::save_settings($_POST, $fields);
@@ -76,18 +76,19 @@ trait PageTrait
     {
         $saved = false;
         foreach ($settings_fields as $setting) {
-            if (!isset($post_data[$setting['slug']])) {
+            $slug = $setting['slug'];
+            if (!isset($post_data[$slug])) {
                 continue;
             }
-            $value = $post_data[$setting['slug']];
-            $value = filter_var($value, FILTER_SANITIZE_STRING);
+            $value = sanitize_text_field($post_data[$setting['slug']]);
+            $value = sanitize_text_field($value);
             $value = strip_tags($value);
             update_option('wc-moova-' . $setting['slug'], $value);
             $saved = true;
         }
-        $prefixEnv = $post_data['environment'] === 'test' ? 'dev' : '';
-        $appId = empty($post_data[$prefixEnv . 'clientid']) ? null : $post_data[$prefixEnv . 'clientid'];
-        $appKey = empty($post_data[$prefixEnv . 'clientsecret']) ? null : $post_data[$prefixEnv . 'clientsecret'];
+        $prefixEnv = sanitize_text_field($post_data['environment']) === 'test' ? 'dev' : '';
+        $appId = empty(sanitize_text_field($post_data[$prefixEnv . 'clientid'])) ? null : sanitize_text_field($post_data[$prefixEnv . 'clientid']);
+        $appKey = empty(sanitize_text_field($post_data[$prefixEnv . 'clientsecret'])) ? null : sanitize_text_field($post_data[$prefixEnv . 'clientsecret']);
         if ($appId && $appKey) {
             $moova_sdk = new MoovaSdk();
             $moova_sdk->setHooks();

@@ -71,7 +71,7 @@ class Processor
             wp_send_json_error();
         }
 
-        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
+        $order_id = sanitize_text_field($_POST['order_id']);
         $order = wc_get_order($order_id);
         if (!$order) {
             wp_send_json_error();
@@ -177,12 +177,12 @@ class Processor
      */
     public static function change_order_status()
     {
-        if (!wp_verify_nonce($_POST['nonce'], 'moova-for-woocommerce') || empty(sanitize_text_field($_POST['order_id']))) {
+        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'moova-for-woocommerce') || empty(sanitize_text_field($_POST['order_id']))) {
             wp_send_json_error();
         }
 
-        $order_id = filter_var($_POST['order_id'], FILTER_SANITIZE_NUMBER_INT);
-        $new_status = strtoupper(filter_var($_POST['toStatus'], FILTER_SANITIZE_STRING));
+        $order_id = sanitize_text_field(sanitize_text_field($_POST['order_id']));
+        $new_status = strtoupper(sanitize_text_field($_POST['toStatus']));
         $order = wc_get_order($order_id);
         if (!$order) {
             wp_send_json_error();

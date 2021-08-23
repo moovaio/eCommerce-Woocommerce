@@ -48,9 +48,9 @@ class BulkChanges
         if (empty(sanitize_text_field($_REQUEST['response_force_create']))) return; // Exit
 
         $failures =  sanitize_text_field($_REQUEST['force_create_errors']);
-        $totalFailures = intval($_REQUEST['force_create_total_errors']);
+        $totalFailures = intval(sanitize_text_field($_REQUEST['force_create_total_errors']));
 
-        $success = intval($_REQUEST['success']);
+        $success = intval(sanitize_text_field($_REQUEST['success']));
 
         if ($success || $success > 0) {
             $message = __("We have created succesfully ",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
@@ -102,7 +102,7 @@ class BulkChanges
 
         $success = intval(sanitize_text_field($_REQUEST['success']));
         $failures =  sanitize_text_field($_REQUEST['failure_ids']);
-        $totalFailures = intval($_REQUEST['failure_total']);
+        $totalFailures = intval(sanitize_text_field($_REQUEST['failure_total']));
 
         if ($success || $success > 0) {
             $message = __("We have started succesfully ",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
@@ -149,7 +149,7 @@ class BulkChanges
 
         $success = intval($_REQUEST['success']);
         $failures =  sanitize_text_field($_REQUEST['failure_ids']);
-        $totalFailures = intval($_REQUEST['failure_total']);
+        $totalFailures = intval(sanitize_text_field(($_REQUEST['failure_total'])));
 
         if ($success || $success > 0) {
             $message = __("We got the latest status succesfully of",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');

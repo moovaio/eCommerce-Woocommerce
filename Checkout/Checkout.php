@@ -93,7 +93,15 @@ class Checkout
             $url = $shipping_method->get_meta('tracking_url');
             $message = "Segui tu envio y valida que tu direccion sea la correcta haciendo" .
                 "<a style='color: #0272a9;' href='$url'> click aquí</a>";
-            echo esc_html($message);
+
+                $allowed_html = array(
+                    'a' => array(
+                        'style'  => array(),
+                        'href'    => array(),
+                     ),
+                );
+                
+                echo wp_kses($message ,$allowed_html );
         }
     }
 }

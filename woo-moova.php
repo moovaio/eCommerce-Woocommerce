@@ -303,7 +303,7 @@ class WCMoova
                             Could you please do me a BIG favor and give it a 5-star rating on WordPress?
                             Just to help us spread the word and boost our motivation.", 'moova-for-woocommerce'),
                         $minShippings
-                    )) ?>
+                    ))); ?>
                 </p>
                 <strong><em>~ Axel Candia</em></strong>
             </div>

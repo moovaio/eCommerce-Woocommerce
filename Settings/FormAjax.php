@@ -14,7 +14,7 @@ class FormAjax
             wp_send_json_error();
         }
 
-        $query = filter_var($_POST['query']['term'], FILTER_SANITIZE_STRING);
+        $query = sanitize_text_field($_POST['query']['term']);
         $moovaSdk = new MoovaSdk();
         $response = $moovaSdk->autocomplete($query);
         wp_send_json(["data" => $response]);

@@ -98,11 +98,11 @@ class MoovaSdk
             return Helper::get_option('fixed_price', null);
         } elseif ($specialPricing === 'range') {
             $min = Helper::get_option('min_price', 0);
-            if ($price < $min) {
+            if ($shippingPrice < $min) {
                 return $min;
             }
             $max = Helper::get_option('max_price', null);
-            if ($price > $max) {
+            if ($shippingPrice > $max) {
                 return $max;
             }
         }
