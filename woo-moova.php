@@ -5,7 +5,7 @@ use Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 3.8
+ * Version: 3.9
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
@@ -298,7 +298,7 @@ class WCMoova
         <div class="notice notice-success" id="moova-rate-app" data-moova-ajax-url=<?php echo (esc_url(admin_url('admin-ajax.php'))) ?> data-moova-ajax-nonce=<?php echo esc_textarea((wp_create_nonce('moova-for-woocommerce'))) ?>>
             <div>
                 <p>
-                    <?php esc_textarea( (sprintf(
+                    <?php esc_textarea((sprintf(
                         __("Hey! Congratulations for your %d shipping with Moova!! We hope you are enjoying our plugin.
                             Could you please do me a BIG favor and give it a 5-star rating on WordPress?
                             Just to help us spread the word and boost our motivation.", 'moova-for-woocommerce'),
