@@ -5,24 +5,30 @@ namespace Moova\Settings;
 defined('ABSPATH') || exit;
 
 use Moova\Sdk\MoovaSdk;
+use Moova\Helper\Helper;
 
 class FormAjax
 {
-    public function autocomplete()
+    public static function autocomplete()
     {
-        if (!wp_verify_nonce(sanitize_text_field($_POST['nonce']), 'moova-for-woocommerce')) {
-            wp_send_json_error();
+        try {
+            if (!wp_verify_nonce($_POST['nonce'], 'moova-for-woocommerce')) {
+                wp_send_json_error();
+            }
+
+            $query = sanitize_text_field($_POST['query']['term']);
+            $moovaSdk = new MoovaSdk();
+            $response = $moovaSdk->autocomplete($query);
+            wp_send_json(["data" => $response]);
+
+            die();
+        } catch (\Throwable $th) {
+            Helper::log_info($th);
+            return false;
         }
-
-        $query = sanitize_text_field($_POST['query']['term']);
-        $moovaSdk = new MoovaSdk();
-        $response = $moovaSdk->autocomplete($query);
-        wp_send_json(["data" => $response]);
-
-        die();
     }
 
-    public function rate()
+    public static function rate()
     {
         $rate_action = sanitize_text_field($_POST['rate_action']);
         $minShippings = get_option('wc-moova-min-shippings');

@@ -54,7 +54,7 @@ class Checkout
         return $address_fields;
     }
 
-    public function get_ajax_moova_custom_fields()
+    public static function get_ajax_moova_custom_fields()
     {
         if (isset($_POST['lat'])) {
             WC()->session->set('moova_lat', sanitize_text_field($_POST['lat']));
@@ -94,14 +94,14 @@ class Checkout
             $message = "Segui tu envio y valida que tu direccion sea la correcta haciendo" .
                 "<a style='color: #0272a9;' href='$url'> click aquí</a>";
 
-                $allowed_html = array(
-                    'a' => array(
-                        'style'  => array(),
-                        'href'    => array(),
-                     ),
-                );
-                
-                echo wp_kses($message ,$allowed_html );
+            $allowed_html = array(
+                'a' => array(
+                    'style'  => array(),
+                    'href'    => array(),
+                ),
+            );
+
+            echo wp_kses($message, $allowed_html);
         }
     }
 }
