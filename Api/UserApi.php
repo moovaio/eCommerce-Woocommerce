@@ -14,6 +14,7 @@ class UserApi extends ApiConnector implements ApiInterface
 
     public function get(string $endpoint, array $body = [], array $headers = [])
     {
+        $this->api_config = $this->api_config ?? [];
         $body = array_merge($this->api_config, $body);
         $url = $this->get_base_url() . $endpoint;
         return $this->exec('GET', $url, [], $headers);

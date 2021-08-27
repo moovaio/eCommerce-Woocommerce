@@ -41,7 +41,7 @@ class LogsPage
                         <label for="exampleFormControlSelect1">Reading from <?php echo esc_textarea($fileLogName) ?> </label>
                         </br></br>
                         <p id="log_code">
-                            <?php echo esc_textarea($fileContent) ?>
+                            <?php echo $fileContent ?>
                         </p>
                     </div>
                 <?php
