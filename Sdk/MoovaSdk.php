@@ -34,8 +34,8 @@ class MoovaSdk
     {
         $data_to_send = self::format_payload_estimate($origin, $to, $items);
         try {
-            Log::info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             $res = $this->api->post('/budgets/estimate', $data_to_send);
+            Log::info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             Log::info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         } catch (Exception $error) {
         }

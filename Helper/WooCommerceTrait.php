@@ -99,7 +99,7 @@ trait WooCommerceTrait
             $is_moova = ($shipping_method['method_id'] === 'moova');
             if ($is_moova && $shipping_method->get_meta('tracking_number')) {
                 return $shipping_method;
-            } elseif ($is_moova) {
+            } else if ($is_moova) {
                 $method = $shipping_method;
             }
         }
