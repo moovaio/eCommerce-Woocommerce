@@ -19,7 +19,7 @@ trait WooCommerceTrait
         $first_name = self::get_customer_first_name($customer);
         $last_name = self::get_customer_last_name($customer);
         $postal_code = self::get_postal_code($customer);
-        $full_address = self::get_full_address($address, $postal_code);
+        $full_address = self::get_full_address($customer, $postal_code);
         return [
             'first_name' => $first_name,
             'last_name' => $last_name,
@@ -61,7 +61,7 @@ trait WooCommerceTrait
      * @param string $province
      * @return string
      */
-    public static function get_full_address(array $customer, string $postal_code)
+    public static function get_full_address($customer, string $postal_code)
     {
         $address = self::get_address($customer);
         $province = self::get_province($customer);

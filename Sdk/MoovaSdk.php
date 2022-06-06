@@ -32,7 +32,7 @@ class MoovaSdk
      */
     public function get_price(array $origin, array $to, array $items)
     {
-        $data_to_send = format_payload_estimate($origin, $to, $items);
+        $data_to_send = self::format_payload_estimate($origin, $to, $items);
         try {
             Log::info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             $res = $this->api->post('/budgets/estimate', $data_to_send);
@@ -42,7 +42,7 @@ class MoovaSdk
         return $this->format_price($res, WC()->cart->cart_contents_total);
     }
 
-    public function format_payload_estimate($origin, $destination, $items)
+    private static function format_payload_estimate($origin, $destination, $items)
     {
         $to =[
             'floor' => $to['floor'],
