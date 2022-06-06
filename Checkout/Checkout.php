@@ -11,7 +11,7 @@ class Checkout
 {
     /**
      * Register all scripts in checkout
-     * 
+     *
      * @return void
      */
     public static function register_scripts()
@@ -67,12 +67,15 @@ class Checkout
     public static function refresh_shipping_methods()
     {
         $bool = true;
-        if (WC()->session->get('billing_area') != '') $bool = false;
+        if (WC()->session->get('billing_area') != '') {
+            $bool = false;
+        }
 
         // Mandatory to make it work with shipping methods
         foreach (WC()->cart->get_shipping_packages() as $package_key => $package) {
             WC()->session->set('shipping_for_package_' . $package_key, $bool);
         }
+        Helper::log_info('Running calcualte shipping');
         WC()->cart->calculate_shipping();
     }
 

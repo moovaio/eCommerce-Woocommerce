@@ -67,6 +67,14 @@ class WC_Moova extends \WC_Shipping_method
      */
     public function calculate_shipping($package = [])
     {
+        Helper::log_info('HOLA');
+        $this->add_rate([
+            'id'        => $this->get_rate_id(), // ID for the rate. If not passed, this id:instance default will be used.
+            'label'     => $this->title, // Label for the rate.
+            'cost'      => 10 // Amount or array of costs (per item shipping).
+        ]);
+
+        return 0    ;
         if (isset($package['seller_id'])) {
             Helper::log_info('calculate_shipping - using dokan spliter');
             $rate = $this->get_splited_dokan_rate($package);
@@ -99,7 +107,9 @@ class WC_Moova extends \WC_Shipping_method
             $vendor = Helper::get_dokan_seller_by_id($vendor_id);
             $format_origin = Helper::format_dokan_origin_to_moova($vendor);
             $price = $moovaSdk->get_price($format_origin, $customer, $vendor_cart);
-            if ($price == false) return false;
+            if ($price == false) {
+                return false;
+            }
             $final_price += $price;
         }
         return $final_price;

@@ -32,53 +32,43 @@ class MoovaSdk
      */
     public function get_price(array $origin, array $to, array $items)
     {
-        $from = [
-            'floor' => $origin['floor'],
-            'apartment' => $origin['apartment'],
-            'address' => $origin['address'],
+        $data_to_send = format_payload_estimate($origin, $to, $items);
+        try {
+            Log::info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
+            $res = $this->api->post('/budgets/estimate', $data_to_send);
+            Log::info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
+        } catch (Exception $error) {
+        }
+        return $this->format_price($res, WC()->cart->cart_contents_total);
+    }
+
+    public function format_payload_estimate($origin, $destination, $items)
+    {
+        $to =[
+            'floor' => $to['floor'],
+            'apartment' => $to['apartment'],
         ];
+        if (!empty($to['lat'])) {
+            $to['coords'] = ['lat' => $to['lat'],  'lng' => $to['lng'] ];
+        } elseif (!empty($to['full_address'])) {
+            $to['address'] = "{$destination['full_address']} {$destination['country']}";
+        } else {
+            $to['postalCode'] = $destination['postal_code'];
+        }
 
         $data_to_send = [
-            'from' => $from,
-            'to' => [
-                'floor' => $to['floor'],
-                'apartment' => $to['apartment'],
-                'postalCode' => $to['cp'],
+            'from' => [
+                'floor' => $origin['floor'],
+                'apartment' => $origin['apartment'],
+                'address' => $origin['address'],
             ],
+            'to' => $to,
             'conf' => [
                 'assurance' => false,
                 'items' => $items
             ],
             'type' => 'woocommerce_24_horas_max'
         ];
-        if (!empty($to['lat'])) {
-            unset($data_to_send['to']['postalCode']);
-            unset($data_to_send['from']['postalCode']);
-            $data_to_send['to']['coords'] = [
-                'lat' => $to['lat'],
-                'lng' => $to['lng']
-            ];
-        } elseif (isset($to['number']) && !empty($to['number'])) {
-            $data_to_send['to']['address'] = "{$to['street']} {$to['number']},{$to['locality']}, {$to['province']}, {$to['country']}";
-        }
-
-        try {
-            $res = $this->api->post('/budgets/estimate', $data_to_send);
-            if (Helper::get_option('debug')) {
-                Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
-                Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
-            }
-        } catch (Exception $error) {
-        }
-
-        if (empty($res['budget_id']) && !empty($data_to_send['from']['postalCode'])) {
-            Helper::log_info('Budget from postalcode');
-            unset($data_to_send['to']['address']);
-            unset($data_to_send['to']['coords']);
-            $res = $this->api->post('/budgets/estimate', $data_to_send);
-        }
-
-        return $this->format_price($res, WC()->cart->cart_contents_total);
     }
 
     private function format_price($price, $cartPrice)
@@ -133,7 +123,9 @@ class MoovaSdk
 
     public function update_order(\WC_Order $order)
     {
-        if (!$order) return true;
+        if (!$order) {
+            return true;
+        }
         $shipping_method = Helper::get_shipping_method($order);
         $moova_id = $shipping_method->get_meta('tracking_number');
 
