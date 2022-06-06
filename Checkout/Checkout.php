@@ -75,7 +75,6 @@ class Checkout
         foreach (WC()->cart->get_shipping_packages() as $package_key => $package) {
             WC()->session->set('shipping_for_package_' . $package_key, $bool);
         }
-        Helper::log_info('Running calcualte shipping');
         WC()->cart->calculate_shipping();
     }
 
