@@ -6,11 +6,10 @@ defined('ABSPATH') || exit;
 
 class BulkChanges
 {
-
     public static function set_bulk_options($actions)
     {
         $actions['force_create_bulk_shipments'] = __('Moova - Send with Moova', 'moova-for-woocommerce');
-        $actions['start_bulk_shipments'] = __('Moova - Change shipping to Ready',  'moova-for-woocommerce');
+        $actions['start_bulk_shipments'] = __('Moova - Change shipping to Ready', 'moova-for-woocommerce');
         $actions['force_latest_status_shipments'] = __('Moova - Force latest status', 'moova-for-woocommerce');
 
         return $actions;
@@ -18,8 +17,9 @@ class BulkChanges
 
     public static function force_create_bulk_shipments($redirect_to, $action, $post_ids)
     {
-        if ($action !== 'force_create_bulk_shipments')
+        if ($action !== 'force_create_bulk_shipments') {
             return $redirect_to;
+        }
         $success = 0;
         $failure = [];
         foreach ($post_ids as $post_id) {
@@ -45,7 +45,9 @@ class BulkChanges
     // The results notice from bulk action on orders
     public static function response_force_create()
     {
-        if (empty(sanitize_text_field($_REQUEST['response_force_create']))) return; // Exit
+        if (empty(sanitize_text_field($_REQUEST['response_force_create']))) {
+            return;
+        } // Exit
 
         $failures =  sanitize_text_field($_REQUEST['force_create_errors']);
         $totalFailures = intval(sanitize_text_field($_REQUEST['force_create_total_errors']));
@@ -53,13 +55,13 @@ class BulkChanges
         $success = intval(sanitize_text_field($_REQUEST['success']));
 
         if ($success || $success > 0) {
-            $message = __("We have created succesfully ",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
+            $message = __("We have created succesfully ", 'moova-for-woocommerce') . $success . __(" shipments in Moova. ", 'moova-for-woocommerce');
             self::send_message('success', $message);
         }
 
         if ($totalFailures > 0) {
             $message = __("We found error in the following orders"
-                . ". Please check they have a shipping address before creating them. Ids: ",  'moova-for-woocommerce') .
+                . ". Please check they have a shipping address before creating them. Ids: ", 'moova-for-woocommerce') .
                 $failures;
             self::send_message('error', $message);
         }
@@ -73,8 +75,9 @@ class BulkChanges
 
     public static function start_bulk_shipments($redirect_to, $action, $post_ids)
     {
-        if ($action !== 'start_bulk_shipments')
-            return $redirect_to; // Exit
+        if ($action !== 'start_bulk_shipments') {
+            return $redirect_to;
+        } // Exit
 
         $success = 0;
         $failure = [];
@@ -98,20 +101,22 @@ class BulkChanges
 
     public static function response_start_bulk_shipments()
     {
-        if (empty($_REQUEST['response_start_bulk_shipments'])) return; // Exit
+        if (empty($_REQUEST['response_start_bulk_shipments'])) {
+            return;
+        } // Exit
 
         $success = intval(sanitize_text_field($_REQUEST['success']));
         $failures =  sanitize_text_field($_REQUEST['failure_ids']);
         $totalFailures = intval(sanitize_text_field($_REQUEST['failure_total']));
 
         if ($success || $success > 0) {
-            $message = __("We have started succesfully ",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
+            $message = __("We have started succesfully ", 'moova-for-woocommerce') . $success . __(" shipments in Moova. ", 'moova-for-woocommerce');
             self::send_message('success', $message);
         }
 
         if ($totalFailures || $totalFailures > 0) {
             $message = __("We found error in the following orders"
-                . ". Please check they are already created Moova shipments and they are not in status READY: ",  'moova-for-woocommerce') .
+                . ". Please check they are already created Moova shipments and they are not in status READY: ", 'moova-for-woocommerce') .
                 $failures;
             self::send_message('error', $message);
         }
@@ -119,8 +124,9 @@ class BulkChanges
 
     public static function force_latest_status_shipments($redirect_to, $action, $post_ids)
     {
-        if ($action !== 'force_latest_status_shipments')
+        if ($action !== 'force_latest_status_shipments') {
             return $redirect_to;
+        }
         $success = 0;
         $failure = [];
         foreach ($post_ids as $post_id) {
@@ -145,19 +151,21 @@ class BulkChanges
     // The results notice from bulk action on orders
     public static function response_force_latest_status()
     {
-        if (empty($_REQUEST['response_force_latest_status'])) return;
+        if (empty($_REQUEST['response_force_latest_status'])) {
+            return;
+        }
 
         $success = intval($_REQUEST['success']);
         $failures =  sanitize_text_field($_REQUEST['failure_ids']);
         $totalFailures = intval(sanitize_text_field(($_REQUEST['failure_total'])));
 
         if ($success || $success > 0) {
-            $message = __("We got the latest status succesfully of",  'moova-for-woocommerce') . $success . __(" shipments in Moova. ",  'moova-for-woocommerce');
+            $message = __("We got the latest status succesfully of", 'moova-for-woocommerce') . $success . __(" shipments in Moova. ", 'moova-for-woocommerce');
             self::send_message('success', $message);
         }
 
         if ($totalFailures || $totalFailures > 0) {
-            $message = __("We found error in the following orders, please be sure they are moova shippings:",  'moova-for-woocommerce') .
+            $message = __("We found error in the following orders, please be sure they are moova shippings:", 'moova-for-woocommerce') .
                 $failures;
             self::send_message('error', $message);
         }
