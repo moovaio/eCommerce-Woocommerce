@@ -13,25 +13,37 @@ trait WooCommerceTrait
      */
     public static function get_customer_from_cart($customer)
     {
-        if (!$customer) {
-            return false;
-        }
         $first_name = self::get_customer_first_name($customer);
         $last_name = self::get_customer_last_name($customer);
         $postal_code = self::get_postal_code($customer);
-        $full_address = self::get_full_address($customer, $postal_code);
-        return [
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'full_name' => $name,
-            'floor' => $address['floor'],
-            'apartment' => $address['apartment'],
-            'full_address' => $full_address,
-            'cp' => $postal_code,
-            'country' => $customer->get_shipping_country(),
-            'lat' => self::get_custom_shipping_type('lat', $customer),
-            'lng' => self::get_custom_shipping_type('lng', $customer)
+        $street = self::get_address($customer);
+        $province = self::get_province($customer);
+        $locality = self::get_locality($customer);
+        $country = $customer->get_shipping_country();
+        $address = "$street,$province,$postal_code,$locality,$country";
+
+        $destination = [
+            "name"=> $first_name,
+            "lastName"=>$last_name,
+            "apartment" => self::get_apartment($customer),
+            "email"=> $customer->get_billing_email(),
+            "phone"=> $customer->get_billing_phone(),
+            "country" =>$country,
         ];
+        
+        if (self::get_custom_shipping_type('lat', $customer)) {
+            return array_merge($destination, [
+                "coords"=>[
+                    "lat"=>self::get_custom_shipping_type('lat', $customer),
+                    "lng"=>self::get_custom_shipping_type('lng', $customer)
+                ],
+                "addressDescription"=>$address
+            ]);
+        }
+
+        return array_merge($destination, [
+            "address"=>$address
+        ]);
     }
 
     public static function get_custom_shipping_type($type, $customer)
@@ -52,42 +64,6 @@ trait WooCommerceTrait
         return $response;
     }
 
-    /**
-     * Gets full address
-     *
-     * @param array $address
-     * @param string $locality
-     * @param string $postal_code
-     * @param string $province
-     * @return string
-     */
-    public static function get_full_address($customer, string $postal_code)
-    {
-        $address = self::get_address($customer);
-        $province = self::get_province($customer);
-        $locality = self::get_locality($customer);
-
-        return $address.','. $locality . ',' . $postal_code . ', ' . $province;
-    }
-
-    /**
-     * Gets customer data from an order
-     *
-     * @param WC_Order $order
-     * @return array|false
-     */
-    public static function get_customer_from_order($order)
-    {
-        if (!$order) {
-            return false;
-        }
-        $data = self::get_customer_from_cart($order);
-        $data['email'] = $order->get_billing_email();
-        $data['phone'] = $order->get_billing_phone();
-        $data['extra_info'] = $order->get_customer_note();
-        return $data;
-    }
-
     public static function get_shipping_method($order)
     {
         if (!$order->has_shipping_method('moova')) {
@@ -99,7 +75,7 @@ trait WooCommerceTrait
             $is_moova = ($shipping_method['method_id'] === 'moova');
             if ($is_moova && $shipping_method->get_meta('tracking_number')) {
                 return $shipping_method;
-            } else if ($is_moova) {
+            } elseif ($is_moova) {
                 $method = $shipping_method;
             }
         }
@@ -196,7 +172,7 @@ trait WooCommerceTrait
      */
     public static function get_customer_last_name($customer)
     {
-        $name = false;
+        $name = '';
         if ($customer->get_shipping_last_name()) {
             $name = $customer->get_shipping_last_name();
         } else {
@@ -217,17 +193,26 @@ trait WooCommerceTrait
             return false;
         }
         if ($order->get_shipping_address_1()) {
-            $shipping_line_1 = $order->get_shipping_address_1();
-            $shipping_line_2 = $order->get_shipping_address_2();
-        } else {
-            $shipping_line_1 = $order->get_billing_address_1();
-            $shipping_line_2 = $order->get_billing_address_2();
+            return $order->get_shipping_address_1();
         }
+        return $order->get_billing_address_1();
+    }
 
-        return [
-            "address"=> $shipping_line_1,
-            "floor"=>$shipping_line_2
-        ];
+    /**
+     * Gets the address of an order
+     *
+     * @param WC_Order $order
+     * @return false|array
+     */
+    public static function get_apartment($order)
+    {
+        if (!$order) {
+            return false;
+        }
+        if ($order->get_shipping_address_1()) {
+            return $order->get_shipping_address_2();
+        }
+        return $order->get_billing_address_2();
     }
     /**
      * Gets product dimensions and details

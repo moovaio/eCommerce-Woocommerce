@@ -33,9 +33,9 @@ class Processor
         Helper::log_info("Handling status $currentStatus for $order_id. Ready=$ready_status");
         if (empty($shipping_method->get_meta('tracking_number'))) {
             self::process_order_and_childrens($order, $shipping_method);
-        } else if ($currentStatus === $ready_status) {
+        } elseif ($currentStatus === $ready_status) {
             self::update_status($order, 'READY');
-        } else if ($currentStatus == 'wc-cancelled' || $currentStatus == 'cancelled') {
+        } elseif ($currentStatus == 'wc-cancelled' || $currentStatus == 'cancelled') {
             self::update_status($order, 'CANCEL', 'Cancel by woocommercer admin');
         }
     }
@@ -139,8 +139,10 @@ class Processor
             Helper::log_info($error);
             return null;
         } catch (TypeError $error) {
+            Helper::log_info($error);
             return null;
         } catch (Error $error) {
+            Helper::log_info($error);
             return null;
         }
     }

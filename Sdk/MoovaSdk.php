@@ -33,40 +33,26 @@ class MoovaSdk
     public function get_price(array $origin, array $to, array $items)
     {
         $data_to_send = self::format_payload_estimate($origin, $to, $items);
+         
         try {
             $res = $this->api->post('/budgets/estimate', $data_to_send);
-            Log::info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
-            Log::info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
+            Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
         } catch (Exception $error) {
         }
         return $this->format_price($res, WC()->cart->cart_contents_total);
     }
 
-    private static function format_payload_estimate($origin, $destination, $items)
+    private static function format_payload_estimate($from, $to, $items)
     {
-        $to =[
-            'floor' => $to['floor'],
-            'apartment' => $to['apartment'],
-        ];
-        if (!empty($to['lat'])) {
-            $to['coords'] = ['lat' => $to['lat'],  'lng' => $to['lng'] ];
-        } elseif (!empty($to['full_address'])) {
-            $to['address'] = "{$destination['full_address']} {$destination['country']}";
-        } else {
-            $to['postalCode'] = $destination['postal_code'];
-        }
-
-        $data_to_send = [
+        return [
             'from' => [
-                'floor' => $origin['floor'],
-                'apartment' => $origin['apartment'],
-                'address' => $origin['address'],
+                'floor' => $from['floor'],
+                'apartment' => $from['apartment'],
+                'address' => $from['address']
             ],
             'to' => $to,
-            'conf' => [
-                'assurance' => false,
-                'items' => $items
-            ],
+            'items' => $items,
             'type' => 'woocommerce_24_horas_max'
         ];
     }
@@ -147,48 +133,19 @@ class MoovaSdk
     private static function get_shipping_data(\WC_Order $order)
     {
         $seller = Helper::get_seller_from_settings($order);
-        $customer = Helper::get_customer_from_order($order);
+        $to = Helper::get_customer_from_cart($order);
         $orderItems = Helper::get_items_from_order($order);
         $scheduledDate = Helper::get_custom_shipping_type('schedule_date', $order);
         $scheduledDate = $scheduledDate ?  "$scheduledDate 01:00:00" : null;
         $parse = parse_url(get_site_url());
         $prefix = substr($parse['host'], 0, 3);
-        $to = [
-            'street' => $customer['street'],
-            'number' => $customer['number'],
-            'city' => $customer['locality'],
-            'state' => $customer['province'],
-        ];
-
-        if (!empty($customer['lat'])) {
-            $to = [
-                'coords' => [
-                    'lat' => $customer['lat'],
-                    'lng' => $customer['lng']
-                ],
-                'addressDescription' => "{$customer['street']} {$customer['number']}"
-            ];
-        }
-        Helper::log_info($scheduledDate);
         return [
             'scheduledDate' => $scheduledDate,
             'currency' => get_woocommerce_currency(),
             'type' => 'regular',
             'flow' => 'manual',
             'from' => $seller,
-            'to' => array_merge($to, [
-                'country' => $customer['country'],
-                'floor' => $customer['floor'],
-                'apartment' => $customer['apartment'],
-                'postalCode' => $customer['cp'],
-                'instructions' => $customer['extra_info'],
-                'contact' => [
-                    'firstName' => $customer['first_name'],
-                    'lastName' => $customer['last_name'],
-                    'email' => $customer['email'],
-                    'phone' => $customer['phone']
-                ]
-            ]),
+            'to' => $to,
             'conf' => [
                 'assurance' => false,
                 'items' => $orderItems
@@ -304,7 +261,7 @@ class MoovaSdk
      */
     public function autocomplete($query)
     {
-        $res = $this->userApi->get("/autocomplete?query=$query");
+        $res = $this->userApi->get("autocomplete?query=$query");
         if (Helper::get_option('debug')) {
             Helper::log_debug(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($query)));
             Helper::log_debug(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
