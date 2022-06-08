@@ -5,7 +5,7 @@ use Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 4.0
+ * Version: 4.1
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
@@ -75,7 +75,6 @@ class WCMoova
      */
     private static function check_components()
     {
-
         global $wp_version;
         $flag = $version = false;
 
@@ -117,7 +116,6 @@ class WCMoova
                 $name = str_replace('Moova/', '', $name);
                 require_once plugin_dir_path(__FILE__) . $name . '.php';
             }
-
         );
         include_once __DIR__ . '/Hooks.php';
         Helper::init();
@@ -224,7 +222,6 @@ class WCMoova
             }
 
             if ($method->cost == 0) {
-
                 $label .= '<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Gratis</span>';
             }
         }
@@ -292,18 +289,16 @@ class WCMoova
         $shippingsWithMoova = $wpdb->get_var($query);
         if ($shippingsWithMoova < $minShippings) {
             return;
-        }
-
-?>
-        <div class="notice notice-success" id="moova-rate-app" data-moova-ajax-url=<?php echo (esc_url(admin_url('admin-ajax.php'))) ?> data-moova-ajax-nonce=<?php echo esc_textarea((wp_create_nonce('moova-for-woocommerce'))) ?>>
+        } ?>
+        <div class="notice notice-success" id="moova-rate-app" data-moova-ajax-url=<?php echo(esc_url(admin_url('admin-ajax.php'))) ?> data-moova-ajax-nonce=<?php echo esc_textarea((wp_create_nonce('moova-for-woocommerce'))) ?>>
             <div>
                 <p>
                     <?php esc_textarea((sprintf(
-                        __("Hey! Congratulations for your %d shipping with Moova!! We hope you are enjoying our plugin.
+            __("Hey! Congratulations for your %d shipping with Moova!! We hope you are enjoying our plugin.
                             Could you please do me a BIG favor and give it a 5-star rating on WordPress?
                             Just to help us spread the word and boost our motivation.", 'moova-for-woocommerce'),
-                        $minShippings
-                    ))); ?>
+            $minShippings
+        ))); ?>
                 </p>
                 <strong><em>~ Axel Candia</em></strong>
             </div>
