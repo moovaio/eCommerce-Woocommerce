@@ -24,7 +24,7 @@ trait WooCommerceTrait
 
         $destination = [
             "contact"=>[
-                "name"=> $first_name,
+                "firstName"=> $first_name,
                 "lastName"=>$last_name,
                 "email"=> $customer->get_billing_email(),
                 "phone"=> $customer->get_billing_phone(),
