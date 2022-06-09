@@ -23,11 +23,13 @@ trait WooCommerceTrait
         $address = "$street,$province,$postal_code,$locality,$country";
 
         $destination = [
-            "name"=> $first_name,
-            "lastName"=>$last_name,
+            "contact"=>[
+                "name"=> $first_name,
+                "lastName"=>$last_name,
+                "email"=> $customer->get_billing_email(),
+                "phone"=> $customer->get_billing_phone(),
+            ],
             "apartment" => self::get_apartment($customer),
-            "email"=> $customer->get_billing_email(),
-            "phone"=> $customer->get_billing_phone(),
             "country" =>$country,
         ];
         
@@ -201,7 +203,7 @@ trait WooCommerceTrait
         if (!$order) {
             return false;
         }
-        if ($order->get_shipping_address_1()) {
+        if ($order->get_shipping_address_2()) {
             return $order->get_shipping_address_2();
         }
         return $order->get_billing_address_2();
