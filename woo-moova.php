@@ -5,13 +5,13 @@ use Moova\Helper\Helper;
 /**
  * Plugin Name: Moova for WooCommerce
  * Description: Integration between Moova and WooCommerce
- * Version: 4.2
+ * Version: 4.4
  * Requires PHP: 7.0
  * Author: Moova.io
  * Author URI: https://moova.io/
  * Text Domain: moova-for-woocommerce
  * WC requires at least: 3.3
- * WC tested up to: 5.8
+ * WC tested up to: 6.8
  */
 
 defined('ABSPATH') || exit;
@@ -21,14 +21,14 @@ defined('ABSPATH') || exit;
  */
 class WCMoova
 {
-    const PLUGIN_NAME = 'Moova';
-    const MAIN_FILE = __FILE__;
-    const MAIN_DIR = __DIR__;
-    const WITHOUT_NEXT_DAY_DELIVERY = [
+    public const PLUGIN_NAME = 'Moova';
+    public const MAIN_FILE = __FILE__;
+    public const MAIN_DIR = __DIR__;
+    public const WITHOUT_NEXT_DAY_DELIVERY = [
         'Fri',
         'Sat',
     ];
-    const NOT_WORKING_DAYS = [
+    public const NOT_WORKING_DAYS = [
         'Sat',
         'Sun',
     ];
