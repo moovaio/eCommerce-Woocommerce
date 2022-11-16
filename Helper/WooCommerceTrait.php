@@ -4,7 +4,6 @@ namespace Moova\Helper;
 
 trait WooCommerceTrait
 {
-
     /**
      * Gets the customer from a WooCommerce Cart
      *
@@ -20,7 +19,7 @@ trait WooCommerceTrait
         $province = self::get_province($customer);
         $locality = self::get_locality($customer);
         $country = $customer->get_shipping_country();
-        $address = "$street,$province,$postal_code,$locality,$country";
+        $address = "$street,$locality,$postal_code,$province,$country";
 
         $destination = [
             "contact"=>[
@@ -32,7 +31,7 @@ trait WooCommerceTrait
             "apartment" => self::get_apartment($customer),
             "country" =>$country,
         ];
-        
+
         if (self::get_custom_shipping_type('lat', $customer)) {
             return array_merge($destination, [
                 "coords"=>[
@@ -83,7 +82,7 @@ trait WooCommerceTrait
         $map = [
             'metropolitana de santiago' => 'Region Metropolitana de Santiago'
         ];
-        return isset($map[$province]) ?  $map[$province] : $province;
+        return isset($map[$province]) ? $map[$province] : $province;
     }
     /**
      * Gets the province from a customer
