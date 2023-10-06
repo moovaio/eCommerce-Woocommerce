@@ -19,7 +19,7 @@ trait WooCommerceTrait
         $province = self::get_province($customer);
         $locality = self::get_locality($customer);
         $country = $customer->get_shipping_country();
-        $address = "$street,$locality,$postal_code,$province,$country";
+        $address = "$street,$province,$locality,$country";
 
         $destination = [
             "contact"=>[
