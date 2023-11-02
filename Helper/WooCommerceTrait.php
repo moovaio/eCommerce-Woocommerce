@@ -28,6 +28,7 @@ trait WooCommerceTrait
                 "email"=> $customer->get_billing_email(),
                 "phone"=> $customer->get_billing_phone(),
             ],
+            "postalCode"=>$postal_code,
             "apartment" => self::get_apartment($customer),
             "country" =>$country,
         ];

@@ -38,10 +38,33 @@ class MoovaSdk
             $res = $this->api->post('/budgets/estimate', $data_to_send);
             Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
+            if (empty($res['budget_id'])) 
+            { 
+                $res = $this->get_price_by_postal_code($data_to_send); 
+            }
         } catch (Exception $error) {
         }
         return $this->format_price($res, WC()->cart->cart_contents_total);
     }
+
+    public function get_price_by_postal_code($data_to_send)
+    { 
+        if(Helper::get_option('enable_postal_codes_quotes') === "0"){
+            return false;     
+        }
+        Helper::log_info("Starting get price by cp 2" );  
+        $data_to_send["to"]=["postalCode"=>$data_to_send["to"]["postalCode"]];
+
+        try{
+            $res = $this->api->post('/budgets/estimate', $data_to_send);
+            Helper::log_info(sprintf(__('%s - Data sent to Moova ONLY CP quote : %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
+            Helper::log_info(sprintf(__('%s - Data received from Moova ONLY CP quote: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
+            return $res;
+        }catch (Exception $error) { 
+            return false;
+        }
+    }
+
 
     private static function format_payload_estimate($from, $to, $items)
     {

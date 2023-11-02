@@ -31,6 +31,17 @@ class CheckoutSection extends Section implements SectionInterface
     public static function get_fields()
     {
         $fields = [
+            'enable_postal_codes_quotes' => [
+                'name' => __('Enable postal code budgets as priority', 'moova-for-woocommerce'),
+                'slug' => 'enable_postal_codes_quotes',
+                'description' => __('This will try to quote with postal codes first and address second', 'moova-for-woocommerce'),
+                'options' => [
+                    '0' => 'No',
+                    '1' => 'Yes'
+                ],
+                'default' => '1',
+                'type' => 'select'
+            ],
             'show_moova_image_checkout' => [
                 'name' => __('Show moova image in checkout', 'moova-for-woocommerce'),
                 'slug' => 'show_moova_image_checkout',
