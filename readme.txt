@@ -1,9 +1,9 @@
 === Moova for WooCommerce ===
 Tags: moova, shipments, shipping, rates, woocommerce, Argentina, Chile, Uruguay, Peru, Guatemala, Mexico,envios
-Requires at least: 6.2
-Tested up to: 6.2
+Requires at least: 6.5
+Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 5.6
+Stable tag: 5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  

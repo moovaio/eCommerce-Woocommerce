@@ -176,8 +176,9 @@ class MoovaSdk
             'internalCode' => $prefix . "-" . $order->get_id(),
             'description' => '',
             'label' => '',
-            'type' => 'woocommerce_24_horas_max',
-            'extra' => []
+            'type' => 'regular',
+            'extra' => [],
+            'settings' => [10],
         ];
     }
 

@@ -18,9 +18,9 @@ trait NoticesTrait
                 continue;
             }
             foreach ($notices as $notice) {
-                echo esc_html('<div class="notice notice-' . $type . ' is-dismissible">'
+                echo '<div class="notice notice-' . $type . ' is-dismissible">'
                     . '<p>' . $notice . '</p>'
-                    . '</div>');
+                    . '</div>';
             }
             delete_transient('wc-moova-' . $type . '-notices');
         }
