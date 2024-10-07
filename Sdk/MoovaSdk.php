@@ -40,6 +40,7 @@ class MoovaSdk
             Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
             if (empty($res['budget_id'])) 
             { 
+                Helper::log_info(sprintf(__('%s - Budget by postal code: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
                 $res = $this->get_price_by_postal_code($data_to_send); 
             }
         } catch (Exception $error) {
@@ -76,7 +77,7 @@ class MoovaSdk
             ],
             'to' => $to,
             'items' => $items,
-            'type' => 'woocommerce_24_horas_max'
+            'type' => 'regular',
         ];
     }
 

@@ -110,8 +110,7 @@ function setMoovaCustomFields() {
 			'lat': jQuery("#" + type + "_moova_lat").val(),
 			'lng': jQuery("#" + type + "_moova_lng").val(),
 		},
-		success: function(result) {
-			jQuery('body').trigger('update_checkout');
+		success: function(result) { 
 		}
 	});
 }

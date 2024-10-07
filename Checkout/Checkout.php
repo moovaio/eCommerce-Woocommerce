@@ -18,7 +18,7 @@ class Checkout
     {
         $key = Helper::get_option('google_api_key');
         wp_enqueue_style('wc-moova-checkout-css', Helper::get_assets_folder_url() . '/css/checkout.css');
-        if ($key) {
+        if (true) {
             wp_enqueue_script('checkout', Helper::get_assets_folder_url() . '/js/checkout.js');
             wp_enqueue_script(
                 'checkout-moova',
