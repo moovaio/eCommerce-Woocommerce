@@ -76,7 +76,7 @@ class MoovaSdk
             ],
             'to' => $to,
             'items' => $items,
-            'type' => 'woocommerce_24_horas_max'
+            'type' => 'regular'
         ];
     }
 
