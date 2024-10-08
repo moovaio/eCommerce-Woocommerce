@@ -243,7 +243,7 @@ trait WooCommerceTrait
             'name' => $product->get_name(),
             'quantity' => $quantity
         );
-        return ["item" => $new_product];
+        return $new_product;
     }
 
     /**
