@@ -33,7 +33,14 @@ class MoovaSdk
     public function get_price(array $origin, array $to, array $items)
     {
         $data_to_send = self::format_payload_estimate($origin, $to, $items);
-         
+        $address_hash = hash('md5', wp_json_encode($data_to_send));
+
+
+        if( $address_hash ===  WC()->session->get("moova_prev_quote_hash") ){
+            Helper::log_info("Duplicated request returning session hashed");
+            return WC()->session->get("moova_prev_price");
+        }
+
         try {
             $res = $this->api->post('/budgets/estimate', $data_to_send);
             Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
@@ -44,7 +51,11 @@ class MoovaSdk
             }
         } catch (Exception $error) {
         }
-        return $this->format_price($res, WC()->cart->cart_contents_total);
+       $formated =$this->format_price($res, WC()->cart->cart_contents_total);
+       
+       WC()->session->set('moova_prev_quote_hash',$address_hash);
+       WC()->session->set('moova_prev_price',$formated);
+       return $formated;  
     }
 
     public function get_price_by_postal_code($data_to_send)
