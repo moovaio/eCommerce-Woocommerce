@@ -28,12 +28,14 @@ trait WooCommerceTrait
                 "email"=> $customer->get_billing_email(),
                 "phone"=> $customer->get_billing_phone(),
             ],
+            "city"=> $province,
+            "state"=>$locality,
             "postalCode"=>$postal_code,
             "apartment" => self::get_apartment($customer),
             "country" =>$country,
         ];
 
-        if (self::get_custom_shipping_type('lat', $customer)) {
+        if (self::get_custom_shipping_type("lat", $customer)) {
             return array_merge($destination, [
                 "coords"=>[
                     "lat"=>self::get_custom_shipping_type('lat', $customer),
@@ -43,9 +45,7 @@ trait WooCommerceTrait
             ]);
         }
 
-        return array_merge($destination, [
-            "address"=>$address
-        ]);
+        return array_merge($destination, [  "address"=>$address  ]);
     }
 
     public static function get_custom_shipping_type($type, $customer)

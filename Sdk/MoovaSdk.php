@@ -32,30 +32,48 @@ class MoovaSdk
      */
     public function get_price(array $origin, array $to, array $items)
     {
+        Helper::log_info("Entering get_price");
         $data_to_send = self::format_payload_estimate($origin, $to, $items);
         $address_hash = hash('md5', wp_json_encode($data_to_send));
-
 
         if( $address_hash ===  WC()->session->get("moova_prev_quote_hash") ){
             Helper::log_info("Duplicated request returning session hashed");
             return WC()->session->get("moova_prev_price");
         }
+        if( !$this->has_all_required_params($data_to_send)){
+            Helper::log_info("not all params are set");
+            return $this->format_price(false, WC()->cart->cart_contents_total);
+        } 
 
         try {
             $res = $this->api->post('/budgets/estimate', $data_to_send);
             Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
-            if (empty($res['budget_id'])) 
+            if (empty($res['budget_id']) && !Helper::get_option('google_api_key')) 
             { 
                 $res = $this->get_price_by_postal_code($data_to_send); 
             }
         } catch (Exception $error) {
         }
-       $formated =$this->format_price($res, WC()->cart->cart_contents_total);
+       $formated = $this->format_price($res, WC()->cart->cart_contents_total);
        
        WC()->session->set('moova_prev_quote_hash',$address_hash);
        WC()->session->set('moova_prev_price',$formated);
        return $formated;  
+    }
+
+    private function has_all_required_params($data_to_send){ 
+        if(!$data_to_send["from"]["address"]){
+            return false;
+        }
+        else if(is_cart() && $data_to_send["to"]["postalCode"]){
+            Helper::log_info("is cart without postalcode");
+            return true;
+        }
+        else if($data_to_send["to"]["address"] && $data_to_send["to"]["country"] && $data_to_send["to"]["city"] && $data_to_send["to"]["postalCode"] ){
+            return true;
+        }
+        return false;
     }
 
     public function get_price_by_postal_code($data_to_send)
