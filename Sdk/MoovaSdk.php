@@ -150,12 +150,13 @@ class MoovaSdk
         Helper::log_info(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
         $res = $this->api->post('/shippings', $data_to_send);
         Helper::log_info(sprintf(__('%s - Data received from Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($res)));
-
+        
         if (empty($res['id'])) {
             Helper::log_error(__('Order could not be processed', 'moova-for-woocommerce'));
             Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             return false;
-        }
+        } 
+        WC()->session->set('shipping_error', !empty($res["addressErrors"]));
         return $res;
     }
 
