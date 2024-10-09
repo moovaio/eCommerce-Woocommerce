@@ -3,7 +3,7 @@ Tags: moova, shipments, shipping, rates, woocommerce, Argentina, Chile, Uruguay,
 Requires at least: 6.5
 Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 5.8
+Stable tag: 5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
