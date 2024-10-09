@@ -135,7 +135,7 @@ class MoovaSdk
             }
         }
         Helper::log_info("formatPrice -Final price: $shippingPrice");
-        return $shippingPrice;
+        return $shippingPrice + Helper::get_option('extra_for_packaging', 0);
     }
 
 

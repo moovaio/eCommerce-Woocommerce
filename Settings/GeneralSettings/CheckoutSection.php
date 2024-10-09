@@ -107,6 +107,13 @@ class CheckoutSection extends Section implements SectionInterface
                 'slug' => 'free_shipping_price',
                 'type' => 'number'
             ],
+            'extra_for_packaging' => [
+                'name' => __('Extra for packaging', 'moova-for-woocommerce'),
+                'description' => __('Charge a fixed extra to the client for the packaging', 'moova-for-woocommerce'),
+                'slug' => 'extra_for_packaging',
+                'type' => 'number',
+                "default"=>0
+            ],
             'tracking' => [
                 'name' => __('Tracking', 'moova-for-woocommerce'),
                 'slug' => 'tracking',
