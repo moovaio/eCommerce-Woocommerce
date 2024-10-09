@@ -15,9 +15,9 @@ class LogsPage
     {
         $logo_url = Helper::get_assets_folder_url() . '/img/logo.png';
         $upload_dir   = wp_upload_dir();
-        $logPath = $upload_dir["basedir"] . "/wc-logs/WooCommerce-Moova-*";
+        $logPath = $upload_dir["basedir"] . "/wc-logs/woocommerce-moova-*";
         $logs = array_reverse(glob($logPath));
-
+        
         $fileContent = null;
         $fileLogName = null;
         if (sizeof($logs) > 0) {
@@ -30,7 +30,7 @@ class LogsPage
             </div>
 
             <div class="form-wrapper">
-                <h1> <?php echo esc_textarea(__('Logs', 'moova-for-woocommerce')) ?></h1>
+                <h1> <?php echo esc_textarea(__('Logs', 'moova-for-woocommerce'))  ?></h1>
                 <?php
                 if ($fileLogName) {
                     ?>

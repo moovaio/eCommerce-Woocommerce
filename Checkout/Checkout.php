@@ -80,11 +80,27 @@ class Checkout
 
     public static function thank_you_message($str, $order)
     {
-        /*$is_moova = true;
-        if ($is_moova) {
-            $str .= 'Segui tu envio : <a href=""> aqui</a>';
-        }*/
-        return $str;
+        $shipping_method = Helper::get_shipping_method($order);
+        if (!$shipping_method) return $str;
+        $url = $shipping_method->get_meta('tracking_url');
+        try{
+            if(WC()->session->get('shipping_error')){
+                $message = "
+                <h2 style='color: #dc3545;'><span class='dashicons dashicons-no' style='font-size:40px;vertical-align: middle;display:inline'></span>Error</h2>
+                <p>Encontramos un <b>error en tu direccion</b>, por favor modifique su dirección haciendo" .
+                "<a style='color: #0272a9;' href='$url'> click aquí</a> o copie y pegue la siguiente URL en su navegador: <a style='color: #0272a9;' href='$url'> $url </a></p>";
+                return $message.$str;
+            }
+
+        }
+        catch(Exception $error){}
+        $message = "<h2><span class='dashicons dashicons-car' style='color:#48ddc5;font-size:40px;vertical-align: middle;display:inline'></span>Segui tu envio</h2>
+                <p>Tu pedido fue cread por favor valide su direccion haciend" .
+                "<a style='color: #0272a9;' href='$url'> click aquí</a> o copie y pegue la siguiente URL en su navegador: <a style='color: #0272a9;' href='$url'> $url </a></p>";
+        return $message.$str;
+        
+
+         
     }
 
     public static function custom_items($order_id)
