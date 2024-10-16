@@ -11,7 +11,6 @@ class BulkChanges
         $actions['force_create_bulk_shipments'] = __('Moova - Send with Moova', 'moova-for-woocommerce');
         $actions['start_bulk_shipments'] = __('Moova - Change shipping to Ready', 'moova-for-woocommerce');
         $actions['force_latest_status_shipments'] = __('Moova - Force latest status', 'moova-for-woocommerce');
-
         return $actions;
     }
 
@@ -31,7 +30,6 @@ class BulkChanges
                 $failure[] = $post_id;
             }
         }
-
         $redirect_to = add_query_arg(array(
             'response_force_create' => '1',
             'success' => $success,

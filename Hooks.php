@@ -35,6 +35,8 @@ add_action('woocommerce_api_wc-moova-orders', ['\Moova\Orders\Webhooks', 'listen
 
 // --- Bulk changes
 add_filter('bulk_actions-edit-shop_order', ['\Moova\Orders\BulkChanges', 'set_bulk_options'], 20, 1);
+add_filter("bulk_actions-woocommerce_page_wc-orders",['\Moova\Orders\BulkChanges', 'set_bulk_options'], 20, 1); 
+
 add_filter('handle_bulk_actions-edit-shop_order', ['\Moova\Orders\BulkChanges', 'start_bulk_shipments'], 10, 3);
 add_action('admin_notices', ['\Moova\Orders\BulkChanges', 'response_start_bulk_shipments']);
 

@@ -156,7 +156,9 @@ class MoovaSdk
             Helper::log_error(sprintf(__('%s - Data sent to Moova: %s', 'moova-for-woocommerce'), __FUNCTION__, json_encode($data_to_send)));
             return false;
         } 
-        WC()->session->set('shipping_error', !empty($res["addressErrors"]));
+        if(isset(WC()->session)){
+            WC()->session->set('shipping_error', !empty($res["addressErrors"]));
+        }
         return $res;
     }
 
