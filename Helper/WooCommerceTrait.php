@@ -33,6 +33,7 @@ trait WooCommerceTrait
             "postalCode"=>$postal_code,
             "apartment" => self::get_apartment($customer),
             "country" =>$country,
+            "addressDescription"=>$address
         ];
 
         if (self::get_custom_shipping_type("lat", $customer)) {
@@ -40,8 +41,7 @@ trait WooCommerceTrait
                 "coords"=>[
                     "lat"=>self::get_custom_shipping_type('lat', $customer),
                     "lng"=>self::get_custom_shipping_type('lng', $customer)
-                ],
-                "addressDescription"=>$address
+                ], 
             ]);
         }
 
