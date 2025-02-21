@@ -70,7 +70,7 @@ class MoovaSdk
             Helper::log_info("is cart without postalcode");
             return true;
         }
-        else if($data_to_send["to"]["address"] && $data_to_send["to"]["country"] && $data_to_send["to"]["city"] && $data_to_send["to"]["postalCode"] ){
+        else if($data_to_send["to"]["address"] && $data_to_send["to"]["country"] && $data_to_send["to"]["city"]){
             return true;
         }
         return false;
